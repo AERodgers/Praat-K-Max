@@ -104,7 +104,7 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
 	Remove
 
     # NB: THIS NEEDS TO BE IMPLEMENTED AND FIGURED OUT LATER! (2019.12.10)
-    # Remove unvoiced partions of pitch contour
+    # Remove unvoiced partions of pitch contour 
 
     ##Create and interpolate edited pitch object
     #selectObject: .temp_manip
