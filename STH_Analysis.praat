@@ -102,18 +102,18 @@ appendInfoLine: "Finished: ", date$()
 
 ### INCLUDE SUBROUTINES AND FUNCTION LIBRARIES
 ### Subroutines take no arguments are written specifically for this set of scripts
-include SubRoutines/main.praat
-include SubRoutines/setUpDirsFiles.praat
-include SubRoutines/shortenVars.praat
-include SubRoutines/getSoundGridInfo.praat
-include SubRoutines/drawStuffForEditing.praat
-include SubRoutines/createLegendTable.praat
-include SubRoutines/updateReport.praat
+include Subroutines/main.praat
+include Subroutines/setUpDirsFiles.praat
+include Subroutines/shortenVars.praat
+include Subroutines/getSoundGridInfo.praat
+include Subroutines/drawStuffForEditing.praat
+include Subroutines/createLegendTable.praat
+include Subroutines/updateReport.praat
 
 ### Fuctions arguments and are (generally) designed to be adaptable to any script
-include Fns/ContourAnalysis.praat
-include Fns/Graphical.praat
-include Fns/FixPitch.praat
-include Fns/Idealisation.praat
-include Fns/Maths.praat
-include Fns/ObjectManagement.praat
+include Functions/ContourAnalysis.praat
+include Functions/Graphical.praat
+include Functions/FixPitch.praat
+include Functions/Idealisation.praat
+include Functions/Maths.praat
+include Functions/ObjectManagement.praat

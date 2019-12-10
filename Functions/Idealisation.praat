@@ -6,5 +6,5 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-include Fns/Idealisation/idealise.praat
-include Fns/Idealisation/physioConstraints.praat
+include Functions/Idealisation/idealise.praat
+include Functions/Idealisation/physioConstraints.praat
