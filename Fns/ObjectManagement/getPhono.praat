@@ -45,6 +45,8 @@ procedure getPhono: .keepTiers#, .boundary$, .textgrid
             .text$ += " "
         endif
     endfor
+    .text$ = replace$ (.text$, ". ", ".", 0)
+    .text$ = replace$ (.text$, ". ", ".", 0)
     .text$ = replace$ (.text$, "_ ", "_", 0)
     .text$ = replace$ (.text$, " _", "_", 0)
     .text$ = replace$ (.text$, " +", "+", 0)
