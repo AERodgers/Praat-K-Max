@@ -91,16 +91,13 @@ if number(left$(version$, 1)) < 6
     exit
 endif
 
-### RUN MAIN SUBROUTINE
-startTime$ = date$()
+### RUN MAIN ROUTINE
 writeInfoLine: "Edit / analyse intonational phrases using Secondary Tone Hypothesis"
-appendInfoLine: newline$, "Started:  ", startTime$
+appendInfoLine: newline$, "Started:  ",  date$()
 if batch_process_directory
     appendInfoLine: "Be patient. This may take a while..."
 endif
-
 @main
-
 appendInfoLine: "Finished: ", date$()
 
 ### INCLUDE SUBROUTINES AND FUNCTION LIBRARIES
