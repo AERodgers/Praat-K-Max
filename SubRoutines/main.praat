@@ -135,6 +135,7 @@ procedure main
            endif
 
             # add second set of STH tiers -- NB: adds tiers for own use: remove later
+            kTiers = 1
             if userInput
                 @findTier: "first_tier", textgrid, "rhythmic"
                 if first_tier
