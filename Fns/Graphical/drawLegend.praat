@@ -1,0 +1,175 @@
+### DRAW LEGEND
+# =============
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
+
+procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
+    ... .xyTable, .xCol$, .yCol$, .legendTable, .threshold
+
+    Line width: 1
+    Solid line
+    Black
+    Select outer viewport: 0, 6.5, 0, 3.35
+
+    # process legendTable
+    selectObject: .legendTable
+    .legendLines = Get number of rows
+    for .i to .legendLines
+        .style$[.i] = Get value: .i, "style"
+        .colour$[.i] = Get value: .i, "colour"
+        .text$[.i] = Get value: .i, "text"
+        .size[.i] = Get value: .i, "size"
+    endfor
+
+    # calculate legend width
+    .legendWidth = 0
+    .legendWidth$ = ""
+    for .i to .legendLines
+        .len = length(.text$[.i])
+        if .len > .legendWidth
+            .legendWidth = .len
+            .legendWidth$ =  .text$[.i]
+        endif
+    endfor
+
+    # calculate box dimensions
+    Axes: .xMin, .xMax, .yMin, .yMax
+    .text_width = Text width (world coordinates): .legendWidth$
+    .x_unit = Horizontal mm to world coordinates: 4
+    .x_start = .xMin + .x_unit
+    .x_end = .xMin + 4.5 * .x_unit + .text_width
+    .y_unit  = Vertical mm to world coordinates: 4
+    .y_start = .yMin + .y_unit
+    .y_end = .yMin + .y_unit * (.legendLines + 2)
+
+    # calculate  .hor, .vert, (hor = 0 = left; vert = 0 = bottom)
+    # Get stats for graph
+    .horS[1] = .x_start
+    .horE[1] = .x_end
+    .horS[2] = .xMax - (4.5 * .x_unit + .text_width)
+    .horE[2] = .xMax - .x_unit
+
+    .vertS[1] = .y_start
+    .vertE[1] = .y_end
+    .vertS[2] = .yMax - (.y_unit * (.legendLines + 2))
+    .vertE[2] = .yMax - .y_unit
+
+    .winningsection## = {{0, 0}, {0, 0}}
+    .winningsectionLen## = {{0, 0}, {0, 0}}
+    selectObject: .xyTable
+    .numRows = Get number of rows
+    .totalLen = 0
+    for .i from 2 to .numRows
+        .curX = Get value: .i, .xCol$
+        .curY = Get value: .i, .yCol$
+        .lastX = Get value: .i - 1, .xCol$
+        .lastY = Get value: .i - 1, .yCol$
+
+        for .j to 2
+            for .k to 2
+                .curLen = ((.lastY - .curY)^2 + (.lastX - .curX)^2)^0.5
+                .totalLen += .curLen
+                if .curX >= .horS[.j] - .x_unit * 2
+                    ... and .curX <= .horE[.j] + .x_unit * 2
+                    ... and .curY  >= .vertS[.k] - .y_unit * 2
+                    ... and .curY <= .vertE[.k] + .y_unit * 2
+                    .winningsection##[.j,.k] = .winningsection##[.j,.k] + 1
+                    .winningsectionLen##[.j,.k] = .winningsectionLen##[.j,.k] + .curLen
+                endif
+            endfor
+        endfor
+    endfor
+
+    .least# = {0,0}
+    .most = 10^10
+    for .j to 2
+        for .k to 2
+            if .winningsectionLen##[.j, .k] < .most
+                .most = .winningsectionLen##[.j, .k]
+                .least# = {.j, .k}
+            endif
+        endfor
+    endfor
+
+    # adjust coordinates to match horizontal and vertical alignment
+    .x_end = .horE[.least#[1]]
+    .x_start = .horS[.least#[1]]
+    .y_start = .vertS[.least#[2]]
+    .y_end = .vertE[.least#[2]]
+
+    # Draw only main legend item if percentage of contour hidden > threshold
+    if .most/.totalLen > .threshold
+        # recalculate legend co-ordinates
+        .legendLines = 1
+        .text_width = Text width (world coordinates): .text$[1]
+        .x_start = .xMin + .x_unit
+        .x_end = .xMin + 4.5 * .x_unit + .text_width
+        .y_start = .yMin + .y_unit
+        .y_end = .yMin + .y_unit * (.legendLines + 2)
+
+        .horS[1] = .x_start
+        .horE[1] = .x_end
+        .horS[2] = .xMax - (4.5 * .x_unit + .text_width)
+        .horE[2] = .xMax - .x_unit
+
+        .vertS[1] = .y_start
+        .vertE[1] = .y_end
+        .vertS[2] = .yMax - (.y_unit * (.legendLines + 2))
+        .vertE[2] = .yMax - .y_unit
+
+        .x_end = .horE[.least#[1]]
+        .x_start = .horS[.least#[1]]
+        .y_start = .vertS[.least#[2]]
+        .y_end = .vertE[.least#[2]]
+    endif
+
+    ### Draw box and frame
+    Paint rectangle: 0.9, .x_start, .x_end,
+                 ... .y_start,  .y_end
+    Colour: "Black"
+    Draw rectangle: .x_start, .x_end,
+                 ... .y_start,  .y_end
+
+    # Write legend text
+    for .i to .legendLines
+        Font size: 10
+        # use colour text if no box
+        Colour: "Black"
+        Text: .x_start + 2.5 * .x_unit , "Left", .y_start + .y_unit * .i,
+            ... "Half", "##" + .text$[.i]
+    endfor
+
+
+    # Draw Lines and icons
+    for .i to .legendLines
+        Font size: 10
+        Helvetica
+        if left$(.style$[.i], 1) = "L" or left$(.style$[.i], 1) = "l"
+            Line width: .size[.i] + 2
+            Colour: "White"
+            Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .i,
+                ... .x_start + 2 * .x_unit, .y_start + .y_unit * .i
+            Line width: .size[.i]
+            Colour: .colour$[.i]
+            Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .i,
+                ... .x_start + 2 * .x_unit, .y_start + .y_unit * .i
+        elsif left$(.style$[.i], 1) = "D" or left$(.style$[.i], 1) = "d"
+            Paint circle: "White", .x_start + 1.25 * .x_unit, .y_start + .y_unit * .i,
+                ... (.size[.i] + 1) / 500
+            Paint circle: .colour$[.i], .x_start + 1.25 * .x_unit,
+                ... .y_start + .y_unit * .i, (.size[.i]) / 500
+        else
+            Colour: "White"
+            Text: .x_start + 1.25 * .x_unit , "centre", .y_start + .y_unit * .i,
+                ... "Half", "#" + .style$[.i]
+            Colour: .colour$[.i]
+            Text: .x_start + 1.25 * .x_unit , "centre", .y_start + .y_unit * .i,
+                ... "Half", .style$[.i]
+        endif
+    endfor
+
+    Select outer viewport: 0, 6.5, 0, 4
+endproc

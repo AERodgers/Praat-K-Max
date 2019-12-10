@@ -1,0 +1,61 @@
+### STH GRAPHICAL FUNCTIONS: C3POGRAM
+# ===================================
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
+
+# dependencies: @pitch2Table, @cpp, @find_nearest_table
+
+# NB Redundant procedures removed from current script.
+procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,
+         ... .grid, .sound, .tier, .minF0, .maxF0
+     # arbitrary cut off values (below which pink in output graph)
+     cppArbCutOff_G$ = "< cpp.mean - cpp.stDev * 1"
+     dbThreshold_G = 55
+
+    .type = .param2
+    selectObject: .grid
+    .refTier = Extract one tier: .tier
+    .gridTable = Down to Table: "no", 3, "no", "no"
+    .num_rows = Get number of rows
+    .minT = Get value: 1, "tmin"
+    .maxT = Get value: .num_rows, "tmax"
+    Remove
+    selectObject: .sound
+    Scale intensity: 70
+
+    @c3po1stDraw: .sound, .paintSpect, .minT, .maxT, .refTier
+
+    # get pitch table
+    selectObject: .sound
+    noprogress To Pitch (ac): 0,  .minF0, 15, "no", 0.03, 0.45, 0.01, 0.35, 0.14, .maxF0
+    .pitchobj = selected()
+
+    @pitch2Table: .pitchobj, 0
+    selectObject: pitch2Table.table
+    Rename: "pitch"
+
+    # get second VQ table
+    if .type = 1
+        @harmonicity: .sound, .minF0
+        .vqTable = harmonicity.table
+    elsif .type = 2
+        @intensity: .sound, .minF0
+        .vqTable = intensity.table
+    else
+        @cpp: .sound, .minF0, .maxF0, pitch2Table.table
+        .vqTable = cpp.table
+    endif
+
+    # draw cp3ogram
+    @drawC3pogram: pitch2Table.table, .vqTable, .minT, .maxT, .minF0, .maxF0,
+        ... .type, .pitch_scale
+    @c3po2ndDraw: .type, .pitch_scale, .title$, .subtitle$
+    selectObject: .vqTable
+    plusObject: pitch2Table.table
+    plusObject: .pitchobj
+    plusObject: .refTier
+    Remove
+endproc
