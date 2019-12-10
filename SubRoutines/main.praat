@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 -  December 8,  2019
+# October 10 -  December 10,  2019
 
 procedure main
     # initialize directories and variables

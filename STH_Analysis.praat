@@ -36,9 +36,11 @@
     #        (if resynth option selected)
     #     3. report showing smoothing parameters, phonological analysis, and comments
     #     3. Figure with spectrogram, and F0 contour with CPP indicated by magnitude and
-    #        colour intensity of dots. By default also includes resynthesised contour.
+    #        colour intensity of dots. By default also includes resynthesised contour,
+    #        idealised tonal targets, and phonology.
+    #        Can also display curvature contour and corrected pitch contour
     #        (This can be changed in the UI main routine menu for each sound.)
-
+    #
     # FAILSAFES / ERROR HANDLING
     #     1. for manual editing, a backup directory is created which contains:
     #            - backup of each TextGrid as it was before script was run
@@ -105,8 +107,8 @@ appendInfoLine: "Finished: ", date$()
 ### Subroutines take no arguments are written specifically for this set of scripts
 include SubRoutines/main.praat
 include SubRoutines/setUpDirsFiles.praat
-include SubRoutines/getSoundGridInfo.praat
 include SubRoutines/shortenVars.praat
+include SubRoutines/getSoundGridInfo.praat
 include SubRoutines/drawStuffForEditing.praat
 include SubRoutines/createLegendTable.praat
 include SubRoutines/updateReport.praat
