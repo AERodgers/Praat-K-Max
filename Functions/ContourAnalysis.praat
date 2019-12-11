@@ -6,6 +6,6 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-include Fns/ContourAnalysis/pitch.praat
-include Fns/ContourAnalysis/k.praat
-include Fns/ContourAnalysis/cpp.praat
+include Functions/ContourAnalysis/pitch.praat
+include Functions/ContourAnalysis/k.praat
+include Functions/ContourAnalysis/cpp.praat
