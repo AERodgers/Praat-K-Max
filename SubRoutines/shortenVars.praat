@@ -18,4 +18,7 @@ procedure shortenVars
     edit_choice = 0
     show_RS = 0
     userInput = not batch_process_directory
+	pre_smoothing = initial_praat_smooothing_bandwidth
+	coarse_smoothing = physiological_constraints_smoothing_parameter
+	fine_smoothing = fine_grained_smoothing
 endproc

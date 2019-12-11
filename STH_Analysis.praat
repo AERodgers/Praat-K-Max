@@ -72,10 +72,10 @@ form Text grid editor: Choose Directory
     comment Pitch Processing Parameters
     natural Minimum_F0 55
     natural Maximum_F0 400
-    integer Pre_smoothing 10
-    comment Physiological constraints approximation parameters
-    integer Coarse_smoothing 8
-    integer Fine_smoothing 3
+    integer Initial_praat_smooothing_bandwidth 10
+    comment Post-idealisation smoothing (moving point average)
+    integer physiological_constraints_smoothing_parameter 8
+    integer Fine_grained_smoothing 1
     comment
     word phonology_colour Navy
     boolean Batch_process_directory

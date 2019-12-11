@@ -251,7 +251,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     # create dynamically smoothed contour
     @dynamic_mpa: .allF0Contours, "Smoothing","IdealF0", "SmoothedIdealF0"
     # do fine grained smoothing to remove artefacts from dynamic smoothing
-    @calc_mpa: .smoothFine, .allF0Contours, "SmoothedIdealF0", "TempF0"
+    @calc_mpa: (.smoothFine) * 2 + 1, .allF0Contours, "SmoothedIdealF0", "TempF0"
     selectObject: .allF0Contours
     Remove column: "Smoothing"
     Remove column: "SmoothedIdealF0"

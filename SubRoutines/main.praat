@@ -217,16 +217,15 @@ procedure main
                 beginPause: pauseText$
                     comment: "Currently showing waveform " + sound$
                         ... + " (" + curSound$ + "/" + string$(numSounds) + ")"
-                    integer: "Pre smoothing", pre_smoothing
-                    integer: "Coarse smoothing", coarse_smoothing
-                    integer: "Fine smoothing", fine_smoothing
+                    integer: "Initial Praat smooothing bandwidth", pre_smoothing
+                    integer: "Physiological constraints smoothing parameter", coarse_smoothing
+                    integer: "Fine grained smoothing", fine_smoothing
                     boolean: "Draw corrected contour", draw_f0_corrected
                     boolean: "Draw curvature contour", draw_K
                     boolean: "Draw resynthesised contour", draw_resynth
                     boolean: "Draw phonology and ideal targets", draw_phono
                     sentence: "Comment", comment$
                     integer: "Next object", curr_sound + 1
-
                 edit_choice = endPause:
                     ... "Smooth",
                     ... "Fix F0",
@@ -239,6 +238,9 @@ procedure main
                 draw_K = draw_curvature_contour
                 draw_resynth = draw_resynthesised_contour
                 draw_phono = draw_phonology_and_ideal_targets
+				coarse_smoothing = physiological_constraints_smoothing_parameter
+				fine_smoothing = fine_grained_smoothing
+				pre_smoothing = initial_praat_smooothing_bandwidth
                 @merge_textgrids
             endif
 
