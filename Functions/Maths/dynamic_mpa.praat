@@ -18,7 +18,7 @@ procedure dynamic_mpa: .table_object, .dynamic_col$,.input_col$, .output_col$
     for .current_point to .total_points
         .mpa_size = Get value: .current_point,  .dynamic_col$
         .mpa_lr = floor (.mpa_size/2)
-        # calculate correct number of points to include to l and r of current point
+        # ensure MPA window size does not exceed the number of frames
         if .current_point <= .mpa_lr
             .cur_mpa_lr = .current_point - 1
         elsif .total_points - .current_point < .mpa_lr
