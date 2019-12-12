@@ -100,7 +100,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     selectObject: .tempKmin
     Remove
 
-    # prepare KMax Table for later *****
+    # prepare KMax Table for later 
 	selectObject: .tempKmax
 	Set column label (label): "Time", "KTime"
 
@@ -195,8 +195,11 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
 	Append column: "Time"
 	Append column: "F0"
 	Append column: "Text"
+	Append column: "Slope"
+	Append column: "Intercept"
 	Rename: "Elbows and Ideals"
     .table = .tempKmax
+	Remove column: "MinMax"
 
     for .i to .numMaxKpoints
         # use elbow time and fo if slope intercept is undefined
@@ -211,13 +214,24 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
         Set numeric value: .i, "F0", .idealF0[.i]
         Set string value: .i, "Text", .maxKText$[.i]
     endfor
+	
+	# add slope and intercept values
+	selectObject: .table
+    for .i to .numSlopes
+        Set numeric value: .i, "Slope", .slope[.i]
+        Set numeric value: .i, "Intercept", .intercept[.i]
+    endfor
+	# assume no slope and intercept of F0 for final point
+	Set numeric value: .numMaxKpoints, "Slope", 0
+    Set numeric value: .numMaxKpoints, "Intercept", .idealF0[.numMaxKpoints]
+	
     # convert ST re 100 to Hz
     Formula: "F0", "100*2^(self/12)"
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
-    @physioConstraints: .table, .pitchTable, .timeStep
-    .allF0Contours = physioConstraints.f0TableNew
+    @physioConstraintsK: .table, .pitchTable, .timeStep
+    .allF0Contours = physioConstraintsK.f0TableNew
     selectObject: .allF0Contours
     Rename: "allF0Contours"
     Set column label (label): "intertiaSmoothing", "Smoothing"

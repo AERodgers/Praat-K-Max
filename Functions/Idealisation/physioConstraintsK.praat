@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure physioConstraints: .pointsTable, .f0Table, .timeStep
+procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep
     selectObject: .pointsTable
     .table = Copy: "newIdeal"
 
