@@ -44,6 +44,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
             Remove row: .curRow
         endif
     endfor
+
     # Remove surplus Columns
     Remove column: "line"
     Remove column: "tmax"
@@ -51,37 +52,21 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     Set column label (index): 1, "Time"
     Append column: "MinMax"
     # get array of boundary and elbow times
-    .numElbows = Get number of rows
-    for .i to .numElbows
-        .elbow[.i] = Get value: .i, "Time"
-        .text$[.i] = Get value: .i, "text"
-
+    .numMaxKpoints = Get number of rows
+    for .i to .numMaxKpoints
+        .maxKTime[.i] = Get value: .i, "Time"
+        .maxKText$[.i] = Get value: .i, "text"
         if .i = 1
-            .boundaryTime[1] = .elbow[.i]
-            .text$[.i] = "%" + replace$(.text$[.i], "0", "", 1)
-        elsif .i = .numElbows
-            .boundaryTime[2] = .elbow[.i]
-            .text$[.i] = replace$(.text$[.i], "0", "", 1) + "%"
+            .maxKText$[.i] = "%" + replace$(.maxKText$[.i], "0", "", 1)
+        elsif .i = .numMaxKpoints
+            .maxKText$[.i] = replace$(.maxKText$[.i], "0", "", 1) + "%"
         endif
     endfor
     # remove text column
     Remove column: "text"
-
     # remove temporary text grid
     selectObject: .tempGrid
     Remove
-
-    # get T and F0 of boundaries, add start and end value to .kMin table
-    for .i to 2
-        selectObject: .pitchObj
-        .boundaryF0[.i] = Get value at time: .boundaryTime[.i],
-            ... "semitones re 100 Hz", "Linear"
-        selectObject: .kMin
-        Insert row: 1
-        Set numeric value: 1,  "Time", .boundaryTime[.i]
-        Set numeric value: 1,  "F0", .boundaryF0[.i]
-    endfor
-    Sort rows: "Time"
 
     # merge min and max tiers
     selectObject: .kMin
@@ -113,23 +98,27 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     endfor
     # Remove temporary tables
     selectObject: .tempKmin
-    plusObject: .tempKmax
     Remove
+
+    # prepare KMax Table for later *****
+	selectObject: .tempKmax
+	Set column label (label): "Time", "KTime"
 
     # Get start and end times for linear regression calculations
     # based on minK first after Max K(n) and last before MaxK(n+1)
     selectObject: .minMaxK
-    for .i to .numElbows - 1
-        @find_nearest_table: .elbow[.i], .minMaxK, "Time"
+	.numSlopes = .numMaxKpoints - 1
+    for .i to .numSlopes
+        @find_nearest_table: .maxKTime[.i], .minMaxK, "Time"
         .firstKMinT = Get value: find_nearest_table.index + 1, "Time"
         .noKMins = Get value: find_nearest_table.index + 1, "MinMax"
-        @find_nearest_table: .elbow[.i+1], .minMaxK, "Time"
+        @find_nearest_table: .maxKTime[.i+1], .minMaxK, "Time"
         .lastKMinT = Get value: find_nearest_table.index - 1, "Time"
 
         #if no intervening MinK, use elbow time at linear regression start and end points
         if .noKMins
-            .firstKMinT = .elbow[.i]
-            .lastKminT = .elbow[.i + 1]
+            .firstKMinT = .maxKTime[.i]
+            .lastKminT = .maxKTime[.i + 1]
         endif
 
         # if only one K min between Kmax points, treat it as inflexion point and
@@ -145,7 +134,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     endfor
 
     # get slope and intercept of linear Fn between each lineStart and lineEnd pair
-    for .i to .numElbows - 1
+    for .i to .numSlopes
         selectObject: .pitchTable
         .tmpF0Tbl = Copy: "tmpF0Tbl"
         @removeRowsWhereNum: .tmpF0Tbl, "Time", "> idealise.lineEnd[idealise.i]"
@@ -175,13 +164,14 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
         Remove
     endfor
 
-    # calculate intercepts of slopes
+    # calculate T and F0 intercepts of slopes
     .prevIdealTime = 0
-    for .i to .numElbows - 2
-        .idealT[.i] = (.intercept[.i + 1] - .intercept[.i])/(.slope[.i] - .slope[.i + 1])
-
+	.idealT[1] = .maxKTime[1]
+	.idealF0[1] = 0
+    for .i to .numSlopes -1
+        .idealT[.i + 1] = (.intercept[.i + 1] - .intercept[.i])/(.slope[.i] - .slope[.i + 1])
         # error check: spurious ideal intercept points
-        if .idealT[.i] < .prevIdealTime
+        if .idealT[.i + 1] < .idealT[.i]
             comment$ += " Error at TP " + string$(.i) +
                 ... " (" + fixed$(.idealT[.i], 3) + ")"
             if userInput
@@ -192,41 +182,37 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
                 endPause: "Check manually", 1
             endif
         endif
-        .prevIdealTime = .idealT[.i]
-        .idealF0[.i] = .slope[.i] * .idealT[.i] + .intercept[.i]
+        .idealF0[.i + 1] = .slope[.i] * .idealT[.i + 1] + .intercept[.i]
     endfor
 
+    # calculate ideal F0 of initial boundary (NB risky use of .i!)
+    .idealF0[1] = .slope[1] * .idealT[1] + .intercept[1]
+	.lastPt = .numMaxKpoints
+	.idealT[.lastPt] = .maxKTime[.lastPt]
+    .idealF0[.lastPt] = .slope[.numSlopes] * .idealT[.lastPt] + .intercept[.numSlopes]
     # populate table of ideal targets
-    .table = Create Table with column names: "IdealTargets", 0, "Time F0 Text"
-    .points = 0
-    for .i to .numElbows - 2
+	selectObject: .tempKmax
+	Append column: "Time"
+	Append column: "F0"
+	Append column: "Text"
+	Rename: "Elbows and Ideals"
+    .table = .tempKmax
+
+    for .i to .numMaxKpoints
         # use elbow time and fo if slope intercept is undefined
         if .idealT[.i] = undefined
-            .idealT[.i] = .elbow[.i + 1]
+            .idealT[.i] = .maxKTime[.i + 1]
             selectObject: .pitchObj
             .idealF0[.i] = Get value at time: .idealT[.i],
                 ... "semitones re 100 Hz", "Linear"
         endif
         selectObject: .table
-        .points += 1
-        Append row
-        Set numeric value: .points, "Time", .idealT[.i]
-        Set numeric value: .points, "F0", .idealF0[.i]
-        Set string value: .points, "Text", .text$[.i]
+        Set numeric value: .i, "Time", .idealT[.i]
+        Set numeric value: .i, "F0", .idealF0[.i]
+        Set string value: .i, "Text", .maxKText$[.i]
     endfor
-    # add boundaries
-    for .i to 2
-        .points += 1
-        Append row
-        Set numeric value: .points, "Time", .boundaryTime[.i]
-        Set numeric value: .points, "F0", .boundaryF0[.i]
-    endfor
-    Sort rows: "Time"
+    # convert ST re 100 to Hz
     Formula: "F0", "100*2^(self/12)"
-
-    for .i to .points
-        Set string value: .i, "Text", .text$[.i]
-    endfor
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
@@ -239,7 +225,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     Formula: "Smoothing", "if self = undefined then self = 1 else self endif"
     Append column: "IdealF0"
     # create contour of ideal curve (i.e., linear curve with no constraints)
-    for .i to .points - 1
+    for .i to .numMaxKpoints - 1
         selectObject: .table
         .curT = Get value: .i, "Time"
         .nextT = Get value: .i + 1, "Time"
@@ -249,7 +235,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
             ... + "else self endif"
     endfor
     # create dynamically smoothed contour
-    @dynamic_mpa: .allF0Contours, "Smoothing","IdealF0", "SmoothedIdealF0"
+    @dynamic_mpa: .allF0Contours, "Smoothing", "IdealF0", "SmoothedIdealF0"
     # do fine grained smoothing to remove artefacts from dynamic smoothing
     @calc_mpa: (.smoothFine) * 2 + 1, .allF0Contours, "SmoothedIdealF0", "TempF0"
     selectObject: .allF0Contours
