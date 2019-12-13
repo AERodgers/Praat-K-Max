@@ -1,5 +1,5 @@
-### GET TABLE OF (NORMALISED) CURVATURE OF F0 CONTOUR
-# ===================================================
+### GET TABLE OF (NORMALISED) CURVATURE OF F0 CONTOUR USING ANGLES OF CONTOUR
+# ===========================================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
@@ -8,24 +8,11 @@
 
 # Dependencies: @norm2MeanD, @vectAngPlane, @normalise
 
-procedure k: .pitchObj, .normalise
+procedure k: .table, .normalise
     # calculates table of curvatures (K) by treating fo@TPa->fo@TPb and fo@TPb->fo@TPc
     # as coordinate vectors and calculating the angle in radians between each vector.
     # This convered to a ratio. K = (pi - theta) / pi --> if .normalise flagged, K is
     # normalised to the utterance.
-
-    # create pitch table
-    selectObject: .pitchObj
-    noprogress Down to PitchTier
-    .pitchTier = selected()
-    noprogress Down to TableOfReal: "Semitones"
-    .tableOfReal = selected()
-    .table = To Table: "Frame"
-    Append column: "K"
-    Append column: "toneLike"
-    selectObject: .pitchTier
-    plusObject: .tableOfReal
-    Remove
 
     # normalize time and F0 parameters to mean = 1
     selectObject: .table

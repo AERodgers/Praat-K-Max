@@ -61,21 +61,32 @@ form Text grid editor: Choose Directory
     sentence Resynth_directory resynth
     sentence Backup_directory backup
     sentence Manipulation_directory manipulation
+
     comment Tier names
     word Reference_tier syllable
     word Tonal_tier STHtone
-    word Boundary_tier boundary
+    sentence Other_tiers_to_show phono boundary comments
+
     comment File format
     word Pitch_prefix PF_
     word Resynthesis_prefix RS_
     word Sound_suffix .wav
+
     comment Pitch Processing Parameters
+    optionmenu Elbow_estimation 1
+        option Angle on a normalised plane
+        option Second derivative
     natural Minimum_F0 55
     natural Maximum_F0 400
     integer Initial_praat_smooothing_bandwidth 10
+
     comment Post-idealisation smoothing (moving point average)
+    optionmenu Physiological_smoothing 1
+        option Angle on a normalised plane
+        option Second derivative
     integer physiological_constraints_smoothing_parameter 8
     integer Fine_grained_smoothing 1
+
     comment
     word phonology_colour Navy
     boolean Batch_process_directory
@@ -91,8 +102,17 @@ if number(left$(version$, 1)) < 6
     exit
 endif
 
-### INITIALIZATION INFO
-writeInfoLine: "Edit / analyse intonational phrases using Secondary Tone Hypothesis"
+writeInfoLine: "MAX-Κ"
+appendInfoLine: "====="
+appendInfoLine: newline$, "A script for analysing and resynthesising pitch contours using"
+appendInfoLine: "estimated points of maximum curvature in the pitch contour."
+appendInfoLine: ""
+appendInfoLine: "All assoiated scripts published under GNU General Public License, V.3."
+appendInfoLine: newline$, "by Antoin Eoin Rodgers"
+appendInfoLine: "   Phonetics and speech Laboratory,"
+appendInfoLine: "   Trinity College Dublin"
+appendInfoLine: "   rodgeran@tcd.ie"
+
 appendInfoLine: newline$, "Started:  ",  date$()
 if batch_process_directory
     appendInfoLine: "Be patient. This may take a while..."

@@ -7,10 +7,9 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # Contour idealisation
-procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
-        ... .smoothCoarse, .smoothFine,  .jk$
-    .tiersToKeep$[1] = t_tier$
-    .tiersToKeep$[2] = b_tier$
+procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
+        ... .smoothCoarse, .smoothFine, .jk$
+
 
     # process pitch object
     selectObject: .pitchObj
@@ -26,7 +25,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     for .i to .numTiers
         .curTier =  .numTiers - .i + 1
         .curTier$ = Get tier name: .curTier
-        if .curTier$ != .tiersToKeep$[1] and .curTier$ != .tiersToKeep$[2]
+        if .curTier$ != .toneTier$
             Remove tier: .curTier
         endif
     endfor

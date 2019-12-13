@@ -13,14 +13,6 @@ procedure main
     @getSoundGridInfo
     @shortenVars
 
-    # save initial variables
-    writeFile: outputPath$ + "STH_form_params.Table", "Parameter" + tab$ + "Value"
-    ... + newline$ + "Minimum_F0" + tab$ + string$(minimum_F0)
-    ... + newline$ + "Maximum_F0" + tab$ + string$(maximum_F0)
-    ... + newline$ + "Pre_smoothing" + tab$ + string$(pre_smoothing)
-    ... + newline$ + "Coarse_smoothing" + tab$ + string$(coarse_smoothing)
-    ... + newline$ + "Fine_smoothing" + tab$ + string$(fine_smoothing)
-
     # set main flags
     alreadyOpened# = zero# (numSounds)
     pitchSaved# = zero# (numSounds)
@@ -28,6 +20,14 @@ procedure main
     draw_K = 0
     draw_resynth = 1
     draw_phono = 1
+
+    # save initial variables
+    writeFile: outputPath$ + "STH_form_params.Table", "Parameter" + tab$ + "Value"
+    ... + newline$ + "Minimum_F0" + tab$ + string$(minimum_F0)
+    ... + newline$ + "Maximum_F0" + tab$ + string$(maximum_F0)
+    ... + newline$ + "Pre_smoothing" + tab$ + string$(pre_smoothing)
+    ... + newline$ + "Coarse_smoothing" + tab$ + string$(coarse_smoothing)
+    ... + newline$ + "Fine_smoothing" + tab$ + string$(fine_smoothing)
 
     for curr_sound to numSounds
         # set binary flags
@@ -82,13 +82,13 @@ procedure main
             # read in textgrid, identify core tiers
             textgrid = Read from file: dir$ + sound$ + ".TextGrid"
             @findTier: "t_tier", textgrid, t_tier$
-            @findTier: "b_tier", textgrid, b_tier$
             @findTier: "r_tier", textgrid, r_tier$
 
             # get Phonology from TextGrid (if exists)
-            if t_tier * b_tier
-                keepTiers# = {t_tier, b_tier}
-                @getPhono: keepTiers#, b_tier$, textgrid
+            # [NB: function written so that multiple tiers can be used to create phono]
+            if t_tier
+                keepTiers# = {t_tier}
+                @getPhono: keepTiers#, textgrid
                 phonology$ =  getPhono.text$
             else
                 phonology$ =  ""
@@ -151,7 +151,6 @@ procedure main
                 @insMissTier: textgrid, t_tier$, "vowel", 0
                 @insMissTier: textgrid, "maxK", t_tier$, 0
                 kTiers = insMissTier.tierExists
-                @insMissTier: textgrid, b_tier$, "maxK", 0
             endif
 
             # Read in or create pitch file
@@ -167,15 +166,26 @@ procedure main
             endif
             fixedPitch = Smooth: pre_smoothing
 
-            ###vvvv Key bit of code!
-            ### Calculate Elbows of smoothed contour
-            @k: fixedPitch, 0
-            ####^^^^
+            # create pitch table (note: will only work with interpolated pitch contour!)
+            selectObject: fixedPitch
+            noprogress Down to PitchTier
+            pitchTier = selected()
+            noprogress Down to TableOfReal: "Semitones"
+            tableOfReal = selected()
+            pitchTable = To Table: "Frame"
+            Append column: "K"
+            Append column: "toneLike"
+            selectObject: pitchTier
+            plusObject: tableOfReal
+            Remove
+
+            ### Calculate Elbows of smoothed contour using @j (fo'') or @k (angle)
+            @'elbowEst$': pitchTable, 0
 
             if not kTiers
                 @findTier: "maxK_tier", textgrid, "maxK"
                 @findTier: "t_tier", textgrid, t_tier$
-                selectObject: k.max
+                selectObject: 'elbowEst$'.max
                 numKMax = Get number of rows
                 for i to numKMax
                     tMax[i] = Get value: i, "Time"
@@ -203,10 +213,8 @@ procedure main
             @drawStuffForEditing
 
             if userInput
-                # remove tiers for temporary textgrid (declutter view window)
-                @temp_textgrid: "textgrid",
-                    ... "ortho vowel register scope foot toneExtrema fixF0 sonorance"
-                    ... + " HDur LDur"
+                # Create temporary text grid for editing (declutter view window)
+                @temp_textgrid: "textgrid", r_tier$ + " " + t_tier$ + " maxK " + keepTiers$
 
                 # show sound and textgrid
                 selectObject: temp_textgrid.object
@@ -272,10 +280,10 @@ procedure main
                 curr_sound = (curr_sound - 2) + ((curr_sound - 2) < 0)
             elsif edit_choice = 3
                 curr_sound -= 1
-                keepTiers# = {t_tier, b_tier}
-                @idealise: soundobject, textgrid, tempPitch,
-                    ... minF0, maxF0, k.table, k.min,
-                    ... coarse_smoothing, fine_smoothing, jk$
+                keepTiers# = {t_tier}
+                @idealise: soundobject, textgrid, t_tier$, tempPitch,
+                    ... minF0, maxF0, 'elbowEst$'.min,
+                    ... coarse_smoothing, fine_smoothing, physSmooth$
                 selectObject: idealise.wav
                 Save as WAV file: rsDirPrefix$ + sound$
                     ... + ".wav"
@@ -304,10 +312,10 @@ procedure main
             elsif edit_choice = 1
                 curr_sound -= 1
             else
-                keepTiers# = {t_tier, b_tier}
-                @idealise: soundobject, textgrid, tempPitch,
-                    ... minF0, maxF0, k.table, k.min,
-                    ... coarse_smoothing, fine_smoothing, jk$
+                keepTiers# = {t_tier}
+                @idealise: soundobject, textgrid, t_tier$, tempPitch,
+                    ... minF0, maxF0, 'elbowEst$'.min,
+                    ... coarse_smoothing, fine_smoothing, physSmooth$
                 @drawIdealization: idealise.pitch, c3pogram.minT, c3pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0
                 if draw_phono
@@ -342,7 +350,7 @@ procedure main
             yOffset = (drawC3pogram.maxF0 - drawC3pogram.minF0)/15
             @drawLegend: c3pogram.minT, c3pogram.maxT,
             ... drawC3pogram.minF0, drawC3pogram.maxF0,
-                ... k.table, "Time", "F0",
+                ... pitchTable, "Time", "F0",
                 ... tempLegend, 0.01
             selectObject: tempLegend
             Remove
@@ -353,9 +361,9 @@ procedure main
             plusObject: soundobject
             plusObject: fixedPitch
             plusObject: tempPitch
-            plusObject: k.table
-            plusObject: k.max
-            plusObject: k.min
+            plusObject: pitchTable
+            plusObject: 'elbowEst$'.max
+            plusObject: 'elbowEst$'.min
             if show_RS
                 plusObject: resynthManip
             endif

@@ -7,5 +7,6 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 include Functions/ContourAnalysis/pitch.praat
+include Functions/ContourAnalysis/j.praat
 include Functions/ContourAnalysis/k.praat
 include Functions/ContourAnalysis/cpp.praat

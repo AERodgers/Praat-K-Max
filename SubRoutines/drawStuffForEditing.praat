@@ -48,13 +48,13 @@ procedure drawStuffForEditing
     Axes: c3pogram.minT, c3pogram.maxT,
         ... drawC3pogram.minF0,  drawC3pogram.maxF0
     if draw_f0_corrected
-        @draw_table_line: k.table, "Time", "F0", c3pogram.minT,
+        @draw_table_line: 'elbowEst$'.table, "Time", "F0", c3pogram.minT,
             ... c3pogram.maxT, 1
     endif
     Line width: 1
     Red
     if draw_K
-        @drawK: k.max,  k.table, 1, c3pogram.minT, c3pogram.maxT
+        @drawK: 'elbowEst$'.max,  'elbowEst$'.table, 1, c3pogram.minT, c3pogram.maxT, elbowEst$
     endif
 
     if draw_phono and idealTableExists and userInput

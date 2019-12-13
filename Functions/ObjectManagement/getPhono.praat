@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure getPhono: .keepTiers#, .boundary$, .textgrid
+procedure getPhono: .keepTiers#, .textgrid
     selectObject: .textgrid
     # create trimmed textgrid
     .trimmedGrid = Copy: "temp"
@@ -29,17 +29,9 @@ procedure getPhono: .keepTiers#, .boundary$, .textgrid
     # convert table text to phonological string
     .text$ = ""
     .numRows = Get number of rows
-    .initBoundary = 0
     for .i to .numRows
         .curTier$ = Get value: .i, "tier"
         .curElem$ = Get value: .i, "text"
-        if .curTier$ = .boundary$ and .initBoundary = 0
-            .curElem$ = "%" + .curElem$
-            .initBoundary = 1
-        elsif .curTier$ = .boundary$
-            .curElem$ += "%"
-            .initBoundary = 0
-        endif
        .text$ += .curElem$
         if .i < .numRows and .curElem$ != ""
             .text$ += " "
