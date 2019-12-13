@@ -91,13 +91,17 @@ if number(left$(version$, 1)) < 6
     exit
 endif
 
-### RUN MAIN ROUTINE
+### INITIALIZATION INFO
 writeInfoLine: "Edit / analyse intonational phrases using Secondary Tone Hypothesis"
 appendInfoLine: newline$, "Started:  ",  date$()
 if batch_process_directory
     appendInfoLine: "Be patient. This may take a while..."
 endif
+
+### RUN MAIN ROUTINE
 @main
+
+### Task completion Info
 appendInfoLine: "Finished: ", date$()
 
 ### INCLUDE SUBROUTINES AND FUNCTION LIBRARIES

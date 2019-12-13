@@ -7,8 +7,8 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # Contour idealisation
-procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin, .jk$
-        ... .smoothCoarse, .smoothFine
+procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
+        ... .smoothCoarse, .smoothFine,  .jk$
     .tiersToKeep$[1] = t_tier$
     .tiersToKeep$[2] = b_tier$
 
