@@ -7,7 +7,7 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # Contour idealisation
-procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
+procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin, .jk$
         ... .smoothCoarse, .smoothFine
     .tiersToKeep$[1] = t_tier$
     .tiersToKeep$[2] = b_tier$
@@ -100,7 +100,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
     selectObject: .tempKmin
     Remove
 
-    # prepare KMax Table for later 
+    # prepare KMax Table for later
 	selectObject: .tempKmax
 	Set column label (label): "Time", "KTime"
 
@@ -214,7 +214,7 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
         Set numeric value: .i, "F0", .idealF0[.i]
         Set string value: .i, "Text", .maxKText$[.i]
     endfor
-	
+
 	# add slope and intercept values
 	selectObject: .table
     for .i to .numSlopes
@@ -224,19 +224,17 @@ procedure idealise: .sound, .grid, .pitchObj, .minF0, .maxF0, .kTable, .kMin,
 	# assume no slope and intercept of F0 for final point
 	Set numeric value: .numMaxKpoints, "Slope", 0
     Set numeric value: .numMaxKpoints, "Intercept", .idealF0[.numMaxKpoints]
-	
+
     # convert ST re 100 to Hz
     Formula: "F0", "100*2^(self/12)"
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
-    @physioConstraintsK: .table, .pitchTable, .timeStep
+    @physioConstraintsK: .table, .pitchTable, .timeStep, .smoothCoarse
     .allF0Contours = physioConstraintsK.f0TableNew
     selectObject: .allF0Contours
     Rename: "allF0Contours"
-    Set column label (label): "intertiaSmoothing", "Smoothing"
-    Formula: "Smoothing", "(1 + floor(.smoothCoarse * self))*2+1"
-    Formula: "Smoothing", "if self = undefined then self = 1 else self endif"
+    Set column label (label): "PhysioSmoothing", "Smoothing"
     Append column: "IdealF0"
     # create contour of ideal curve (i.e., linear curve with no constraints)
     for .i to .numMaxKpoints - 1

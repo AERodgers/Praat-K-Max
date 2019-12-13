@@ -274,7 +274,8 @@ procedure main
                 curr_sound -= 1
                 keepTiers# = {t_tier, b_tier}
                 @idealise: soundobject, textgrid, tempPitch,
-                    ... minF0, maxF0, k.table, k.min, coarse_smoothing, fine_smoothing
+                    ... minF0, maxF0, k.table, k.min,
+                    ... coarse_smoothing, fine_smoothing, jk$
                 selectObject: idealise.wav
                 Save as WAV file: rsDirPrefix$ + sound$
                     ... + ".wav"
@@ -305,7 +306,8 @@ procedure main
             else
                 keepTiers# = {t_tier, b_tier}
                 @idealise: soundobject, textgrid, tempPitch,
-                    ... minF0, maxF0, k.table, k.min, coarse_smoothing, fine_smoothing
+                    ... minF0, maxF0, k.table, k.min,
+                    ... coarse_smoothing, fine_smoothing, jk$
                 @drawIdealization: idealise.pitch, c3pogram.minT, c3pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0
                 if draw_phono

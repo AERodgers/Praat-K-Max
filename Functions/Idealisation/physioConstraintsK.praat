@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep
+procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep, .smoothingFactor
     selectObject: .pointsTable
     .table = Copy: "newIdeal"
 
@@ -58,7 +58,7 @@ procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep
     # calculate intertia smoothing parameter (for triangular mean point avera smoothing)
     selectObject: .f0Table
     .f0TableNew = Copy: "newF0"
-    Append column: "intertiaSmoothing"
+    Append column: "PhysioSmoothing"
     for .i to .numPoints - 1
         selectObject: .table
         .x1[.i] = Get value: .i, "Time"
@@ -68,16 +68,18 @@ procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep
         #.xMid[.i] = .x1[.i] + (.x2[.i] - .x1[.i]) * .y1[.i] / (.y1[.i] + .y2[.i])
         .xMid[.i] = .x1[.i] + (.x2[.i] - .x1[.i])/2
         selectObject: .f0TableNew
-        Formula: "intertiaSmoothing", "if self[""Time""] >= .x1[.i] and "
+        Formula: "PhysioSmoothing", "if self[""Time""] >= .x1[.i] and "
             ... + "self[""Time""] <= .xMid[.i] then "
             ... + ".y1[.i] "
             ... + "else self endif"
-        Formula: "intertiaSmoothing", "if self[""Time""] >= .xMid[.i] and "
+        Formula: "PhysioSmoothing", "if self[""Time""] >= .xMid[.i] and "
             ... + "self[""Time""] <= .x2[.i] then "
             ... + ".y2[.i] "
             ... + "else self endif"
     endfor
 
+    Formula: "PhysioSmoothing", "(1 + floor(.smoothingFactor * self))*2+1"
+    Formula: "PhysioSmoothing", "if self = undefined then self = 1 else self endif"
     # remove surplus objects
     selectObject: .table
     Remove
