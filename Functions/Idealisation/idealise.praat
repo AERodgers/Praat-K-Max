@@ -139,6 +139,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
         @removeRowsWhereNum: .tmpF0Tbl, "Time", "> idealise.lineEnd[idealise.i]"
         @removeRowsWhereNum: .tmpF0Tbl, "Time", "< idealise.lineStart[idealise.i]"
         Formula: "F0", "12*log2(self/100)"
+
         @tableStats: .tmpF0Tbl, "Time", "F0"
         .slope[.i] = tableStats.slope
         .intercept[.i] = tableStats.intercept
