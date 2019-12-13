@@ -9,6 +9,9 @@
 # dependencies: @removeRowsWhereNum
 
 procedure cpp: .sound, .minF0, .maxF0, .pitchTable
+    # set arbitrary cut off value for within-utterance CPP
+    .cppArbCutOff$ = "< cpp.mean - cpp.stDev * 1"
+
     selectObject: .sound
     noprogress To PowerCepstrogram: .minF0, 0.002, 5000, 75
     .powerCepstrogram = selected()
@@ -40,7 +43,7 @@ procedure cpp: .sound, .minF0, .maxF0, .pitchTable
     .mean = Get mean: "value"
     .stDev = Get standard deviation: "value"
     @removeRowsWhereNum: .table, "value",
-        ... cppArbCutOff_G$
+        ... .cppArbCutOff$
 
     selectObject: .powerCepstrogram
     Remove

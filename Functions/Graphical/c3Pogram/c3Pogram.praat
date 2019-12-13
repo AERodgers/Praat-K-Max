@@ -12,8 +12,6 @@
 procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,
          ... .grid, .sound, .tier, .minF0, .maxF0
      # arbitrary cut off values (below which pink in output graph)
-     cppArbCutOff_G$ = "< cpp.mean - cpp.stDev * 1"
-     dbThreshold_G = 55
 
     .type = .param2
     selectObject: .grid
@@ -37,17 +35,9 @@ procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,
     selectObject: pitch2Table.table
     Rename: "pitch"
 
-    # get second VQ table
-    if .type = 1
-        @harmonicity: .sound, .minF0
-        .vqTable = harmonicity.table
-    elsif .type = 2
-        @intensity: .sound, .minF0
-        .vqTable = intensity.table
-    else
-        @cpp: .sound, .minF0, .maxF0, pitch2Table.table
-        .vqTable = cpp.table
-    endif
+    # get second VQ table (only cpp implemented in the STH version)
+    @cpp: .sound, .minF0, .maxF0, pitch2Table.table
+    .vqTable = cpp.table
 
     # draw cp3ogram
     @drawC3pogram: pitch2Table.table, .vqTable, .minT, .maxT, .minF0, .maxF0,
