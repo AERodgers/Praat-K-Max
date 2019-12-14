@@ -17,7 +17,7 @@ procedure setVars
     minF0 = minimum_F0
         userInput = not batch_process_directory
     pre_smoothing = initial_praat_smooothing_bandwidth
-    coarse_smoothing = physiological_constraints_smoothing_parameter
+    coarse_smoothing = physiological_constraints
     fine_smoothing = fine_grained_smoothing
 
     # set physiological smoothing method
@@ -32,8 +32,8 @@ procedure setVars
     show_RS = 0
     alreadyOpened# = zero# (numSounds)
     pitchSaved# = zero# (numSounds)
-    draw_f0_corrected = 0
-    draw_K = 0
+    draw_f0_corrected = 1
+    draw_K = 1
     draw_resynth = 1
     draw_phono = 1
 

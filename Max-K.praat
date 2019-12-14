@@ -10,49 +10,116 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 # October 10 -  December 8,  2019
 
-# Opens sound files and texgrid pairs in directory for editing and analyis in
-# "STH" style. Only displays tiers relevant to tone marking.
-    # REQUIREMENTS
-    #   1. sound file (.wav)
-    #   2. textgrid with at minimum an interval tier showing start and end of utterance.
-    #   3. pitch object (.Pitch) [if does not exist @fixPitch will be called]
+# Opens sound files and texgrid pairs in a specified directory for editing and analyis.
     #
-    # RUNNING THE SCRIPT
-    # When the script is run, enter the appropriate info in the UI form.
+    # A. REQUIREMENTS
+    #    1. sound file (.wav)
+    #    2. textgrid with at minimum an interval tier showing start and end of utterance.
+    #    3. all textgrid files must share the same name as the associated sound file.
     #
-    # When viewing the textgrid and sound files, the user can:
-    #     1. Stop the script (praat exitScript).
-    #     2. Resmooth the contour (using smoothing factor in the smoothing textbox)
-    #     3. correct the pitch (run @FixPitch) to remove micro-perturbations and
-    #        segmental effects.
-    #     4. Process and save the sound using annotated tonal tiers.
-    #        This also displays the resynthesised manipulation for auditory comparision.
-    #     6. Go to the next object without saving ("next object" text box changes this).
-    #     7. Go back without saving ("<").
-    #     8. exit the script (clears all temporary objects and completes report)
-    #     9. Change the smoothing parameters on the fly and add an additions comment.
-    #        This is done using the input boxes above
+    # B. OPTIONAL
+    # 1. pitch object (.Pitch) [if does not exist @fixPitch will be called]
     #
-    # OUTPUT
-    #     1. updated TextGrids (if saved)
-    #     2. resynthesised sounds and associated manipulation objects
-    #        (if resynth option selected)
-    #     3. report showing smoothing parameters, phonological analysis, and comments
-    #     3. Figure with spectrogram, and F0 contour with CPP indicated by magnitude and
-    #        colour intensity of dots. By default also includes resynthesised contour,
-    #        idealised tonal targets, and phonology.
-    #        Can also display curvature contour and corrected pitch contour
-    #        (This can be changed in the UI main routine menu for each sound.)
+    # C. MASTER UI MENU
+    #    1. Directory: path to directory contain files to be analysed.
+    #    2. Directory Information: names of sub-directories for loading and saving
+    #           files. (Leave blank if all files to be stored in the main directory.)
+    #    3. Tier names: Name of the reference (default "syllable") and tonal tiers.
+    #           Other tiers to display can also be listed in "Other tiers to show".
+    #    4. File format: prefixes (if any) for pitch and resynthesised sound files.
+    #           suffix for sound file (default ".wav").
+    #    5. Pitch processing parameters: choose curve estimation (Second derivative
+    #           recommended); set minimum and maximum F0, and pitch smoothing parameter
+    #           bandwidth for Praat Smooth function, which is performed on the pitch
+    #           object before curvature estimation (10 default: higher = less smoothing)
+    #    6. Post idealisation smoothing parameters (moving point average)
+    #           a. Physiological constraints: (default: 8. lower = less smoothing)
+    #                  Smoothes the "ideal curve" to simulate the effects of
+    #                  physhiological constraints on pitch movement
+    #           b. Fine-grained smoothing: (default: 1. higher = more smoothing)
+    #                  runs an MPA smoothing function over the final contour to remove
+    #                  any remaining artefacts.
+    #    7. Batch process directory: runs through whole directory and processes all
+    #           files automatically. This assumes the user has already run the process.
+    #           Manually (LARGELY REDUNDANT IN RELEASE VERSION).
     #
+    # D. RUNNING THE MAIN ANALYSIS PROCEDURE
+    #    The following events occur for each textrid and sound file in the directory.
+    #    1. The first time a textgrid is opened, it is backed up.
+    #    2. If a pitch object is not found, @fixPitch will be called. This
+    #       first promts the user to annotate a textgrid to show sections of the contour
+    #       to be ignored dur to gross segmental effects. It then creates a manipulation
+    #       object in which the user can correct errors such as pitch double and pitch
+    #       halving.
+    #    4. The pitch contour is smoothed using and points of maximum curvature are
+    #       identified.
+    #    3. The script draws a spectrogram of the sound object, the refer-
+    #       ence tier, and the pitch contour.
+    #       The pitch contour is drawn using @c3Pogram, and shows F0 contour on the
+    #       y-axis with the colour intensity and dot size indicating estimated Cepstral
+    #       Peak Prominence at that time. (Red dots indicate CPP values more than one SD
+    #       below the utterance mean.)
+    #       The figure also can display other values derived from the script (see D.3.b.)
+    #       NOTE: A legend is drawn before the image is saved but not earlier.
+    #    4. The script will display the sound and a textgrid for the current object. The
+    #       textgrid only displays the reference, tonal, and maxK tiers, along with any
+    #       tiers listed in the "Other tiers to show" master menu.
+    #       MaxK marks estimated locations of maximum curvature.
+    #       THE USER SHOULD ANNOTATE THE TONAL TIER USING TIME POINTS INDICATED IN MAXK.
+    #    5. A menu window will appear.
+    #           a. The user can change the following parameters on the fly:
+    #                  1. Initial Praat smoothing bandwidth
+    #                  2. Physiological constraints
+    #                  3. Fine-grained smoothing
+    #           b. The user can select / deselect the following graphical output options:
+    #                  1. Draw corrected contour (contour used in calculating curvature)
+    #                  2. Draw curvature contour (y axis will be drawn on the right)
+    #                  3. Draw resynthesised contour (calculated from @idealise and
+    #                     @physioconstraintsJ/K functions)
+    #                  4. Draw tonal tier annotations and ideal targets
+    #           c. The user can add a "Comment" to the report file
+    #           d. Change the "Next object" value to jump to a different file in the
+    #              directory.
+    #           e. The options buttons, allow the user to:
+    #                  1. Smooth: re-Smooth the contour using Praat smoothing factor in
+    #                     the textbox. (Note: this will delete the current MaxK and Tonal
+    #                     annotation tier)
+    #                  2. "Fix F0": runs @FixPitch (see D.1. above)
+    #                  2. "Process": PROCESS, SAVE, AND REVIEW ANNOTATIONS AND RESYNTHESIS
+    #                  3. "<": Go back one object without saving .
+    #                  4. "Next": Go to the "Next object" without saving.
+    #                  5. "Exit": exit script (clears all temporary objects and
+    #                     completes report)
+    #                  7. "Revert" and "Stop" are default Praat UI menu options.
+    #              NOTE: PROCESS MUST BE SELECTED IN ORDER TO SAVE CHANGES!!!
+    #
+    # E. OUTPUT FOR EACH FILE PROCESSED
+    #     1. main folder: updated TextGrids (if saved)
+    #     2. pitch folder: updated pitch objects
+    #     2. resynth folder: resynthesised pitch object and sound file
+    #     3. manipulation folder:
+    #            a. resynthesised sound manipulation object: "[soundName].Manipulation"
+    #            b. table showing time (secs) and F0 (Hz) contours: initial
+    #               smoothed, ideal, and smoothed ideal: "[soundName]_all_F0.Table"
+    #            c. table showing time (secs) and F0 (Hz) coordinates of of maximum
+    #               curvature ideal tonal targets along with maxK annotations:
+    #               [soundName]_ideal_TTs.Table
+    #     3. Report table showing smoothing parameters, tonal analysis, and comments
+    #     3. Figure with spectrogram, pitch contour, and selected display parameters.
+    #        It also includes a legend.
+    #
+    # F. GENERAL OUTPUT (OUTPUT FOLDER)
+    #     1. tab-delineated file reporting latest smoothing parameters, tonal tier
+    #        annotations and comments for each set of files: "Max-K_Analysi_Report.txt"
+    #     2. tab-delineated file showing most recent pitch processing parameter settings
+    #        in master UI form.
+
     # FAILSAFES / ERROR HANDLING
-    #     1. for manual editing, a backup directory is created which contains:
-    #            - backup of each TextGrid as it was before script was run
-    #            - a report listing all texgrids changed
-    #     2. Resynth finds first defined F0 nearest to annotated tonal targets
-    #        and adjusts textgrid accordingly. If no nearby defined F0 found,
-    #        error warning displayed.
-    #     3. Error windows when idealisation functions break down
-    #        (shown in report during batch processing)
+    #     1. Textgrid backup
+    #     2. % annotations are added to Max K to show onset and offset of utterance
+    #        voicing
+    #     3. Error windows when idealisation functions break down and added to comments
+    #        textbox and report entry (shown in report during batch processing)
 
 ### INPUT FORM
 form Text grid editor: Choose Directory
@@ -83,13 +150,14 @@ form Text grid editor: Choose Directory
     natural Maximum_F0 400
     integer Initial_praat_smooothing_bandwidth 10
 
-    comment Post-idealisation smoothing (moving point average)
-    integer physiological_constraints_smoothing_parameter 8
+    comment Post idealisation smoothing parameters (moving point average)
+    integer Physiological_constraints 8
     integer Fine_grained_smoothing 1
     comment
     boolean Batch_process_directory
 endform
 
+### CALL SUBROUTINES
 @versionCheck
 @infoLines
 @setUpDirsFiles

@@ -198,12 +198,12 @@ procedure main
                 # show sound and textgrid
                 selectObject: temp_textgrid.object
                 plusObject: soundobject
+
                 Edit
                 # pause to let user edit the text grid
                 pauseText$ = "Editing " + sound$
+                    ... + " (" + curSound$ + "/" + string$(numSounds) + ")"
                 beginPause: pauseText$
-                    comment: "Currently showing waveform " + sound$
-                        ... + " (" + curSound$ + "/" + string$(numSounds) + ")"
                     integer: "Initial Praat smooothing bandwidth", pre_smoothing
                     integer: "Physiological constraints smoothing parameter", coarse_smoothing
                     integer: "Fine grained smoothing", fine_smoothing
