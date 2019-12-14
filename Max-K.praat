@@ -86,9 +86,7 @@ form Text grid editor: Choose Directory
     comment Post-idealisation smoothing (moving point average)
     integer physiological_constraints_smoothing_parameter 8
     integer Fine_grained_smoothing 1
-
     comment
-    word phonology_colour Navy
     boolean Batch_process_directory
 endform
 

@@ -10,7 +10,6 @@
 procedure setVars
 
     # shorten UI input variables
-    phonoCol$ = phonology_colour$
     t_tier$ = tonal_tier$
     r_tier$ = reference_tier$
     keepTiers$ = other_tiers_to_show$
@@ -41,7 +40,7 @@ procedure setVars
     #colour variables
     idealCol$ = "{0.2, 1, 1}"
     fixedF0Col$ = "{1,0.5,0}"
-    phonoCol$ = "Black"
+    phonoCol$ = "Navy"
     kCol$ = "Red"
 
 endproc
