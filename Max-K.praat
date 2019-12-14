@@ -1,5 +1,8 @@
-# EDIT/ANALYSE SOUNDS USING SECONDARY TONE HYPOTHESIS (STH)  V.0.2.2.0
-# ====================================================================
+# MAX-Κ
+# =====
+# A script for analysing and resynthesising pitch contours
+# using estimated points of maximum curvature in the contour.
+#
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
@@ -73,17 +76,14 @@ form Text grid editor: Choose Directory
     word Sound_suffix .wav
 
     comment Pitch Processing Parameters
-    optionmenu Elbow_estimation 1
-        option Angle on a normalised plane
+    optionmenu Curvature_estimation 1
         option Second derivative
+        option Angle of vectors
     natural Minimum_F0 55
     natural Maximum_F0 400
     integer Initial_praat_smooothing_bandwidth 10
 
     comment Post-idealisation smoothing (moving point average)
-    optionmenu Physiological_smoothing 1
-        option Angle on a normalised plane
-        option Second derivative
     integer physiological_constraints_smoothing_parameter 8
     integer Fine_grained_smoothing 1
 
@@ -92,52 +92,32 @@ form Text grid editor: Choose Directory
     boolean Batch_process_directory
 endform
 
-### COMPATABILITY CHECK
-version$ = praatVersion$
-if number(left$(version$, 1)) < 6
-    echo You are running Praat 'praatVersion$'.
-    ... 'newline$'This script runs on Praat version 6.0.40 or later.
-    ... 'newline$'To run this script, update to the latest
-    ... version at praat.org
-    exit
-endif
-
-writeInfoLine: "MAX-Κ"
-appendInfoLine: "====="
-appendInfoLine: newline$, "A script for analysing and resynthesising pitch contours using"
-appendInfoLine: "estimated points of maximum curvature in the pitch contour."
-appendInfoLine: ""
-appendInfoLine: "All assoiated scripts published under GNU General Public License, V.3."
-appendInfoLine: newline$, "by Antoin Eoin Rodgers"
-appendInfoLine: "   Phonetics and speech Laboratory,"
-appendInfoLine: "   Trinity College Dublin"
-appendInfoLine: "   rodgeran@tcd.ie"
-
-appendInfoLine: newline$, "Started:  ",  date$()
-if batch_process_directory
-    appendInfoLine: "Be patient. This may take a while..."
-endif
-
-### RUN MAIN ROUTINE
+@versionCheck
+@infoLines
+@setUpDirsFiles
+@getSoundGridInfo
+@setVars
+@saveMenuVars
 @main
+@saveAndTidy
 
-### Task completion Info
-appendInfoLine: "Finished: ", date$()
-
-### INCLUDE SUBROUTINES AND FUNCTION LIBRARIES
-### Subroutines take no arguments are written specifically for this set of scripts
+# INCLUDE SUBROUTINES AND FUNCTION LIBRARIES
+# Subroutines take no arguments are written specifically for this set of scripts
+include Subroutines/infoLines.praat
 include Subroutines/main.praat
 include Subroutines/setUpDirsFiles.praat
-include Subroutines/shortenVars.praat
+include Subroutines/setVars.praat
 include Subroutines/getSoundGridInfo.praat
 include Subroutines/drawStuffForEditing.praat
 include Subroutines/createLegendTable.praat
 include Subroutines/updateReport.praat
+include Subroutines/saveMenuVars.praat
+include Subroutines/saveAndTidy.praat
 
-### Fuctions arguments and are (generally) designed to be adaptable to any script
+# Functions arguments and are (generally) designed to be adaptable to any script
 include Functions/ContourAnalysis.praat
 include Functions/Graphical.praat
 include Functions/FixPitch.praat
 include Functions/Idealisation.praat
 include Functions/Maths.praat
-include Functions/ObjectManagement.praat
+include Functions/Management.praat

@@ -57,7 +57,6 @@ procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep, .smoothingFacto
 
     # calculate intertia smoothing parameter (for triangular mean point avera smoothing)
     selectObject: .f0Table
-    .f0TableNew = Copy: "newF0"
     Append column: "PhysioSmoothing"
     for .i to .numPoints - 1
         selectObject: .table
@@ -67,7 +66,7 @@ procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep, .smoothingFacto
         .y2[.i] = Get value: .i + 1, "K"
         #.xMid[.i] = .x1[.i] + (.x2[.i] - .x1[.i]) * .y1[.i] / (.y1[.i] + .y2[.i])
         .xMid[.i] = .x1[.i] + (.x2[.i] - .x1[.i])/2
-        selectObject: .f0TableNew
+        selectObject: .f0Table
         Formula: "PhysioSmoothing", "if self[""Time""] >= .x1[.i] and "
             ... + "self[""Time""] <= .xMid[.i] then "
             ... + ".y1[.i] "

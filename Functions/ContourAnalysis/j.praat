@@ -12,8 +12,8 @@ procedure j: .table
     # calculates table of curvatures (K) via the second time derivative of fo [f0"(t)]
 
     selectObject: .table
-    .x2 = Get value: 1, "Time"
-    .x1 = Get value: 2, "Time"
+    .x2 = Get value: 2, "Time"
+    .x1 = Get value: 1, "Time"
     .dx = .x2 - .x1
     @secondDerivative: .table, "F0","K", .dx
 
@@ -41,12 +41,11 @@ procedure j: .table
     Rename: "maxK"
     Remove column: "MinMax"
     selectObject: .tempK
-    .min = Extract rows where column (text): "MinMax", "is equal to", "Extreme"
+    .min = Extract rows where column (text): "MinMax", "is equal to", "Root"
     Rename: "minK"
     Remove column: "MinMax"
     Remove column: "Frame"
     Remove column: "K"
     selectObject: .tempK
     Remove
-
 endproc

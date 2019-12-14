@@ -1,12 +1,12 @@
-### DRAW PHONOLOGY
-# ================
+# DRAW PHONOLOGY
+# ==============
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure drawPhono: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .phonoCol$
+procedure drawPhono: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
     # set picture window
     Line width: 1
     Solid line
@@ -23,7 +23,7 @@ procedure drawPhono: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .phonoCol$
         Formula: "Text", "replace$(self$, ""%"", ""\% "", 0)"
         Formula: "Text", "replace$(self$, ""_"", ""\_ "", 0)"
         Formula: "Text", """##"" + self$"
-        Colour: .phonoCol$
+        Colour: .colour$
         Scatter plot: "Time", .tMin, .tMax, "F0", .f0MinST, .f0MaxSt, "Text", 12, "no"
         Black
     endif

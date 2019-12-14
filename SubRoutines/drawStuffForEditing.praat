@@ -1,5 +1,5 @@
-# STH Analysis sub-routine: drawStuffForEditing
-# ====================================================================
+# K-Max sub-routine: drawStuffForEditing
+# ======================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
@@ -43,18 +43,18 @@ procedure drawStuffForEditing
     # draw corrected F0 contour and K contour
     Solid line
     Line width: 2
-    Magenta
     Select outer viewport: 0, 6.5, 0, 3.35
     Axes: c3pogram.minT, c3pogram.maxT,
         ... drawC3pogram.minF0,  drawC3pogram.maxF0
     if draw_f0_corrected
-        @draw_table_line: 'elbowEst$'.table, "Time", "F0", c3pogram.minT,
+        Colour: fixedF0Col$
+        @draw_table_line: 'curveEst$'.table, "Time", "F0", c3pogram.minT,
             ... c3pogram.maxT, 1
     endif
     Line width: 1
-    Red
     if draw_K
-        @drawK: 'elbowEst$'.max,  'elbowEst$'.table, 1, c3pogram.minT, c3pogram.maxT, elbowEst$
+        @drawK: 'curveEst$'.max,  'curveEst$'.table, 1, c3pogram.minT, c3pogram.maxT,
+            ... curveEst$, kCol$
     endif
 
     if draw_phono and idealTableExists and userInput
@@ -71,7 +71,7 @@ procedure drawStuffForEditing
         .tempPitch = Read from file:
             ... resynthPath$ + sound$ + ".Pitch"
         @drawIdealization: .tempPitch, c3pogram.minT, c3pogram.maxT,
-            ... drawC3pogram.minF0, drawC3pogram.maxF0
+            ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
         selectObject: .tempPitch
         Remove
     endif

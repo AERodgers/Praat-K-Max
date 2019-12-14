@@ -1,4 +1,4 @@
-# STH Analysis sub-routine: main
+# K-Max sub-routine: main
 # =============================
 # Written for Praat 6.0.40
 
@@ -8,27 +8,6 @@
 # October 10 -  December 10,  2019
 
 procedure main
-    # initialize directories and variables
-    @setUpDirsFiles
-    @getSoundGridInfo
-    @shortenVars
-
-    # set main flags
-    alreadyOpened# = zero# (numSounds)
-    pitchSaved# = zero# (numSounds)
-    draw_f0_corrected = 0
-    draw_K = 0
-    draw_resynth = 1
-    draw_phono = 1
-
-    # save initial variables
-    writeFile: outputPath$ + "STH_form_params.Table", "Parameter" + tab$ + "Value"
-    ... + newline$ + "Minimum_F0" + tab$ + string$(minimum_F0)
-    ... + newline$ + "Maximum_F0" + tab$ + string$(maximum_F0)
-    ... + newline$ + "Pre_smoothing" + tab$ + string$(pre_smoothing)
-    ... + newline$ + "Coarse_smoothing" + tab$ + string$(coarse_smoothing)
-    ... + newline$ + "Fine_smoothing" + tab$ + string$(fine_smoothing)
-
     for curr_sound to numSounds
         # set binary flags
         show_RS = 0
@@ -180,12 +159,12 @@ procedure main
             Remove
 
             ### Calculate Elbows of smoothed contour using @j (fo'') or @k (angle)
-            @'elbowEst$': pitchTable, 0
+            @'curveEst$': pitchTable, 0
 
             if not kTiers
                 @findTier: "maxK_tier", textgrid, "maxK"
                 @findTier: "t_tier", textgrid, t_tier$
-                selectObject: 'elbowEst$'.max
+                selectObject: 'curveEst$'.max
                 numKMax = Get number of rows
                 for i to numKMax
                     tMax[i] = Get value: i, "Time"
@@ -282,8 +261,8 @@ procedure main
                 curr_sound -= 1
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
-                    ... minF0, maxF0, 'elbowEst$'.min,
-                    ... coarse_smoothing, fine_smoothing, physSmooth$
+                    ... minF0, maxF0, 'curveEst$'.min,
+                    ... coarse_smoothing, fine_smoothing, curveEst$
                 selectObject: idealise.wav
                 Save as WAV file: rsDirPrefix$ + sound$
                     ... + ".wav"
@@ -296,7 +275,7 @@ procedure main
                 Save as text file: manipPath$ + sound$
                     ... + "_ideal_TTs.Table"
                 Remove
-                selectObject: idealise.allF0Contours
+                selectObject: idealise.pitchTable
                 Save as text file: manipPath$ + sound$
                     ... + "_all_F0.Table"
                 Remove
@@ -314,10 +293,10 @@ procedure main
             else
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
-                    ... minF0, maxF0, 'elbowEst$'.min,
-                    ... coarse_smoothing, fine_smoothing, physSmooth$
+                    ... minF0, maxF0, 'curveEst$'.min,
+                    ... coarse_smoothing, fine_smoothing, curveEst$
                 @drawIdealization: idealise.pitch, c3pogram.minT, c3pogram.maxT,
-                    ... drawC3pogram.minF0, drawC3pogram.maxF0
+                    ... drawC3pogram.minF0, drawC3pogram.maxF0, idealColour$
                 if draw_phono
                     @drawPhono: idealise.table, c3pogram.minT, c3pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0, phonoCol$
@@ -332,7 +311,7 @@ procedure main
                 Save as text file: manipPath$ + sound$
                     ... + "_ideal_TTs.Table"
                 Remove
-                selectObject: idealise.allF0Contours
+                selectObject: idealise.pitchTable
                 Save as text file: manipPath$ + sound$
                     ... + "_all_F0.Table"
                 Remove
@@ -362,8 +341,8 @@ procedure main
             plusObject: fixedPitch
             plusObject: tempPitch
             plusObject: pitchTable
-            plusObject: 'elbowEst$'.max
-            plusObject: 'elbowEst$'.min
+            plusObject: 'curveEst$'.max
+            plusObject: 'curveEst$'.min
             if show_RS
                 plusObject: resynthManip
             endif
@@ -377,14 +356,4 @@ procedure main
             endif
        endif
     endfor
-
-    #save report
-    selectObject: report
-    Save as tab-separated file: reportPath$
-
-    # remove remaining objects
-    selectObject: sound_list
-    plusObject: textgrid_list
-    plusObject: report
-    Remove
 endproc

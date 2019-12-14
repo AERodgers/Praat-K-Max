@@ -10,7 +10,7 @@
 procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
         ... .smoothCoarse, .smoothFine, .jk$
 
-
+    .capJK$ = replace_regex$ (.jk$, "[a-z]", "\U&", 0)
     # process pitch object
     selectObject: .pitchObj
     .timeStep = Get time step
@@ -107,6 +107,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
     # based on minK first after Max K(n) and last before MaxK(n+1)
     selectObject: .minMaxK
 	.numSlopes = .numMaxKpoints - 1
+
     for .i to .numSlopes
         @find_nearest_table: .maxKTime[.i], .minMaxK, "Time"
         .firstKMinT = Get value: find_nearest_table.index + 1, "Time"
@@ -230,10 +231,9 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
-    @physioConstraintsK: .table, .pitchTable, .timeStep, .smoothCoarse
-    .allF0Contours = physioConstraintsK.f0TableNew
-    selectObject: .allF0Contours
-    Rename: "allF0Contours"
+    @physioConstraints'.capJK$': .table, .pitchTable, .timeStep, .smoothCoarse
+    selectObject: .pitchTable
+    Rename: "pitchTable"
     Set column label (label): "PhysioSmoothing", "Smoothing"
     Append column: "IdealF0"
     # create contour of ideal curve (i.e., linear curve with no constraints)
@@ -241,16 +241,16 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
         selectObject: .table
         .curT = Get value: .i, "Time"
         .nextT = Get value: .i + 1, "Time"
-        selectObject: .allF0Contours
+        selectObject: .pitchTable
         Formula: "IdealF0", "if self[""Time""] >=.curT and self[""Time""] <= .nextT "
             ... + "then .slope[.i] * self[""Time""] + .intercept[.i]"
             ... + "else self endif"
     endfor
     # create dynamically smoothed contour
-    @dynamic_mpa: .allF0Contours, "Smoothing", "IdealF0", "SmoothedIdealF0"
+    @dynamic_mpa: .pitchTable, "Smoothing", "IdealF0", "SmoothedIdealF0"
     # do fine grained smoothing to remove artefacts from dynamic smoothing
-    @calc_mpa: (.smoothFine) * 2 + 1, .allF0Contours, "SmoothedIdealF0", "TempF0"
-    selectObject: .allF0Contours
+    @calc_mpa: (.smoothFine) * 2 + 1, .pitchTable, "SmoothedIdealF0", "TempF0"
+    selectObject: .pitchTable
     Remove column: "Smoothing"
     Remove column: "SmoothedIdealF0"
     Set column label (label): "TempF0", "SmoothedIdealF0"
@@ -268,10 +268,10 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
     .pitchTier =  selected()
     Remove points between: .timeS, .timeE
     # add smoothed ideal contour to pitch tier
-    selectObject: .allF0Contours
+    selectObject: .pitchTable
     .numRows = Get number of rows
     for .i to .numRows
-        selectObject: .allF0Contours
+        selectObject: .pitchTable
         .curT = Get value: .i, "Time"
         .curF0 = Get value: .i, "SmoothedIdealF0"
         selectObject: .pitchTier
@@ -294,7 +294,6 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
 
     #remove remaining objects
     selectObject: .pitchTier
-    plusObject: .pitchTable
     plusObject: .minMaxK
     Remove
 endproc
