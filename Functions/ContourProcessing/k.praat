@@ -10,13 +10,13 @@
 
 # calculates table of curvatures (K) via second time derivative of fo [f0"(t)]
 
-procedure j: .table
+procedure k: .table
     selectObject: .table
     .numRows = Get number of rows
     .xn = Get value: .numRows, "Time"
-    .x2 = Get value: 2, "Time"
-    .x1 = Get value: 1, "Time"
-    .dx = .x2 - .x1
+    .x[2] = Get value: 2, "Time"
+    .x[1] = Get value: 1, "Time"
+    .dx = .x[2] - .x[1]
     @secondDerivative: .table, "F0","K", .dx
 
     Formula: "toneLike", "if self[""K""] < 0 then ""H"" else ""L"" endif"
@@ -41,50 +41,57 @@ procedure j: .table
     endfor
 
     .max = Extract rows where column (text): "MinMax", "is equal to", "Extreme"
-    Rename: "maxK"
     Remove column: "MinMax"
     .numRows = Get number of rows
-    .max1T = Get value: 1, "Time"
-    .maxNT = Get value: .numRows, "Time"
-
-    # add initial boundary to if no MaxK near onset
-    if abs(.x1 - .max1T) > 0.02
-        selectObject: .tempK
-        .temp = Extract rows where column (number): "Time", "equal to", .x1
-        Rename: "maxK"
-        Remove column: "MinMax"
-        plusObject: .max
-        .newMax = Append
-        selectObject: .temp
-        plusObject: .max
-        Remove
-        .max = .newMax
-        selectObject: .max
-        Sort rows: "Time"
-        .numRows += 1
-    endif
-
-    # add final boundary to if no maxK near offset
-    if abs(.xn - .maxNT) > 0.02
-        selectObject: .tempK
-        .temp = Extract rows where column (number): "Time", "equal to", .maxNT
-        Rename: "maxK"
-        Remove column: "MinMax"
-        plusObject: .max
-        .newMax = Append
-        selectObject: .temp
-        plusObject: .max
-        Remove
-        .max = .newMax
-        selectObject: .max
-        Sort rows: "Time"
-        .numRows += 1
-    endif
+    .mT[1] = Get value: 1, "Time"
+    .mT[2] = Get value: .numRows, "Time"
+    .x[2] = .xn
+    # add boundary to if no MaxK nearby
+    for .i to 2
+        if abs(.x[.i] - .mT[.i]) > 0.02
+            selectObject: .tempK
+            .temp = Extract rows where column (number):
+                ... "Time", "equal to", .x[.i]
+            Remove column: "MinMax"
+            plusObject: .max
+            .newMax = Append
+            selectObject: .temp
+            plusObject: .max
+            Remove
+            .max = .newMax
+            selectObject: .max
+            Sort rows: "Time"
+            .numRows += 1
+        endif
+    endfor
+    Rename: "maxK"
 
     selectObject: .tempK
     .min = Extract rows where column (text): "MinMax", "is equal to", "Rootlike"
-    Rename: "minK"
     Remove column: "MinMax"
+    .numRows = Get number of rows
+    .mT[1] = Get value: 1, "Time"
+    .mT[2] = Get value: .numRows, "Time"
+    .x[2] = .xn
+    # add boundary to if no MaxK nearby
+    for .i to 2
+        if abs(.x[.i] - .mT[.i]) > 0.02
+            selectObject: .tempK
+            .temp = Extract rows where column (number):
+                ... "Time", "equal to", .x[.i]
+            Remove column: "MinMax"
+            plusObject: .min
+            .newMin = Append
+            selectObject: .temp
+            plusObject: .min
+            Remove
+            .min = .newMin
+            selectObject: .min
+            Sort rows: "Time"
+            .numRows += 1
+        endif
+    endfor
+    Rename: "minK"
     Remove column: "Frame"
     Remove column: "K"
     selectObject: .tempK

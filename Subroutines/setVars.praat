@@ -10,6 +10,7 @@
 procedure setVars
 
     # shorten UI input variables
+    rsPrefix$ = resynthesis_prefix$
     t_tier$ = tonal_tier$
     r_tier$ = reference_tier$
     keepTiers$ = other_tiers_to_show$
@@ -20,14 +21,6 @@ procedure setVars
     coarse_smoothing = physiological_constraints
     fine_smoothing = fine_grained_smoothing
 
-    # set physiological smoothing method
-	# NB: originally, two method were tested , J [fo"(t)] and
-	#      K (angle of curve on a normalised XY plane.
-	#      J was much more efficient.
-	#      K has been deleted from the public implementation.
-    curveEst$ = "j"
-
-
     # set flags
     edit_choice = 0
     show_RS = 0
@@ -37,21 +30,24 @@ procedure setVars
     draw_K = 1
     draw_resynth = 1
     draw_tonal = 1
-	
-    # set fixPitch variables
-	fixPitch.candidates = 15
+
+    # set j variables
+    fixPitch.candidates = 15
     fixPitch.s_threshold = 0.03
     fixPitch.v_threshold = 0.45
     fixPitch.oct_cost = 0.01
     fixPitch.oct_j_cost = 0.35
     fixPitch.vuv_cost = 0.14
-	
+
     #colour variables
-    #idealCol$ = "{0.2, 1, 1}"
-    #fixedF0Col$ = "{1,0.5,0}"
+    # cyan = "{0.2, 1, 1}"
+    #orange = "{1,0.5,0}"
     fixedF0Col$ = "Black"
     idealCol$ = "Lime"
     tonalCol$ = "Navy"
     kCol$ = "Red"
+
+    # flag to add tiers for script author only [NOT FOR PUBLIC VERSION]
+    justForAER = 1
 
 endproc

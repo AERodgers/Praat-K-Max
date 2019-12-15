@@ -7,7 +7,7 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 # October 10 -  December 8,  2019
 
-# Dependencies: @Trimf0 from ProsodyPro (not implemented for STH analysis)
+# Dependencies: @Trimf0 from ProsodyPro (not implemented for Max-K)
 #               see: http://www.homepages.ucl.ac.uk/~uclyyix/ProsodyPro/
 
 procedure fixPitch: .textgrid, .reference_tier, .soundobject,
@@ -40,7 +40,7 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
     ### create pitch objects #
     selectObject: .soundobject
     .pitchTrackOrig = To Pitch (ac):
-	    ... 0.75/.min_fo, .min_fo, .candidates, "no", .s_threshold,
+        ... 0.75/.min_fo, .min_fo, .candidates, "no", .s_threshold,
         ...   .v_threshold, .oct_cost, .oct_j_cost, .vuv_cost, .max_fo
     selectObject: .soundobject
     .temp_manip = To Manipulation: .time_step, .min_fo, .max_fo
@@ -64,104 +64,104 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
         comment: "Annotate stretches you want remove in tier two."
     edit_choice = endPause: "Fix", 1
 
-	#remove points highlighted in segmental effects tier
-	selectObject: .segmentalFx
-	.segmentalFxOnly = Extract one tier: 2
-	.segmentalFxTable = Down to Table: "no", 3, "no", "no"
-	.numRows = Get number of rows
-	for .i to .numRows
-		.fxStart[.i] = Get value: .i, "tmin"
-		.fxEnd[.i] = Get value: .i, "tmax"
-	endfor
-	#Edit pitch tier using Manipulate sound
-	selectObject: .temp_manip
-	Edit
-	editor: .temp_manip
-		Zoom: .zoom_s, .zoom_e
-		Set pitch units: "semitones re 100 Hz"
-		Set pitch range: 12 * log2(.max_fo/100)
-		#Remove segmental effects
-		for .i to .numRows
-			.failSafe = (.fxStart[.i] + .fxEnd[.i])/2
-			Add pitch point at: .failSafe, 1
-			Move cursor to: .fxStart[.i]
-			Move end of selection by: .fxEnd[.i] - .fxStart[.i]
-			Remove pitch point(s)
-		endfor
-	endeditor
-	.pause_.text$ = "Checking the pitch tracking."
-	beginPause: .pause_.text$
-		comment: "Showing the pitch track for your current sound."
-		comment: "Remove or stylise the pitch tracker to remove errors."
-		comment: ""
-	endPause: "Continue", 1
+    #remove points highlighted in segmental effects tier
+    selectObject: .segmentalFx
+    .segmentalFxOnly = Extract one tier: 2
+    .segmentalFxTable = Down to Table: "no", 3, "no", "no"
+    .numRows = Get number of rows
+    for .i to .numRows
+        .fxStart[.i] = Get value: .i, "tmin"
+        .fxEnd[.i] = Get value: .i, "tmax"
+    endfor
+    #Edit pitch tier using Manipulate sound
+    selectObject: .temp_manip
+    Edit
+    editor: .temp_manip
+        Zoom: .zoom_s, .zoom_e
+        Set pitch units: "semitones re 100 Hz"
+        Set pitch range: 12 * log2(.max_fo/100)
+        #Remove segmental effects
+        for .i to .numRows
+            .failSafe = (.fxStart[.i] + .fxEnd[.i])/2
+            Add pitch point at: .failSafe, 1
+            Move cursor to: .fxStart[.i]
+            Move end of selection by: .fxEnd[.i] - .fxStart[.i]
+            Remove pitch point(s)
+        endfor
+    endeditor
+    .pause_.text$ = "Checking the pitch tracking."
+    beginPause: .pause_.text$
+        comment: "Showing the pitch track for your current sound."
+        comment: "Remove or stylise the pitch tracker to remove errors."
+        comment: ""
+    endPause: "Continue", 1
 
-	#Create and interpolate edited pitch object
-	selectObject: .temp_manip
-	.tempPitchTier = Extract pitch tier
-	plusObject: .pitchTrackOrig
-	.new = To Pitch
-	selectObject: .tempPitchTier
-	Remove
+    #Create and interpolate edited pitch object
+    selectObject: .temp_manip
+    .tempPitchTier = Extract pitch tier
+    plusObject: .pitchTrackOrig
+    .new = To Pitch
+    selectObject: .tempPitchTier
+    Remove
 
-	if .interpolate_pitch
-		selectObject: .new
-		.pitchTrackInterpolated = Interpolate
-		selectObject: .new
-		Remove
-		selectObject: .pitchTrackInterpolated
-		.new = selected ()
-	endif
-	### smooth
-	if .use_smoothing = 4
-		## Xu Smoothing
-		selectObject: .new
-		.pitchTierSmooth = Down to PitchTier
-		npulses = 3
-		capture_consonant_perturbation = 0
-		@Trimf0
-		plusObject: .new
-		pitchSmooth = To Pitch
-		### remove old pitchtrack and replace it
-		selectObject: .new
-		plusObject: .pitchTierSmooth
-		Remove
-		.new = selectObject: pitchSmooth
-	elsif .use_smoothing
-		bw = .use_smoothing * 9 - 8
-		selectObject: .new
-		pitchSmooth = Smooth: bw
-		### remove old pitchtrack and replace it
-		selectObject: .new
-		Remove
-		selectObject: pitchSmooth
-		.new = selected ()
-	endif
+    if .interpolate_pitch
+        selectObject: .new
+        .pitchTrackInterpolated = Interpolate
+        selectObject: .new
+        Remove
+        selectObject: .pitchTrackInterpolated
+        .new = selected ()
+    endif
+    ### smooth
+    if .use_smoothing = 4
+        ## Xu Smoothing
+        selectObject: .new
+        .pitchTierSmooth = Down to PitchTier
+        npulses = 3
+        capture_consonant_perturbation = 0
+        @Trimf0
+        plusObject: .new
+        pitchSmooth = To Pitch
+        ### remove old pitchtrack and replace it
+        selectObject: .new
+        plusObject: .pitchTierSmooth
+        Remove
+        .new = selectObject: pitchSmooth
+    elsif .use_smoothing
+        bw = .use_smoothing * 9 - 8
+        selectObject: .new
+        pitchSmooth = Smooth: bw
+        ### remove old pitchtrack and replace it
+        selectObject: .new
+        Remove
+        selectObject: pitchSmooth
+        .new = selected ()
+    endif
 
-	# SAVE OBJECTS AND SOUNDS
-	#  create and save Resynthesized sound file
-	selectObject: .new
-	Rename: .soundName$ + "_fixed"
+    # SAVE OBJECTS AND SOUNDS
+    #  create and save Resynthesized sound file
+    selectObject: .new
+    Rename: .soundName$ + "_fixed"
 
-	# fix start and end times for display
-	.zoom_s -= 0.01
-	.zoom_e += 0.01
-	selectObject: .soundobject
-	.abs_start = Get start time
-	.abs_end = Get end time
-	if .zoom_s < .abs_start
-		.zoom_s = .abs_start
-	endif
-	if .zoom_e > .abs_end
-		.zoom_e = .abs_end
-	endif
+    # fix start and end times for display
+    .zoom_s -= 0.01
+    .zoom_e += 0.01
+    selectObject: .soundobject
+    .abs_start = Get start time
+    .abs_end = Get end time
+    if .zoom_s < .abs_start
+        .zoom_s = .abs_start
+    endif
+    if .zoom_e > .abs_end
+        .zoom_e = .abs_end
+    endif
 
-	########################################
-	### Remove current surplus artifacts ###
-	selectObject: .segmentalFx
-	plusObject: .temp_manip
-	plusObject: .pitchTrackOrig
-	plusObject: .segmentalFxTable
-	plusObject: .segmentalFxOnly
+    ########################################
+    ### Remove current surplus artifacts ###
+    selectObject: .segmentalFx
+    plusObject: .temp_manip
+    plusObject: .pitchTrackOrig
+    plusObject: .segmentalFxTable
+    plusObject: .segmentalFxOnly
      Remove
 endproc

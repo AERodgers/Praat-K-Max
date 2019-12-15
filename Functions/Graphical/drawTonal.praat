@@ -25,13 +25,13 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
         Formula: "Text", "replace$(self$, ""_"", ""\_ "", 0)"
         Formula: "Text", """##"" + self$"
         Scatter plot: "Time", .tMin, .tMax, "F0",
-		    ... .f0MinST, .f0MaxSt, "Text", 12, "no"
+            ... .f0MinST, .f0MaxSt, "Text", 12, "no"
     endif
 
     Formula: "F0", "self - .offset"
     Line width: 2
     Scatter plot (mark): "Time", .tMin, .tMax, "F0",
-	    ... .f0MinST, .f0MaxSt, 2, "no", "x"
+        ... .f0MinST, .f0MaxSt, 2, "no", "x"
     Remove
 
     # return picture window to default state

@@ -7,4 +7,4 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 include Functions/Idealisation/idealise.praat
-include Functions/Idealisation/physioConstraintsJ.praat
+include Functions/Idealisation/physioConstraints.praat

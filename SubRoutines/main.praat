@@ -16,13 +16,9 @@ procedure main
         selectObject: sound_list
         sound$ = Get string: curr_sound
         curSound$ = string$(curr_sound)
-        curr_pc = round(1000 * (curr_sound) / numSounds) / 10
-        curr_pc$ = string$(curr_pc)
-        if curr_pc = round (curr_pc)
-            curr_pc$ += ".0"
-        endif
 
-        ### Get previous report data, if exists
+        ### GET PREVIOUS REPORT DATA, IF EXISTS
+        ###
         selectObject: report
         tableRow = Search column: "sound", sound$
         if tableRow
@@ -46,15 +42,17 @@ procedure main
             comment$ = ""
             Set string value: tableRow, "count", curSound$
             Set string value: tableRow, "sound", sound$
-            Set string value: tableRow, "smooth", string$(pre_smoothing) + " " 
+            Set string value: tableRow, "smooth", string$(pre_smoothing) + " "
                 ... + string$(coarse_smoothing) + " " + string$(fine_smoothing)
         endif
 
-        #edit textgrid if it exists
+        ### OPEN TEXTGRID FOR EDITING, IF EXISTS
+        ###
         selectObject: textgrid_list
         textgridExists = Has word: sound$
         if textgridExists
-            # read in sound
+		    tempPitch = 0
+            # read in sound and scale audio
             soundobject = Read from file: dir$ + sound$ + suffix$
             Scale intensity: 65
 
@@ -62,6 +60,13 @@ procedure main
             textgrid = Read from file: dir$ + sound$ + ".TextGrid"
             @findTier: "t_tier", textgrid, t_tier$
             @findTier: "r_tier", textgrid, r_tier$
+
+            # BACK UP TEXTGRID FIRST TIME OPENED
+            if not alreadyOpened#[curr_sound] and userInput
+                selectObject: textgrid
+                Save as text file: backupPath$ + sound$ + ".TextGrid"
+                alreadyOpened#[curr_sound] = 1
+            endif
 
             # get Tonal annotation from TextGrid (if exists)
             if t_tier
@@ -72,50 +77,36 @@ procedure main
                 tonalText$ =  ""
             endif
 
-            ### Respond to previous UI commands (if applicable)
+            # PROCESS PREVIOUS UI COMMANDS,(IF APPLICABLE)
             # read in resynth (if previously chosen)
             if edit_choice = 3
                 resynthManip = Read from file: manipPath$ + sound$ +
-				    ... ".Manipulation"
+                    ... ".Manipulation"
                 show_RS = 1
             endif
             # run reset of K analysis, smoothing, and fix pitch if selected
             if edit_choice < 3 and edit_choice
-                    selectObject: textgrid
-                    # Remove K tiers if contour being smoothed or F0 corrected
-                    numTiers = Get number of tiers
-                    for i to numTiers
-                        curTier = numTiers - i + 1
-                        curName$ = Get tier name: curTier
-                        if curName$ = t_tier$ or curName$ = "maxK"
-                            Remove tier: curTier
-                        endif
-                    endfor
-                if edit_choice = 2
-                    # backup original pitch object
-                    if not pitchSaved#[curr_sound] and pitchExists
-                        tempPitch = Read from file: pitchPath$ + sound$
-						    ... + ".Pitch"
-                        Save as text file: backupPath$ + sound$ + ".Pitch"
-                        Remove
-                        pitchSaved#[curr_sound] = 1
+                selectObject: textgrid
+                # Remove K tiers if contour being smoothed or F0 corrected
+                numTiers = Get number of tiers
+                for i to numTiers
+                    curTier = numTiers - i + 1
+                    curName$ = Get tier name: curTier
+                    if curName$ = t_tier$ or curName$ = "maxK"
+                        Remove tier: curTier
                     endif
+                endfor
+                if edit_choice = 2
                     @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3,
-					    ... minF0, maxF0
+                        ... minF0, maxF0
                     selectObject: fixPitch.new
                     Save as text file: pitchPath$ + sound$ + ".Pitch"
-                    Remove
+                    tempPitch = fixPitch.new
                 endif
             endif
 
-           # back up textgrid prior to editing the first time it is opened
-           if not alreadyOpened#[curr_sound] and userInput
-               selectObject: textgrid
-               Save as text file: backupPath$ + sound$ + ".TextGrid"
-               alreadyOpened#[curr_sound] = 1
-           endif
 
-            # add second set of tiers. NB: adds tiers for own use: remove later
+            # ADD EXTRA TIERS IF NOT PRESENT
             kTiers = 1
             if userInput
                 @findTier: "first_tier", textgrid, "rhythmic"
@@ -125,29 +116,54 @@ procedure main
                     first_tier$ = r_tier$
                 endif
 
-                @insMissTier: textgrid, "sonorance", first_tier$, 1
-                @insMissTier: textgrid, "vowel", "sonorance" , 1
-                @insMissTier: textgrid, "toneExtrema", "sonorance", 0
+                if justForAER
+                    .tTierAfter$ = "vowel"
+                    @insMissTier: textgrid, "sonorance", first_tier$, 1
+                    @insMissTier: textgrid, "vowel", "sonorance" , 1
+                    @insMissTier: textgrid, "toneExtrema", "sonorance", 0
+                else
+                    .tTierAfter$ = r_tier$
+                endif
+
                 # insert and populate tiers if they do not exist
-                @insMissTier: textgrid, t_tier$, "vowel", 0
+                @insMissTier: textgrid, t_tier$, .tTierAfter$, 0
                 @insMissTier: textgrid, "maxK", t_tier$, 0
                 kTiers = insMissTier.tierExists
             endif
 
-            # Read in or create pitch file
+            # READ / CREATE PITCH FILE
             pitchExists = fileReadable
                 ... (pitchPath$ + sound$ + ".Pitch")
-            if pitchExists
+
+            # backup original pitch object
+            if not pitchSaved#[curr_sound] and pitchExists
+                backupPitch = Read from file: pitchPath$ + sound$
+                    ... + ".Pitch"
+                Save as text file: backupPath$ + sound$ + ".Pitch"
+                pitchSaved#[curr_sound] = 1
+                Remove
+            endif
+
+            if pitchExists and not tempPitch
                 tempPitch = Read from file: pitchPath$ + sound$ + ".Pitch"
-            else
-                @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3, minF0, maxF0
+                noprogress Interpolate
+                secondTempPitch = selected()
+                selectObject: tempPitch
+                Remove
+                tempPitch = secondTempPitch
+                selectObject: tempPitch
+            elsif not tempPitch
+                @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3,
+                    ... minF0, maxF0
                 tempPitch = fixPitch.new
                 selectObject: tempPitch
                 Save as text file: pitchPath$ + sound$ + ".Pitch"
             endif
+
+			selectObject: tempPitch
             fixedPitch = Smooth: pre_smoothing
 
-            # create pitch table (only works with interpolated pitch contour!)
+            # CREATE PITCH TABLE (REQUIRES INTERPOLATED PITCH OBJECT)
             selectObject: fixedPitch
             noprogress Down to PitchTier
             pitchTier = selected()
@@ -160,14 +176,13 @@ procedure main
             plusObject: tableOfReal
             Remove
 
-            ### Calculate maximum curvature using @j (fo'') or @k (angle)
-            @'curveEst$': pitchTable, 0
-
+            # CALCULATE MAXIMUM CURVATURE USING F0''(t)
+            @k: pitchTable, 0
             # populate empty maxK Tier
             if not kTiers
                 @findTier: "maxK_tier", textgrid, "maxK"
                 @findTier: "t_tier", textgrid, t_tier$
-                selectObject: 'curveEst$'.max
+                selectObject: k.max
                 numKMax = Get number of rows
                 for i to numKMax
                     tMax[i] = Get value: i, "Time"
@@ -179,11 +194,9 @@ procedure main
                     Insert point: t_tier, tMax[i], ""
                     Insert point: maxK_tier, tMax[i],
                         ... toneLike$[i]
-                        # + fixed$(abs(kMax[i]*100), 0)
                 endfor
             endif
-
-            #  show resynth if selected
+            # show resynth, if flagged
             if show_RS = 1 and userInput
                 selectObject: resynthManip
                 Edit
@@ -195,10 +208,11 @@ procedure main
 
             @drawStuffForEditing
 
+            ### RUN UI MENU
             if userInput
                 # Create temporary textgrid for editing (declutter view window)
                 @temp_textgrid: "textgrid", r_tier$ + " " + t_tier$ + " maxK "
-				    ... + keepTiers$
+                    ... + keepTiers$
 
                 # show sound and textgrid
                 selectObject: temp_textgrid.object
@@ -206,13 +220,13 @@ procedure main
 
                 Edit
                 # pause to let user edit the text grid
-                pauseText$ = "Editing " + sound$
+                pauseText$ = "Displaying " + sound$
                     ... + " (" + curSound$ + "/" + string$(numSounds) + ")"
                 beginPause: pauseText$
                     comment: "Current smoothing parameters"
-                    integer: "Praat smooothing bandwidth", pre_smoothing
-                    integer: "Physiological constraints", coarse_smoothing
-                    integer: "Fine grained smoothing", fine_smoothing
+                    natural: "Praat smooothing bandwidth", pre_smoothing
+                    natural: "Physiological constraints", coarse_smoothing
+                    natural: "Fine grained smoothing", fine_smoothing
                     comment: "Image Drawing Options"
                     boolean: "Corrected contour", draw_f0_corrected
                     boolean: "Curvature contour", draw_K
@@ -232,13 +246,13 @@ procedure main
                 draw_K = curvature_contour
                 draw_resynth = resynthesised_contour
                 draw_tonal = tonal_annotation_and_ideal_targets
-				coarse_smoothing = physiological_constraints
-				fine_smoothing = fine_grained_smoothing
-				pre_smoothing = praat_smooothing_bandwidth
+                coarse_smoothing = physiological_constraints
+                fine_smoothing = fine_grained_smoothing
+                pre_smoothing = praat_smooothing_bandwidth
                 @merge_textgrids
             endif
 
-            #purge Blanks in tone tier
+            # purge Blanks in tone tier
             selectObject: textgrid
             numTonePts = Get number of points: t_tier
             for i to numTonePts
@@ -249,7 +263,7 @@ procedure main
                 endif
             endfor
 
-            # process pause menu choices
+            # PROCESS PAUSE MENU CHOICES
             if edit_choice = 6
                 beginPause: pauseText$
                     comment: "Exit Script?"
@@ -268,31 +282,9 @@ procedure main
                 curr_sound -= 1
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
-                    ... minF0, maxF0, 'curveEst$'.min,
+                    ... minF0, maxF0, k.min,
                     ... coarse_smoothing, fine_smoothing
-                selectObject: idealise.wav
-                Save as WAV file: rsDirPrefix$ + sound$
-                    ... + ".wav"
-                Remove
-                selectObject: idealise.manip
-                Save as text file: manipPath$ + sound$
-                    ... + ".Manipulation"
-                Remove
-                selectObject: idealise.table
-                Save as text file: manipPath$ + sound$
-                    ... + "_ideal_TTs.Table"
-                Remove
-                selectObject: idealise.pitchTable
-                Save as text file: manipPath$ + sound$
-                    ... + "_all_F0.Table"
-                Remove
-                selectObject: idealise.pitch
-                Save as text file: resynthPath$ + sound$ + ".Pitch"
-                Remove
-                selectObject: textgrid
-                Save as text file: dir$ + sound$ + ".TextGrid"
-                #update report
-                @updateReport
+                @saveAndRemoveFiles
             elsif edit_choice = 2
                 curr_sound -= 1
             elsif edit_choice = 1
@@ -300,38 +292,19 @@ procedure main
             else
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
-                    ... minF0, maxF0, 'curveEst$'.min,
-                    ... coarse_smoothing, fine_smoothing, curveEst$
+                    ... minF0, maxF0, k.min,
+                    ... coarse_smoothing, fine_smoothing
                 @drawIdealization: idealise.pitch, c3pogram.minT, c3pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
                 if draw_tonal
                     @drawTonal: idealise.table, c3pogram.minT, c3pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
                 endif
-                selectObject: idealise.wav
-                Save as WAV file: rsDirPrefix$ + sound$ + ".wav"
-                Remove
-                selectObject: idealise.manip
-                Save as text file: manipPath$ + sound$ + ".Manipulation"
-                Remove
-                selectObject: idealise.table
-                Save as text file: manipPath$ + sound$
-                    ... + "_ideal_TTs.Table"
-                Remove
-                selectObject: idealise.pitchTable
-                Save as text file: manipPath$ + sound$
-                    ... + "_all_F0.Table"
-                Remove
-                selectObject: idealise.pitch
-                if not pitchFileExists
-                    Save as text file: resynthPath$ + sound$ + ".Pitch"
-                endif
-                Remove
+                @saveAndRemoveFiles
 
-                #update report
-                @updateReport
             endif
 
+            # Add legend and save figure
             @createLegendTable
             yOffset = (drawC3pogram.maxF0 - drawC3pogram.minF0)/15
             @drawLegend: c3pogram.minT, c3pogram.maxT,
@@ -348,8 +321,8 @@ procedure main
             plusObject: fixedPitch
             plusObject: tempPitch
             plusObject: pitchTable
-            plusObject: 'curveEst$'.max
-            plusObject: 'curveEst$'.min
+            plusObject: k.max
+            plusObject: k.min
             if show_RS
                 plusObject: resynthManip
             endif

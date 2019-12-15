@@ -9,7 +9,7 @@
 # Contour idealisation
 
 # dependencies: @pitch2Table, @removeRowsWhereNum, @tableStats,
-#               @physioConstraints[j/k], @dynamic_mpa, @calc_mpa
+#               @physioConstraints, @dynamic_mpa, @calc_mpa
 
 procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         ...  .minF0, .maxF0, .kMin, .smoothCoarse, .smoothFine
@@ -103,13 +103,13 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     Remove
 
     # prepare KMax Table for later
-	selectObject: .tempKmax
-	Set column label (label): "Time", "KTime"
+    selectObject: .tempKmax
+    Set column label (label): "Time", "KTime"
 
     # Get start and end times for linear regression calculations
     # based on minK first after Max K(n) and last before MaxK(n+1)
     selectObject: .minMaxK
-	.numSlopes = .numMaxKpoints - 1
+    .numSlopes = .numMaxKpoints - 1
 
     for .i to .numSlopes
         @find_nearest_table: .maxKTime[.i], .minMaxK, "Time"
@@ -119,7 +119,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         .lastKMinT = Get value: find_nearest_table.index - 1, "Time"
 
         #if no intervening MinK, use maxK time at linear regression start
-		# and end points
+        # and end points
         if .noKMins
             .firstKMinT = .maxKTime[.i]
             .lastKminT = .maxKTime[.i + 1]
@@ -149,19 +149,19 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         .slope[.i] = tableStats.slope
         .intercept[.i] = tableStats.intercept
 
-        # error check
+        # change undefined slopes to 0 and intercepts to mean F0 of section
         if .slope[.i] = undefined
             selectObject: .tmpF0Tbl
             .intercept[.i] = Get mean: "F0"
             .slope[.i] = 0
             comment$ += " slope " + string$(.i) + "-> 0, "
                 ... + "intercept -> " + fixed$(.intercept[.i], 1) + "."
-            if userInput
-                beginPause: "WARNING"
-                comment: "Undefined slope at point " + string$(.i)
-                comment: "changing slope to 0 and F0 to mean of section."
-                endPause: "Continue", 1
-            endif
+           # if userInput
+           #     beginPause: "WARNING"
+           #     comment: "Undefined slope at point " + string$(.i)
+           #     comment: "changing slope to 0 and F0 to mean of section."
+           #     endPause: "Continue", 1
+           # endif
         endif
 
         # Remove surplus objects
@@ -171,11 +171,11 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
 
     # calculate T and F0 intercepts of slopes
     .prevIdealTime = 0
-	.idealT[1] = .maxKTime[1]
-	.idealF0[1] = 0
+    .idealT[1] = .maxKTime[1]
+    .idealF0[1] = 0
     for .i to .numSlopes -1
         .idealT[.i + 1] = (.intercept[.i + 1] - .intercept[.i])/(.slope[.i]
-		    ... - .slope[.i + 1])
+            ... - .slope[.i + 1])
         # error check: spurious ideal intercept points
         if .idealT[.i + 1] < .idealT[.i]
             comment$ += " Error at TP " + string$(.i) +
@@ -193,20 +193,20 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
 
     # calculate ideal F0 of initial boundary (NB risky use of .i!)
     .idealF0[1] = .slope[1] * .idealT[1] + .intercept[1]
-	.lastPt = .numMaxKpoints
-	.idealT[.lastPt] = .maxKTime[.lastPt]
+    .lastPt = .numMaxKpoints + (.numMaxKpoints = 0)
+    .idealT[.lastPt] = .maxKTime[.lastPt]
     .idealF0[.lastPt] = .slope[.numSlopes] * .idealT[.lastPt] +
-	    ... .intercept[.numSlopes]
+        ... .intercept[.numSlopes]
     # populate table of ideal targets
-	selectObject: .tempKmax
-	Append column: "Time"
-	Append column: "F0"
-	Append column: "Text"
-	Append column: "Slope"
-	Append column: "Intercept"
-	Rename: "Elbows and Ideals"
+    selectObject: .tempKmax
+    Append column: "Time"
+    Append column: "F0"
+    Append column: "Text"
+    Append column: "Slope"
+    Append column: "Intercept"
+    Rename: "Elbows and Ideals"
     .table = .tempKmax
-	Remove column: "MinMax"
+    Remove column: "MinMax"
 
     for .i to .numMaxKpoints
         # use elbow time and fo if slope intercept is undefined
@@ -222,14 +222,14 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         Set string value: .i, "Text", .maxKText$[.i]
     endfor
 
-	# add slope and intercept values
-	selectObject: .table
+    # add slope and intercept values
+    selectObject: .table
     for .i to .numSlopes
         Set numeric value: .i, "Slope", .slope[.i]
         Set numeric value: .i, "Intercept", .intercept[.i]
     endfor
-	# assume no slope and intercept of F0 for final point
-	Set numeric value: .numMaxKpoints, "Slope", 0
+    # assume no slope and intercept of F0 for final point
+    Set numeric value: .numMaxKpoints, "Slope", 0
     Set numeric value: .numMaxKpoints, "Intercept", .idealF0[.numMaxKpoints]
 
     # convert ST re 100 to Hz
@@ -237,10 +237,9 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
-    @physioConstraintsJ: .table, .pitchTable, .timeStep, .smoothCoarse
+    @physioConstraints: .table, .pitchTable, .timeStep, .smoothCoarse
     selectObject: .pitchTable
     Rename: "pitchTable"
-    Set column label (label): "PhysioSmoothing", "Smoothing"
     Append column: "IdealF0"
     # create contour of ideal curve (i.e., linear curve with no constraints)
     for .i to .numMaxKpoints - 1
@@ -249,7 +248,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         .nextT = Get value: .i + 1, "Time"
         selectObject: .pitchTable
         Formula: "IdealF0",
-		    ... "if self[""Time""] >=.curT and self[""Time""] <= .nextT "
+            ... "if self[""Time""] >=.curT and self[""Time""] <= .nextT "
             ... + "then .slope[.i] * self[""Time""] + .intercept[.i]"
             ... + "else self endif"
     endfor

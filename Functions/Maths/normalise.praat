@@ -13,8 +13,8 @@ procedure normalise: .table, .col$
     .temp = Copy: "temp"
     @removeRowsWhere: normalise.temp, .col$, "= ""--undefined--"""
     .yMin = Get minimum: .col$
-	.yMax = Get maximum: .col$
+    .yMax = Get maximum: .col$
     Remove
     selectObject: .table
-	Formula: .col$, "(self - .yMin)/(.yMax-.yMin)"
+    Formula: .col$, "(self - .yMin)/(.yMax-.yMin)"
 endproc

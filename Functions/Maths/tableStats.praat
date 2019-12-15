@@ -11,16 +11,16 @@
 procedure tableStats: .table, .colX$, .colY$
     @keepCols: .table, "'.colX$' '.colY$'", "tableStats.shortTable"
 
-	.numRows = Get number of rows
-	.factor$ = Get column label: 1
-	if .colX$ != .factor$
-		@table2array: .shortTable, .colY$, "tableStats.colTemp$"
-		Remove column: .colY$
-		Append column: .colY$
-		for .i to table2array.n
-		    Set string value: .i, .colY$, .colTemp$[.i]
-		endfor
-	endif
+    .numRows = Get number of rows
+    .factor$ = Get column label: 1
+    if .colX$ != .factor$
+        @table2array: .shortTable, .colY$, "tableStats.colTemp$"
+        Remove column: .colY$
+        Append column: .colY$
+        for .i to table2array.n
+            Set string value: .i, .colY$, .colTemp$[.i]
+        endfor
+    endif
 
     if .numRows > 1
         .stDevY = Get standard deviation: .colY$
@@ -30,7 +30,7 @@ procedure tableStats: .table, .colX$, .colY$
         .linear_regression = selected()
         .linear_regression$ = Info
         .slope = extractNumber (.linear_regression$,
-		    ... "Coefficient of factor '.colX$': ")
+            ... "Coefficient of factor '.colX$': ")
         .slope = number(fixed$(.slope, 3))
         .intercept = extractNumber (.linear_regression$, "Intercept: ")
         .intercept = number(fixed$(.intercept, 3))
@@ -50,9 +50,9 @@ procedure tableStats: .table, .colX$, .colY$
     endif
 
     selectObject: .shortTable
-	.xMean = Get mean: .colX$
-	.xMed = Get quantile: .colX$, 0.5
-	.yMean = Get mean: .colY$
-	.yMed = Get quantile: .colY$, 0.5
-	Remove
+    .xMean = Get mean: .colX$
+    .xMed = Get quantile: .colX$, 0.5
+    .yMean = Get mean: .colY$
+    .yMed = Get quantile: .colY$, 0.5
+    Remove
 endproc

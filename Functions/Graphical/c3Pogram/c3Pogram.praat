@@ -30,7 +30,7 @@ procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,
     # get pitch table
     selectObject: .sound
     noprogress To Pitch (ac): 0.75/.minF0, .minF0, 15, "no",
-	    ... 0.03, 0.45, 0.01, 0.35, 0.14, .maxF0
+        ... 0.03, 0.45, 0.01, 0.35, 0.14, .maxF0
     .pitchobj = selected()
 
     @pitch2Table: .pitchobj, 0

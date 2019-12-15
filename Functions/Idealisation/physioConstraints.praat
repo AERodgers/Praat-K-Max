@@ -6,11 +6,11 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# calculates the physiological smoothing parameter using fo"(t) of the ideal 
+# calculates the physiological smoothing parameter using fo"(t) of the ideal
 # contour at each turning point, i, (as elsewhere it is equal to zero). The
 # smoothing factor is applied as log2(fo"(t[i])) between local turning points.
 
-procedure physioConstraintsJ: .pointsTable, .f0Table, .dx, .smoothingFactor
+procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
     selectObject: .pointsTable
     .table = Copy: "newIdeal"
 
@@ -29,14 +29,14 @@ procedure physioConstraintsJ: .pointsTable, .f0Table, .dx, .smoothingFactor
         .xLeft[.i] = (.x[.i] + .x0) / 2
         .xRight[.i] = (.x[.i] + .x2) / 2
         .y1 = Get value: .i, "F0"
-		.slope0 = Get value: .i - 1, "Slope"
-		.intercept0 = Get value: .i - 1, "Intercept"
-		.slope2 = Get value: .i, "Slope"
-		.intercept2 = Get value: .i, "Intercept"
-		.y0 = .x0 * .slope0 + .intercept0
-		.y2 = .x2 * .slope2 + .intercept2
-		.dxdy2[.i] = (.y0 + .y2 - 2 * .y1) / .dx
-		.undefined += (.dxdy2[.i] = undefined)
+        .slope0 = Get value: .i - 1, "Slope"
+        .intercept0 = Get value: .i - 1, "Intercept"
+        .slope2 = Get value: .i, "Slope"
+        .intercept2 = Get value: .i, "Intercept"
+        .y0 = .x0 * .slope0 + .intercept0
+        .y2 = .x2 * .slope2 + .intercept2
+        .dxdy2[.i] = (.y0 + .y2 - 2 * .y1) / .dx
+        .undefined += (.dxdy2[.i] = undefined)
    endfor
 
    # check for undefined F0 values
@@ -51,17 +51,18 @@ procedure physioConstraintsJ: .pointsTable, .f0Table, .dx, .smoothingFactor
    endif
 
     selectObject: .f0Table
-    Append column: "PhysioSmoothing"
+    Append column: "Smoothing"
     for .i from 2 to .numPoints - 1
-        Formula: "PhysioSmoothing", "if self[""Time""] >= .xLeft[.i] and "
+        Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
             ... + "self[""Time""] <= .xRight[.i] then "
-            ... + "log2(abs(.dx * .dxdy2[.i] / (.xRight[.i] - .xLeft[.i]))) "
-            ... + "else self[""PhysioSmoothing""] endif"
+            ... + "0.5 * .smoothVal * log10(abs(.dx * .dxdy2[.i] / "
+            ... + "(.xRight[.i] - .xLeft[.i]))) "
+            ... + "else self[""Smoothing""] endif"
     endfor
 
-    # convert PhsyioSmoothing to an odd number
-    Formula: "PhysioSmoothing", "(1 + floor(self))*2 - 1"
-    Formula: "PhysioSmoothing", "if self=undefined then self=1 else self endif"
+    # convert Smoothing to array of odd numbers
+    Formula: "Smoothing", "2 * floor(self / 2) + 1"
+    Formula: "Smoothing", "if self=undefined then self=1 else self endif"
 
     # remove surplus objects
     selectObject: .table

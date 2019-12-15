@@ -24,9 +24,9 @@ procedure calc_mpa: .mpa_size, .table_object, .input_col$, .output_col$
             .cur_mpa_lr = .mpa_lr
         endif
         .total = 0
-		.n = 0
+        .n = 0
         #.n = .cur_mpa_lr * 2 + 1
-		.cur_centre = Get value: .current_point, .input_col$
+        .cur_centre = Get value: .current_point, .input_col$
         for .add_these from (.current_point - .cur_mpa_lr)
             ... to (.current_point + .cur_mpa_lr)
             if .add_these >= 1 and .add_these <= .total_points
@@ -37,8 +37,8 @@ procedure calc_mpa: .mpa_size, .table_object, .input_col$, .output_col$
                 endif
             endif
         endfor
-		if .cur_centre <> undefined
+        if .cur_centre <> undefined
             Set numeric value: .current_point, .output_col$, .total/.n
-		endif
+        endif
     endfor
 endproc

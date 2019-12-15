@@ -28,7 +28,7 @@ procedure getSoundGridInfo
 
     # get list of textgrids in target file
     textgrid_file_list = Create Strings as file list: "textgrids",
-        ... dir$ + "*.textgrid"
+        ... dir$ + "*.TextGrid"
     textgrid_list_temp1 = selected ()
     Replace all: ".TextGrid", "", 0, "literals"
     textgrid_list_temp2 = selected ()

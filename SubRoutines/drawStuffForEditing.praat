@@ -9,7 +9,8 @@
 
 procedure drawStuffForEditing
     # Draw C3Pogram
-    pitchFileExists = fileReadable(resynthPath$ + sound$ + ".Pitch")
+    rsPitchFileExists =
+	    ... fileReadable(resynthPath$ + rsPrefix$ + sound$ + ".Pitch")
     idealTableExists = fileReadable(manipPath$ + sound$ + "_ideal_TTs.Table")
 
     # calculate figure title and subtitle based on contour display flags
@@ -48,13 +49,13 @@ procedure drawStuffForEditing
         ... drawC3pogram.minF0,  drawC3pogram.maxF0
     if draw_f0_corrected
         Colour: fixedF0Col$
-        @draw_table_line: j.table, "Time", "F0", c3pogram.minT,
+        @draw_table_line: k.table, "Time", "F0", c3pogram.minT,
             ... c3pogram.maxT, 1
     endif
     Line width: 1
     if draw_K
-        @drawK: j.max,  j.table, 1, c3pogram.minT,
-            ...  c3pogram.maxT, curveEst$, kCol$
+        @drawK: k.max,  k.table, 1, c3pogram.minT,
+            ...  c3pogram.maxT, kCol$
     endif
 
     if draw_tonal and idealTableExists and userInput
@@ -67,9 +68,9 @@ procedure drawStuffForEditing
     endif
 
     ### draw idealised pitch contour
-    if pitchFileExists and userInput and draw_resynth
+    if rsPitchFileExists and userInput and draw_resynth
         .tempPitch = Read from file:
-            ... resynthPath$ + sound$ + ".Pitch"
+            ... resynthPath$ + rsPrefix$ + sound$ + ".Pitch"
         @drawIdealization: .tempPitch, c3pogram.minT, c3pogram.maxT,
             ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
         selectObject: .tempPitch

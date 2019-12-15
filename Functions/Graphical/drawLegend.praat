@@ -161,14 +161,14 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
                 ... .x_start + 2 * .x_unit, .y_start + .y_unit * .iRef
         elsif left$(.style$[.i], 1) = "D" or left$(.style$[.i], 1) = "d"
             Paint circle: "White", .x_start + 1.25 * .x_unit,
-			    ... .y_start + .y_unit * .iRef,
+                ... .y_start + .y_unit * .iRef,
                 ... (.size[.i] + 1) / 500
             Paint circle: .colour$[.i], .x_start + 1.25 * .x_unit,
                 ... .y_start + .y_unit * .iRef, (.size[.i]) / 500
         else
             Colour: .colour$[.i]
             Text: .x_start + 1.25 * .x_unit , "centre",
-			    ... .y_start + .y_unit * .iRef,
+                ... .y_start + .y_unit * .iRef,
                 ... "Half", "#" + .style$[.i]
         endif
     endfor

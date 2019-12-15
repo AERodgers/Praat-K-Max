@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure saveAndTidy
+procedure saveReportAndTidy
     ### save report
     selectObject: report
     Sort rows: "count"

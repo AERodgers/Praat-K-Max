@@ -16,8 +16,8 @@ procedure draw_table_line: .tableObj, .xCol$, .yCol$,
         .y = Get value: .i, .yCol$
         .x_next  = Get value: .i+1, .xCol$
         .y_next = Get value: .i+1, .yCol$
-		allDefined = .x != undefined and .x_next != undefined
-		     ... and .y != undefined and .y_next != undefined
+        allDefined = .x != undefined and .x_next != undefined
+             ... and .y != undefined and .y_next != undefined
         if not .ignore_zeros or (.y != 0 and .y_next != 0)
             if .x >= .x_axis_min and .x_next <= .x_axis_max
                     ... and allDefined

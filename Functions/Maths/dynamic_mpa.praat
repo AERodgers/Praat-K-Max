@@ -27,7 +27,7 @@ procedure dynamic_mpa: .table_object, .dynamic_col$,.input_col$, .output_col$
             .cur_mpa_lr = .mpa_lr
         endif
         .total = 0
-		.n = 0
+        .n = 0
         .cur_centre = Get value: .current_point, .input_col$
         for .add_these from (.current_point - .cur_mpa_lr)
             ... to (.current_point + .cur_mpa_lr)
@@ -39,8 +39,8 @@ procedure dynamic_mpa: .table_object, .dynamic_col$,.input_col$, .output_col$
                 endif
             endif
         endfor
-		if .cur_centre <> undefined
+        if .cur_centre <> undefined
             Set numeric value: .current_point, .output_col$, .total/.n
-		endif
+        endif
     endfor
 endproc
