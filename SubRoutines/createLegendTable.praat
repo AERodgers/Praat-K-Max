@@ -1,5 +1,5 @@
-# STH Analysis sub-routine: createLegendTable
-# ====================================================================
+# MAX-K SUBROUTINE: CREATE LEGEND TABLE
+# =====================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

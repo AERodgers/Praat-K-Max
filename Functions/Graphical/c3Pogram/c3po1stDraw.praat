@@ -1,5 +1,5 @@
-### STH GRAPHICAL FUNCTIONS: C3POGRAM
-# ===================================
+# C3POGRAM: INITIALISE DRAWING
+# ============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

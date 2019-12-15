@@ -1,5 +1,5 @@
-### STH GRAPHICAL FUNCTIONS: C3POGRAM
-# ===================================
+# DRAW C3POGRAM
+# =============
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

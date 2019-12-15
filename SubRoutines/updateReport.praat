@@ -1,5 +1,5 @@
-# STH Analysis sub-routine: updateReport
-# ====================================================================
+# MAX-K SUBROUTINE: UPDATE REPORT
+# ===============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

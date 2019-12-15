@@ -1,5 +1,5 @@
-## STH MATHS FUNCTIONS
-# ====================
+# ANGLE BETWEEN TWO VECTORS
+# =========================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

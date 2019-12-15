@@ -1,5 +1,5 @@
-# STH Analysis sub-routine: setUpDirsFiles
-# ====================================================================
+# MAX-K SUBROUTINE: : SET UP DIRECTORIES AND FILES
+# ================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

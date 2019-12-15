@@ -1,5 +1,5 @@
-### STH GRAPHICAL FUNCTIONS
-# =========================
+# MAX-K: GRAPHICAL FUNCTIONS
+# ==========================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

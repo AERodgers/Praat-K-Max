@@ -1,5 +1,5 @@
-# STH Analysis sub-routine: getSoundGridInfo
-# ====================================================================
+# MAX-K SUBROUTINE: GET SOUND AND TEXTGRID INFO
+# =============================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

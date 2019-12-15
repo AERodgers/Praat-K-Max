@@ -1,5 +1,5 @@
-# K-Max sub-routine: drawStuffForEditing
-# ======================================
+# MAX-K SUBROUTINE: DRAW STUFF
+# ============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

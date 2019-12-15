@@ -1,5 +1,5 @@
-## STH MATHS FUNCTIONS
-# ====================
+# MAX-K: MATHS FUNCTIONS
+# ======================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

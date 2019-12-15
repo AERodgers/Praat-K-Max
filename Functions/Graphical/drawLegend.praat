@@ -1,5 +1,5 @@
-### DRAW LEGEND
-# =============
+# DRAW LEGEND
+# ===========
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

@@ -1,5 +1,5 @@
-# Set variables for K-max
-# =======================
+# MAX-K SUBROUTINE: SET VARIABLES
+# ===============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

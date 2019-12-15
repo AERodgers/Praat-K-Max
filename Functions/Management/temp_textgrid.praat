@@ -1,10 +1,12 @@
-### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# ==============================================
+# CREATE TEMPORARY TEXTGRID
+# =========================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
+#
+# works in conjunction with @merge_textgrids
 
 procedure temp_textgrid: .original$, .keep_list$
     # convert .keep_list$ to array of tiers to be kept

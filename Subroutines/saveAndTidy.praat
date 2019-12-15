@@ -1,5 +1,5 @@
-# Tidy-up for K-max
-# ===================
+# MAX-K SUBROUTINE: CLEAR OBJECT WINDOW AND SAVE REPORT
+# =====================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
@@ -7,7 +7,6 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 procedure saveAndTidy
-
     ### save report
     selectObject: report
     Sort rows: "count"
@@ -27,5 +26,4 @@ procedure saveAndTidy
 
     ### Task completion Info
     appendInfoLine: newline$, "Finished at: ", mid$(date$(), 12, 8)
-
 endproc

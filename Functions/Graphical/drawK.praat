@@ -1,5 +1,5 @@
-### DRAW CURVATURE
-# ================
+# MAX-K: DRAW CURVATURE
+# =====================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

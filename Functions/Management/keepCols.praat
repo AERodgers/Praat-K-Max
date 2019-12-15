@@ -1,11 +1,12 @@
-### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# ==============================================
+# DELETE COLUMNS
+# ==============
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
+# dependency: @list2array
 procedure keepCols: .table, .keep_cols$, .new_table$
     @list2array: .keep_cols$, ".keep$"
     selectObject: .table

@@ -1,5 +1,5 @@
-### GET TABLE OF (NORMALISED) CURVATURE OF F0 CONTOUR USING F0#(t)
-# ================================================================
+# MAX-K: GET TABLE OF (NORMALISED) CURVATURE OF F0 CONTOUR USING F0"(t)
+# =====================================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

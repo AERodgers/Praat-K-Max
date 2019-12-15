@@ -1,5 +1,5 @@
-# VERSION, OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# =================================================
+# MAX-K: VERSION, OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
+# ========================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

@@ -1,5 +1,5 @@
-## STH MATHS FUNCTIONS
-# ====================
+# CALCULATE MEAN DELTA IN A COLUMN
+# ================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

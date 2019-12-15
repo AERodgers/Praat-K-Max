@@ -1,3 +1,13 @@
+# MERGE TEMPORARY TEXTGRID WITH ORIGINAL
+# ======================================
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
+#
+# works in conjunction with @temp_textgrid
+
 ### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
 # ==============================================
 # Written for Praat 6.0.40

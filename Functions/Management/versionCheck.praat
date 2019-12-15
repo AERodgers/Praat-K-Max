@@ -1,3 +1,10 @@
+# PRAAT VERSION COMPATIBILITY CHECK
+# =================================
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
 procedure versionCheck
 version$ = praatVersion$
 if number(left$(version$, 1)) < 6

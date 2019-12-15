@@ -1,5 +1,5 @@
-### STH GET IDEAL TONAL TARGETS
-# =============================
+# MAX-K: GET IDEAL TONAL TARGETS
+# ==============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
@@ -7,6 +7,10 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # Contour idealisation
+
+# dependency: @pitch2Table, @removeRowsWhereNum, @tableStats, @physioConstraints[j/k],
+# @dynamic_mpa, @calc_mpa
+
 procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
         ... .smoothCoarse, .smoothFine, .jk$
 

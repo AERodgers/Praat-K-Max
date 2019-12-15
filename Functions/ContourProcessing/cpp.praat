@@ -1,5 +1,5 @@
-### GET TABLE OF PITCH FRAME ALIGNED CPP VALUES
-# =============================================
+# GET TABLE OF CPP VALUES
+# =======================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

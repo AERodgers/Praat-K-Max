@@ -1,5 +1,5 @@
-### Second Derivates of a continuous contour
-# ================================================
+# SECOND DERIVATIVE OF A CONTINUOUS CONTOUR
+# =========================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

@@ -1,5 +1,5 @@
-# Infolines for K-max
-# ===================
+# MAX-K SUBROUTINE: INFO WINDOW TEXT
+# ==================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

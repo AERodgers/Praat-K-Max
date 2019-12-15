@@ -1,12 +1,13 @@
-### STH GRAPHICAL FUNCTIONS: C3POGRAM
-# ===================================
+# C3POGRAM (MAIN )
+# ================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependencies: @pitch2Table, @cpp, @find_nearest_table
+# dependencies: @pitch2Table, @cpp, @find_nearest_table,
+#               @c3po1stDraw, @drawC3pogram, @c3po2ndDraw
 
 # NB Redundant procedures removed from current script.
 procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,

@@ -1,5 +1,5 @@
-### STH PARAMETER EXTRACTION FUNCTIONS
-# ====================================
+# MAX-K: PARAMETER EXTRACTION FUNCTIONS
+# =====================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

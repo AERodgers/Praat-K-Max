@@ -1,5 +1,5 @@
-### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# ==============================================
+# CONVERT SPACE-SEPARATED LIST TO ARRAY
+# =====================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

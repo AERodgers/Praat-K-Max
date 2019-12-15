@@ -1,5 +1,5 @@
-# K-Max sub-routine: main
-# =============================
+# MAX-K SUBROUTINE: MAIN ROUTINE
+# ==============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

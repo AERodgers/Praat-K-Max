@@ -1,5 +1,5 @@
-### MODEL PHSYIOLOGICAL PITCH CONSTRAINTS
-# =======================================
+# MAX-K: MODEL PHSYIOLOGICAL PITCH CONSTRAINTS
+# ============================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

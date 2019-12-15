@@ -1,5 +1,5 @@
-### DRAW TABLE LINE
-# =========================
+# DRAW TABLE LINE
+# ===============
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

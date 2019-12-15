@@ -1,5 +1,5 @@
-### STH PITCH CONTOUR IDEALISATION FUNCTIONS
-# ==========================================
+# MAX-K: PITCH CONTOUR IDEALISATION FUNCTIONS
+# ===========================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

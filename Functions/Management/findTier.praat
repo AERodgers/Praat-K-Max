@@ -1,5 +1,5 @@
-### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# ==============================================
+# GET TIER NUMBER
+# ===============
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

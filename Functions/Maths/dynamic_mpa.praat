@@ -1,5 +1,5 @@
-## STH MATHS FUNCTIONS
-# ====================
+# DYNAMIC TRIANGULAR MOVING POINT AVERAGE USING WINDDOW SIZE SPECFIED IN REFERENCE COLUMN
+# =======================================================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

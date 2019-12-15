@@ -1,5 +1,5 @@
-### DRAW IDEALIZATION
-# ===================
+# MAX-K: DRAW IDEALIZATION
+# ========================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

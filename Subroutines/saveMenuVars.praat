@@ -1,5 +1,5 @@
-# Save main UI variables for K-max
-# ================================
+# MAX-K SUBROUTINE: SAVE MAX-K MASTER UI MENU PARAMETERS
+# ======================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

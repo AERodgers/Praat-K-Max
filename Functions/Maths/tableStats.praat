@@ -1,10 +1,12 @@
-## STH MATHS FUNCTIONS
-# ====================
+# GET TABLE STATS
+# ===============
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
+
+# dependencies: @keepCols
 
 procedure tableStats: .table, .colX$, .colY$
     @keepCols: .table, "'.colX$' '.colY$'", "tableStats.shortTable"

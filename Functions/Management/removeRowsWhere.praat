@@ -1,5 +1,5 @@
-### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# ==============================================
+# Remove rows containing string values in a table with criteria .criteria$
+# ========================================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

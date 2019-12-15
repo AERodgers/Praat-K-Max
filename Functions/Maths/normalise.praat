@@ -1,12 +1,12 @@
-## STH MATHS FUNCTIONS
-# ====================
+# NORMALISE
+# =========
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependencied: @removeRowsWhere
+# dependencies: @removeRowsWhere
 
 procedure normalise: .table, .col$
     selectObject: .table

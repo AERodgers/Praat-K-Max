@@ -1,5 +1,5 @@
-# DRAW TONAL TIER INFORMATION
-# ===========================
+# MAX-K: DRAW TONAL TIER INFORMATION
+# ==================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

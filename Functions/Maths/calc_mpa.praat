@@ -1,5 +1,5 @@
-## STH MATHS FUNCTIONS
-# ====================
+# TRIANGULAR MOVING POINT AVERAGE
+# ===============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
