@@ -22,12 +22,12 @@ procedure drawStuffForEditing
     with$[1] = ""
     with$[2] = "with "
     subPrt2$[1]= ""
-    subPrt2$[2] = "phonology"
+    subPrt2$[2] = "tonal annotations"
     subPrt2$[3] = "curvature"
-    subPrt2$[4] = "curvature and phonology"
+    subPrt2$[4] = "curvature and tonal annotations"
 
     subPrt1 = draw_f0_corrected * 2 + draw_resynth
-    subPrt2 = draw_K * 2 + draw_phono
+    subPrt2 = draw_K * 2 + draw_tonal
     with = (subPrt1 or subPrt2) + 1
     comma = (subPrt1 and subPrt2) + 1
 
@@ -57,11 +57,11 @@ procedure drawStuffForEditing
             ... curveEst$, kCol$
     endif
 
-    if draw_phono and idealTableExists and userInput
+    if draw_tonal and idealTableExists and userInput
         tempIdeal = Read from file: manipPath$ + sound$
             ... + "_ideal_TTs.Table"
-        @drawPhono: tempIdeal, c3pogram.minT, c3pogram.maxT,
-            ... drawC3pogram.minF0, drawC3pogram.maxF0, phonoCol$
+        @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
+            ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
         selectObject: tempIdeal
         Remove
     endif

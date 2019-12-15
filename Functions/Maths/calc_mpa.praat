@@ -29,10 +29,12 @@ procedure calc_mpa: .mpa_size, .table_object, .input_col$, .output_col$
 		.cur_centre = Get value: .current_point, .input_col$
         for .add_these from (.current_point - .cur_mpa_lr)
             ... to (.current_point + .cur_mpa_lr)
-            .cur_fo = Get value: .add_these, .input_col$
-            if .cur_fo  <> undefined
-                .total = .total + .cur_fo
-                .n = .n + 1
+            if .add_these >= 1 and .add_these <= .total_points
+                .cur_fo = Get value: .add_these, .input_col$
+                if .cur_fo  <> undefined
+                    .total = .total + .cur_fo
+                    .n = .n + 1
+                endif
             endif
         endfor
 		if .cur_centre <> undefined

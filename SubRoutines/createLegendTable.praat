@@ -42,12 +42,14 @@ procedure createLegendTable
         Set numeric value: legendLines, "size", 2
     endif
 
-    if draw_phono
+    if draw_tonal
         legendLines += 1
         Append row
         Set string value: legendLines, "style", "x"
-        Set string value: legendLines, "colour", phonoCol$
+        Set string value: legendLines, "colour", tonalCol$
         Set string value: legendLines, "text", "Ideal Targets"
         Set numeric value: legendLines, "size", 10
     endif
+
+    Reflect rows
 endproc

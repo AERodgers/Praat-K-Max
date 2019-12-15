@@ -16,6 +16,10 @@ procedure k: .table, .normalise
 
     # normalize time and F0 parameters to mean = 1
     selectObject: .table
+    .numRows = Get number of rows
+    .xn = Get value: .numRows, "Time"
+    .x1 = Get value: 1, "Time"
+
     .normPitchTable = Copy: "normTable"
     @norm2MeanD: .normPitchTable, "Time"
     .tNorm = norm2MeanD.deltaMean
@@ -89,6 +93,44 @@ procedure k: .table, .normalise
         endif
     endfor
     Remove column: "maxK"
+
+    .numRows = Get number of rows
+    .max1T = Get value: 1, "Time"
+    .maxNT = Get value: .numRows, "Time"
+    if abs(.x1 - .max1T*100) < 0.01
+writeInfoLine: abs(.x1 - .max1T*100) < 0.01, tab$, abs(.x1 -  .max1T)
+        selectObject: .tempK
+        .temp = Extract rows where column (number): "Time", "equal to", .x1
+        Rename: "maxK"
+        Remove column: "MinMax"
+        plusObject: .max
+        .newMax = Append
+        selectObject: .temp
+        plusObject: .max
+        Remove
+        .max = .newMax
+        selectObject: .max
+        Sort rows: "Time"
+        .numRows += 1
+    endif
+    if abs(.xn - .maxNT*100) < 0.01
+writeInfoLine: abs(.xn - .maxNT*100) < 0.01, tab$, abs(.xn -  .maxNT)
+
+        selectObject: .tempK
+        .temp = Extract rows where column (number): "Time", "equal to", .maxNT
+        Rename: "maxK"
+        Remove column: "MinMax"
+        plusObject: .max
+        .newMax = Append
+        selectObject: .temp
+        plusObject: .max
+        Remove
+        .max = .newMax
+        selectObject: .max
+        Sort rows: "Time"
+        .numRows += 1
+    endif
+
 
     # create K min table
     selectObject: .table

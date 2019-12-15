@@ -8,7 +8,7 @@
 # October 10 -  December 8,  2019
 
 
-procedure setUpDirsFiles
+procedure setUpDirsAndFiles
     dir$ = directory$
     suffix$ = sound_suffix$
 
@@ -45,11 +45,12 @@ procedure setUpDirsFiles
     createDirectory: dir$ + resynth_directory$
 
     # create report (if it doesn't exist)
-    reportPath$ = outputPath$ + "STH_Analysis_Report.txt"
-    exists = fileReadable: outputPath$ + "STH_Analysis_Report.txt"
-    if not exists
-        writeFile:  reportPath$, "count" + tab$ + "sound" + tab$ + "smooth"
-            ... + tab$ + "phonology" + tab$ + "comments"
+    reportPath$ = outputPath$ + "Max-K_Analysis_Report.txt"
+    if fileReadable: reportPath$
+        report = Read from file: reportPath$
+    else
+        report = Create Table with column names:
+            ... "Max-K_Analysis_Report", 0, "count sound smooth tonalText comments"
     endif
-    report = Read from file: reportPath$
+
 endproc

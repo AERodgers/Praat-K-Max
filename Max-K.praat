@@ -11,7 +11,6 @@
 # October 10 -  December 8,  2019
 
 # Opens sound files and texgrid pairs in a specified directory for editing and analyis.
-    #
     # A. REQUIREMENTS
     #    1. sound file (.wav)
     #    2. textgrid with at minimum an interval tier showing start and end of utterance.
@@ -44,11 +43,12 @@
     #           Manually (LARGELY REDUNDANT IN RELEASE VERSION).
     #
     # D. RUNNING THE MAIN ANALYSIS PROCEDURE
+    #    The Info window displays a reference guide.
     #    The following events occur for each textrid and sound file in the directory.
     #    1. The first time a textgrid is opened, it is backed up.
     #    2. If a pitch object is not found, @fixPitch will be called. This
     #       first promts the user to annotate a textgrid to show sections of the contour
-    #       to be ignored dur to gross segmental effects. It then creates a manipulation
+    #       to be ignored due to gross segmental effects. It then creates a manipulation
     #       object in which the user can correct errors such as pitch double and pitch
     #       halving.
     #    4. The pitch contour is smoothed using and points of maximum curvature are
@@ -93,38 +93,36 @@
     #                  7. "Revert" and "Stop" are default Praat UI menu options.
     #              NOTE: PROCESS MUST BE SELECTED IN ORDER TO SAVE CHANGES!!!
     #
-    # E. OUTPUT FOR EACH FILE PROCESSED
-    #     1. main folder: updated TextGrids (if saved)
-    #     2. pitch folder: updated pitch objects
-    #     2. resynth folder: resynthesised pitch object and sound file
-    #     3. manipulation folder:
-    #            a. resynthesised sound manipulation object: "[soundName].Manipulation"
-    #            b. table showing time (secs) and F0 (Hz) contours: initial
-    #               smoothed, ideal, and smoothed ideal: "[soundName]_all_F0.Table"
-    #            c. table showing time (secs) and F0 (Hz) coordinates of of maximum
-    #               curvature ideal tonal targets along with maxK annotations:
-    #               [soundName]_ideal_TTs.Table
-    #     3. Report table showing smoothing parameters, tonal analysis, and comments
-    #     3. Figure with spectrogram, pitch contour, and selected display parameters.
-    #        It also includes a legend.
+    # E. OUTPUT
+    #     1. main directory: updated TextGrids (if saved)
+    #     2. image directory: [soundName].png
+    #     3. pitch directory: updated pitch objects (if any)
+    #     4. resynth directory: resynthesised pitch object and sound file
+    #     5. manipulation directory:
+    #            a. [soundName].Manipulation: resynthesised sound manipulation object
+    #            b. [soundName]_all_F0.Table: table showing time (secs) and F0 (Hz)
+    #               contours: initial smoothed, ideal, and smoothed ideal
+    #            c. [soundName]_ideal_TTs.Table: table showing time (secs) and F0 (Hz)
+    #               coordinates of of maximum curvature ideal tonal targets along with
+    #               maxK annotations
+    #     6. output directory
+    #            1. Max-K_Analysis_Report.txt: tab-delineated file reporting latest
+    #               smoothing parameters, tonal tier annotations and comments for each
+    #               set of files
+    #            2. MAX-K_form_parameters.txt: tab-delineated file showing most recent
+    #               pitch processing parameter settings in master UI form.
     #
-    # F. GENERAL OUTPUT (OUTPUT FOLDER)
-    #     1. tab-delineated file reporting latest smoothing parameters, tonal tier
-    #        annotations and comments for each set of files: "Max-K_Analysi_Report.txt"
-    #     2. tab-delineated file showing most recent pitch processing parameter settings
-    #        in master UI form.
-
     # FAILSAFES / ERROR HANDLING
-    #     1. Textgrid backup
+    #     1. Textgrid backup (backup folder)
     #     2. % annotations are added to Max K to show onset and offset of utterance
     #        voicing
     #     3. Error windows when idealisation functions break down and added to comments
     #        textbox and report entry (shown in report during batch processing)
 
 ### INPUT FORM
-form Text grid editor: Choose Directory
-    sentence Directory
+form MAX-K: Master UI Menu
     comment Directory Information
+    sentence Directory
     sentence Pitch_directory pitch
     sentence Output_directory output
     sentence Image_directory image
@@ -148,7 +146,7 @@ form Text grid editor: Choose Directory
         option Angle of vectors
     natural Minimum_F0 55
     natural Maximum_F0 400
-    integer Initial_praat_smooothing_bandwidth 10
+    integer Praat_smooothing_bandwidth 10
 
     comment Post idealisation smoothing parameters (moving point average)
     integer Physiological_constraints 8
@@ -160,7 +158,7 @@ endform
 ### CALL SUBROUTINES
 @versionCheck
 @infoLines
-@setUpDirsFiles
+@setUpDirsAndFiles
 @getSoundGridInfo
 @setVars
 @saveMenuVars
@@ -171,7 +169,7 @@ endform
 # Subroutines take no arguments are written specifically for this set of scripts
 include Subroutines/infoLines.praat
 include Subroutines/main.praat
-include Subroutines/setUpDirsFiles.praat
+include Subroutines/setUpDirsAndFiles.praat
 include Subroutines/setVars.praat
 include Subroutines/getSoundGridInfo.praat
 include Subroutines/drawStuffForEditing.praat
@@ -181,9 +179,8 @@ include Subroutines/saveMenuVars.praat
 include Subroutines/saveAndTidy.praat
 
 # Functions arguments and are (generally) designed to be adaptable to any script
-include Functions/ContourAnalysis.praat
+include Functions/ContourProcessing.praat
 include Functions/Graphical.praat
-include Functions/FixPitch.praat
 include Functions/Idealisation.praat
 include Functions/Maths.praat
 include Functions/Management.praat

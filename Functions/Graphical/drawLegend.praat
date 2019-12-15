@@ -17,6 +17,7 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
     # process legendTable
     selectObject: .legendTable
     .legendLines = Get number of rows
+    .fromLegend = 1
     for .i to .legendLines
         .style$[.i] = Get value: .i, "style"
         .colour$[.i] = Get value: .i, "colour"
@@ -103,12 +104,12 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
     # Draw only main legend item if percentage of contour hidden > threshold
     if .most/.totalLen > .threshold
         # recalculate legend co-ordinates
-        .legendLines = 1
-        .text_width = Text width (world coordinates): .text$[1]
+        .fromLegend = .legendLines
+        .text_width = Text width (world coordinates): .text$[.fromLegend]
         .x_start = .xMin + .x_unit
         .x_end = .xMin + 4.5 * .x_unit + .text_width
         .y_start = .yMin + .y_unit
-        .y_end = .yMin + .y_unit * (.legendLines + 2)
+        .y_end = .yMin + .y_unit * (3)
 
         .horS[1] = .x_start
         .horE[1] = .x_end
@@ -117,7 +118,7 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
 
         .vertS[1] = .y_start
         .vertE[1] = .y_end
-        .vertS[2] = .yMax - (.y_unit * (.legendLines + 2))
+        .vertS[2] = .yMax - (.y_unit * (3))
         .vertE[2] = .yMax - .y_unit
 
         .x_end = .horE[.least#[1]]
@@ -134,40 +135,39 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
                  ... .y_start,  .y_end
 
     # Write legend text
-    for .i to .legendLines
+    for .i from .fromLegend to .legendLines
         Font size: 10
+        .iRef = .i - .fromLegend + 1
         # use colour text if no box
         Colour: "Black"
-        Text: .x_start + 2.5 * .x_unit , "Left", .y_start + .y_unit * .i,
+        Text: .x_start + 2.5 * .x_unit , "Left", .y_start + .y_unit * .iRef,
             ... "Half", "##" + .text$[.i]
     endfor
 
 
     # Draw Lines and icons
-    for .i to .legendLines
+    for .i from .fromLegend to .legendLines
         Font size: 10
         Helvetica
+        .iRef = .i - .fromLegend + 1
         if left$(.style$[.i], 1) = "L" or left$(.style$[.i], 1) = "l"
             Line width: .size[.i] + 2
             Colour: "White"
-            Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .i,
-                ... .x_start + 2 * .x_unit, .y_start + .y_unit * .i
+            Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .iRef,
+                ... .x_start + 2 * .x_unit, .y_start + .y_unit * .iRef
             Line width: .size[.i]
             Colour: .colour$[.i]
-            Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .i,
-                ... .x_start + 2 * .x_unit, .y_start + .y_unit * .i
+            Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .iRef,
+                ... .x_start + 2 * .x_unit, .y_start + .y_unit * .iRef
         elsif left$(.style$[.i], 1) = "D" or left$(.style$[.i], 1) = "d"
-            Paint circle: "White", .x_start + 1.25 * .x_unit, .y_start + .y_unit * .i,
+            Paint circle: "White", .x_start + 1.25 * .x_unit, .y_start + .y_unit * .iRef,
                 ... (.size[.i] + 1) / 500
             Paint circle: .colour$[.i], .x_start + 1.25 * .x_unit,
-                ... .y_start + .y_unit * .i, (.size[.i]) / 500
+                ... .y_start + .y_unit * .iRef, (.size[.i]) / 500
         else
-            Colour: "White"
-            Text: .x_start + 1.25 * .x_unit , "centre", .y_start + .y_unit * .i,
-                ... "Half", "#" + .style$[.i]
             Colour: .colour$[.i]
-            Text: .x_start + 1.25 * .x_unit , "centre", .y_start + .y_unit * .i,
-                ... "Half", .style$[.i]
+            Text: .x_start + 1.25 * .x_unit , "centre", .y_start + .y_unit * .iRef,
+                ... "Half", "#" + .style$[.i]
         endif
     endfor
 

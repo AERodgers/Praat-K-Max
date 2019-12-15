@@ -18,7 +18,7 @@ include Functions/Management/removeRowsWhereNum.praat
 
 # Tier management
 include Functions/Management/findTier.praat
-include Functions/Management/getPhono.praat
+include Functions/Management/getTonal.praat
 include Functions/Management/insMissTier.praat
 include Functions/Management/merge_textgrids.praat
 include Functions/Management/temp_textgrid.praat

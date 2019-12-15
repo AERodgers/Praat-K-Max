@@ -56,12 +56,12 @@ procedure physioConstraintsJ: .pointsTable, .f0Table, .dx, .smoothingFactor
     for .i from 2 to .numPoints - 1
         Formula: "PhysioSmoothing", "if self[""Time""] >= .xLeft[.i] and "
             ... + "self[""Time""] <= .xRight[.i] then "
-            ... + "0.5 * log10(abs(.dx * .dxdy2[.i] / (.xRight[.i] - .xLeft[.i]))) "
+            ... + "log2(abs(.dx * .dxdy2[.i] / (.xRight[.i] - .xLeft[.i]))) "
             ... + "else self[""PhysioSmoothing""] endif"
     endfor
 
     # convert PhsyioSmoothing to an odd number
-    Formula: "PhysioSmoothing", "(1 + floor(self * .smoothingFactor))*2 - 1"
+    Formula: "PhysioSmoothing", "(1 + floor(self))*2 - 1"
     Formula: "PhysioSmoothing", "if self = undefined then self = 1 else self endif"
 
     # remove surplus objects

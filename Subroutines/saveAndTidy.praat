@@ -10,6 +10,13 @@ procedure saveAndTidy
 
     ### save report
     selectObject: report
+    Sort rows: "count"
+    .numRows = Get number of rows
+    for .i to .numRows
+        curCom$ = Get value: .i, "comments"
+        if curCom$ = "?"
+            Set string value: .i, "comments", ""
+        endif
     Save as tab-separated file: reportPath$
 
     ### remove remaining objects
@@ -19,6 +26,6 @@ procedure saveAndTidy
     Remove
 
     ### Task completion Info
-    appendInfoLine: "Finished at: ", mid$(date$(), 12, 8)
+    appendInfoLine: newline$, "Finished at: ", mid$(date$(), 12, 8)
 
 endproc

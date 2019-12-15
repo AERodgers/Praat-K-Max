@@ -9,7 +9,7 @@
 include Functions/Graphical/draw_table_line.praat
 include Functions/Graphical/drawK.praat
 include Functions/Graphical/drawIdealization.praat
-include Functions/Graphical/drawPhono.praat
+include Functions/Graphical/drawTonal.praat
 include Functions/Graphical/drawLegend.praat
 
 # c3pogram Functions

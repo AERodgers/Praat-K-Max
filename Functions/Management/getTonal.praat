@@ -1,12 +1,12 @@
-### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# ==============================================
+### GET TONAL TIER INFORMATION
+# ============================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure getPhono: .keepTiers#, .textgrid
+procedure getTonal: .keepTiers#, .textgrid
     selectObject: .textgrid
     # create trimmed textgrid
     .trimmedGrid = Copy: "temp"

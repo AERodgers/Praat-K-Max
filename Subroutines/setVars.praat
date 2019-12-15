@@ -15,8 +15,8 @@ procedure setVars
     keepTiers$ = other_tiers_to_show$
     maxF0 = maximum_F0
     minF0 = minimum_F0
-        userInput = not batch_process_directory
-    pre_smoothing = initial_praat_smooothing_bandwidth
+    userInput = not batch_process_directory
+    pre_smoothing = praat_smooothing_bandwidth
     coarse_smoothing = physiological_constraints
     fine_smoothing = fine_grained_smoothing
 
@@ -35,12 +35,14 @@ procedure setVars
     draw_f0_corrected = 1
     draw_K = 1
     draw_resynth = 1
-    draw_phono = 1
+    draw_tonal = 1
 
     #colour variables
-    idealCol$ = "{0.2, 1, 1}"
-    fixedF0Col$ = "{1,0.5,0}"
-    phonoCol$ = "Navy"
+    #idealCol$ = "{0.2, 1, 1}"
+    #fixedF0Col$ = "{1,0.5,0}"
+    fixedF0Col$ = "Black"
+    idealCol$ = "Lime"
+    tonalCol$ = "Navy"
     kCol$ = "Red"
 
 endproc

@@ -44,7 +44,7 @@ procedure main
             Append row
             tableRow = Get number of rows
             comment$ = ""
-            Set string value: tableRow, "count", curSound$ + "/" + string$(numSounds)
+            Set string value: tableRow, "count", curSound$
             Set string value: tableRow, "sound", sound$
             Set string value: tableRow, "smooth", string$(pre_smoothing)
                 ... + " " + string$(coarse_smoothing) + " " + string$(fine_smoothing)
@@ -63,14 +63,14 @@ procedure main
             @findTier: "t_tier", textgrid, t_tier$
             @findTier: "r_tier", textgrid, r_tier$
 
-            # get Phonology from TextGrid (if exists)
-            # [NB: function written so that multiple tiers can be used to create phono]
+            # get Tonal annotation from TextGrid (if exists)
+            # [NB: function written so that multiple tiers can be used to identify tones]
             if t_tier
                 keepTiers# = {t_tier}
-                @getPhono: keepTiers#, textgrid
-                phonology$ =  getPhono.text$
+                @getTonal: keepTiers#, textgrid
+                tonalText$ =  getTonal.text$
             else
-                phonology$ =  ""
+                tonalText$ =  ""
             endif
 
             ### Respond to previous UI commands (if applicable)
@@ -161,6 +161,7 @@ procedure main
             ### Calculate Elbows of smoothed contour using @j (fo'') or @k (angle)
             @'curveEst$': pitchTable, 0
 
+            # populate empty maxK Tier
             if not kTiers
                 @findTier: "maxK_tier", textgrid, "maxK"
                 @findTier: "t_tier", textgrid, t_tier$
@@ -175,7 +176,8 @@ procedure main
                 for i to numKMax
                     Insert point: t_tier, tMax[i], ""
                     Insert point: maxK_tier, tMax[i],
-                        ... toneLike$[i] + fixed$(kMax[i]*100, 0)
+                        ... toneLike$[i]
+                        # + fixed$(abs(kMax[i]*100), 0)
                 endfor
             endif
 
@@ -204,13 +206,15 @@ procedure main
                 pauseText$ = "Editing " + sound$
                     ... + " (" + curSound$ + "/" + string$(numSounds) + ")"
                 beginPause: pauseText$
-                    integer: "Initial Praat smooothing bandwidth", pre_smoothing
-                    integer: "Physiological constraints smoothing parameter", coarse_smoothing
+                    comment: "Current smoothing parameters"
+                    integer: "Praat smooothing bandwidth", pre_smoothing
+                    integer: "Physiological constraints", coarse_smoothing
                     integer: "Fine grained smoothing", fine_smoothing
+                    comment: "Image Options"
                     boolean: "Draw corrected contour", draw_f0_corrected
                     boolean: "Draw curvature contour", draw_K
                     boolean: "Draw resynthesised contour", draw_resynth
-                    boolean: "Draw phonology and ideal targets", draw_phono
+                    boolean: "Draw tonal annotation and ideal targets", draw_tonal
                     sentence: "Comment", comment$
                     integer: "Next object", curr_sound + 1
                 edit_choice = endPause:
@@ -224,10 +228,10 @@ procedure main
                 draw_f0_corrected = draw_corrected_contour
                 draw_K = draw_curvature_contour
                 draw_resynth = draw_resynthesised_contour
-                draw_phono = draw_phonology_and_ideal_targets
-				coarse_smoothing = physiological_constraints_smoothing_parameter
+                draw_tonal = draw_tonal_annotation_and_ideal_targets
+				coarse_smoothing = physiological_constraints
 				fine_smoothing = fine_grained_smoothing
-				pre_smoothing = initial_praat_smooothing_bandwidth
+				pre_smoothing = praat_smooothing_bandwidth
                 @merge_textgrids
             endif
 
@@ -296,10 +300,10 @@ procedure main
                     ... minF0, maxF0, 'curveEst$'.min,
                     ... coarse_smoothing, fine_smoothing, curveEst$
                 @drawIdealization: idealise.pitch, c3pogram.minT, c3pogram.maxT,
-                    ... drawC3pogram.minF0, drawC3pogram.maxF0, idealColour$
-                if draw_phono
-                    @drawPhono: idealise.table, c3pogram.minT, c3pogram.maxT,
-                    ... drawC3pogram.minF0, drawC3pogram.maxF0, phonoCol$
+                    ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
+                if draw_tonal
+                    @drawTonal: idealise.table, c3pogram.minT, c3pogram.maxT,
+                    ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
                 endif
                 selectObject: idealise.wav
                 Save as WAV file: rsDirPrefix$ + sound$ + ".wav"
@@ -333,7 +337,7 @@ procedure main
                 ... tempLegend, 0.01
             selectObject: tempLegend
             Remove
-            Save as 600-dpi PNG file:  imagePath$ + sound$ + ".png"
+            Save as 300-dpi PNG file:  imagePath$ + sound$ + ".png"
 
             # remove current for loop surplus objects
             selectObject: textgrid

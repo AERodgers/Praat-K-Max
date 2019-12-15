@@ -12,5 +12,5 @@ procedure updateReport
     Set string value: tableRow, "comments", comment$
     Set string value: tableRow, "smooth", string$(pre_smoothing)
         ... + " " + string$(coarse_smoothing) + " " + string$(fine_smoothing)
-    Set string value: tableRow, "phonology", phonology$
+    Set string value: tableRow, "tonalText", tonalText$
 endproc
