@@ -8,4 +8,3 @@
 
 include Functions/Idealisation/idealise.praat
 include Functions/Idealisation/physioConstraintsJ.praat
-include Functions/Idealisation/physioConstraintsK.praat

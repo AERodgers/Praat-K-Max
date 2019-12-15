@@ -21,11 +21,12 @@ procedure setVars
     fine_smoothing = fine_grained_smoothing
 
     # set physiological smoothing method
-    if curvature_estimation = 1
-        curveEst$ = "j"
-    else
-        curveEst$ ="k"
-    endif
+	# NB: originally, two method were tested , J [fo"(t)] and
+	#      K (angle of curve on a normalised XY plane.
+	#      J was much more efficient.
+	#      K has been deleted from the public implementation.
+    curveEst$ = "j"
+
 
     # set flags
     edit_choice = 0

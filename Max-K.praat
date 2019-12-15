@@ -8,7 +8,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 -  December 8,  2019
+# October 10 -  December 8, 2019
 
 # Opens sound files and texgrids in a directory for editing and analyis.
     # A. REQUIREMENTS
@@ -23,15 +23,14 @@
     # C. MASTER UI MENU
     #    1. Directory: path to directory contain files to be analysed.
     #    2. Directory Information: name of sub-directories for loading / saving
-    #           files. (Leave blank if  files to be stored in main directory.)
+    #           files. (Leave blank if files to be stored in main directory.)
     #    3. Tier names: Name of reference (default "syllable") and tonal tiers.
     #           Extra tiers can also be listed in "Other tiers to show".
     #    4. File format: prefixes for pitch and resynthesised sound files.
     #           Suffix for sound file (default ".wav").
-    #    5. Pitch processing parameters: curve estimation (Second derivative
-    #           recommended); set minimum and maximum F0, and pitch smoothing
-    #           parameter bandwidth for Praat Smooth function, which is
-	#           performed on the pitch object before curvature estimation
+    #    5. Pitch processing parameters: set minimum and maximum F0, and pitch
+	#           smoothing parameter bandwidth for Praat Smooth function, which
+	#           is performed on the pitch object before curvature estimation
 	#           (10 default: higher = less smoothing)
     #    6. Post idealisation smoothing parameters (moving point average)
     #           a. Physiological constraints: (lower = less smoothing)
@@ -81,7 +80,7 @@
     #                  1. Draw corrected contour used in calculating curvature
     #                  2. Draw curvature contour (y-axis shown on the right)
     #                  3. Draw resynthesised contour calculated from @idealise
-    #                     and @physioconstraintsJ/K functions)
+    #                     and @physioconstraintsJ function)
     #                  4. Draw tonal tier annotations and ideal targets
     #           c. The user can add a "Comment" to the report file
     #           d. Change the "Next object" value to jump to a different file
@@ -149,9 +148,6 @@ form MAX-K: Master UI Menu
     word Sound_suffix .wav
 
     comment Pitch Processing Parameters
-    optionmenu Curvature_estimation 1
-        option Second derivative
-        option Angle of vectors
     natural Minimum_F0 55
     natural Maximum_F0 400
     integer Praat_smooothing_bandwidth 10

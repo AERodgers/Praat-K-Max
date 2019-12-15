@@ -12,9 +12,8 @@
 #               @physioConstraints[j/k], @dynamic_mpa, @calc_mpa
 
 procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
-        ...  .minF0, .maxF0, .kMin, .smoothCoarse, .smoothFine, .jk$
+        ...  .minF0, .maxF0, .kMin, .smoothCoarse, .smoothFine
 
-    .capJK$ = replace_regex$ (.jk$, "[a-z]", "\U&", 0)
     # process pitch object
     selectObject: .pitchObj
     .timeStep = Get time step
@@ -238,7 +237,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
-    @physioConstraints'.capJK$': .table, .pitchTable, .timeStep, .smoothCoarse
+    @physioConstraintsJ: .table, .pitchTable, .timeStep, .smoothCoarse
     selectObject: .pitchTable
     Rename: "pitchTable"
     Set column label (label): "PhysioSmoothing", "Smoothing"

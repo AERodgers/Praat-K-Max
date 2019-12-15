@@ -48,12 +48,12 @@ procedure drawStuffForEditing
         ... drawC3pogram.minF0,  drawC3pogram.maxF0
     if draw_f0_corrected
         Colour: fixedF0Col$
-        @draw_table_line: 'curveEst$'.table, "Time", "F0", c3pogram.minT,
+        @draw_table_line: j.table, "Time", "F0", c3pogram.minT,
             ... c3pogram.maxT, 1
     endif
     Line width: 1
     if draw_K
-        @drawK: 'curveEst$'.max,  'curveEst$'.table, 1, c3pogram.minT,
+        @drawK: j.max,  j.table, 1, c3pogram.minT,
             ...  c3pogram.maxT, curveEst$, kCol$
     endif
 

@@ -269,7 +269,7 @@ procedure main
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
                     ... minF0, maxF0, 'curveEst$'.min,
-                    ... coarse_smoothing, fine_smoothing, curveEst$
+                    ... coarse_smoothing, fine_smoothing
                 selectObject: idealise.wav
                 Save as WAV file: rsDirPrefix$ + sound$
                     ... + ".wav"
