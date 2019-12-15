@@ -19,7 +19,7 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .jk$, .col$
             .yAxisMax = pi * 1.1
         endif
     else
-        .rightText$ = "Curvature []%F_0''(t)]"
+        .rightText$ = "Curvature [%F_0''(t)]"
         selectObject: .kTable
             .yAxisMin = Get maximum: "K"
             .yAxisMax = Get minimum: "K"

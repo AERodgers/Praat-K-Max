@@ -134,7 +134,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         endif
 
         # add first and last min K values to appropriate arrays
-        lineSt[.i] = .firstKMinT
+        .lineSt[.i] = .firstKMinT
         .lineNd[.i]  = .lastKMinT
     endfor
 
@@ -143,7 +143,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         selectObject: .pitchTable
         .tmpF0Tbl = Copy: "tmpF0Tbl"
         @removeRowsWhereNum: .tmpF0Tbl, "Time", "> idealise.lineNd[idealise.i]"
-        @removeRowsWhereNum: .tmpF0Tbl, "Time", "< idealiselineSt[idealise.i]"
+        @removeRowsWhereNum: .tmpF0Tbl, "Time", "< idealise.lineSt[idealise.i]"
         Formula: "F0", "12*log2(self/100)"
 
         @tableStats: .tmpF0Tbl, "Time", "F0"
