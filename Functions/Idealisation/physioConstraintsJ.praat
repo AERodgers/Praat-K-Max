@@ -6,10 +6,9 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# calculates the physiological smoothing parameter using the second derivative of the
-# ideal contour at each turning point, i, (as elsewhere it is equal to zero)
-# The smoothing factor is applied as 10 * log10 (dxdy2(t[i])) between local turning
-# points.
+# calculates the physiological smoothing parameter using fo"(t) of the ideal 
+# contour at each turning point, i, (as elsewhere it is equal to zero). The
+# smoothing factor is applied as log2(fo"(t[i])) between local turning points.
 
 procedure physioConstraintsJ: .pointsTable, .f0Table, .dx, .smoothingFactor
     selectObject: .pointsTable
@@ -62,7 +61,7 @@ procedure physioConstraintsJ: .pointsTable, .f0Table, .dx, .smoothingFactor
 
     # convert PhsyioSmoothing to an odd number
     Formula: "PhysioSmoothing", "(1 + floor(self))*2 - 1"
-    Formula: "PhysioSmoothing", "if self = undefined then self = 1 else self endif"
+    Formula: "PhysioSmoothing", "if self=undefined then self=1 else self endif"
 
     # remove surplus objects
     selectObject: .table

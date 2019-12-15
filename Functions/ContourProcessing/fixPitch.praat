@@ -14,13 +14,13 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
         ... .time_step, .interpolate_pitch, .use_smoothing,
         ... .min_fo, .max_fo
 
-    ### pitch track settings: Not included UI so as to prevent clutter
-    .candidates = 15
-    .s_threshold = 0.03
-    .v_threshold = 0.45
-    .oct_cost = 0.01
-    .oct_j_cost = 0.35
-    .vuv_cost = 0.14
+    # pitch track settings: Not included UI so as to prevent clutter
+    # fixPitch.candidates = 15
+    # fixPitch.s_threshold = 0.03
+    # fixPitch.v_threshold = 0.45
+    # fixPitch.oct_cost = 0.01
+    # fixPitch.oct_j_cost = 0.35
+    # fixPitch.vuv_cost = 0.14
 
     # get zoom values for viewing waveform based on reference tier
     selectObject: .textgrid
@@ -39,8 +39,9 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
     ##########################
     ### create pitch objects #
     selectObject: .soundobject
-    .pitchTrackOrig = To Pitch (ac): 0.75/.min_fo, .min_fo, .candidates, "no",
-        ... .s_threshold, .v_threshold, .oct_cost, .oct_j_cost, .vuv_cost, .max_fo
+    .pitchTrackOrig = To Pitch (ac):
+	    ... 0.75/.min_fo, .min_fo, .candidates, "no", .s_threshold,
+        ...   .v_threshold, .oct_cost, .oct_j_cost, .vuv_cost, .max_fo
     selectObject: .soundobject
     .temp_manip = To Manipulation: .time_step, .min_fo, .max_fo
 
@@ -60,7 +61,7 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
 
     .pause_.text$ = "Remove segmental effects" + .soundName$
     beginPause: .pause_.text$
-        comment: "Mark the sections you want remove for segmental effects in tier two."
+        comment: "Annotate stretches you want remove in tier two."
     edit_choice = endPause: "Fix", 1
 
 	#remove points highlighted in segmental effects tier
@@ -102,30 +103,6 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
 	.new = To Pitch
 	selectObject: .tempPitchTier
 	Remove
-
-    # NB: THIS NEEDS TO BE IMPLEMENTED AND FIGURED OUT LATER! (2019.12.10)
-    # Remove unvoiced partions of pitch contour
-
-    ##Create and interpolate edited pitch object
-    #selectObject: .temp_manip
-    #.tempPitchTier = Extract pitch tier
-    #.new = To Pitch: .time_step, .min_fo, .max_fo
-    # get VUV times
-    #selectObject: .temp_manip
-    #.pulses = Extract pulses
-    #.vuvGrid = To TextGrid (vuv):  10 / .max_fo, 5 / .max_fo
-    #.vuvTable = Down to Table: "no", 3, "no", "no"
-    #.vuvRows = Get number of rows
-    #.removeV = 0
-    # Get array of unvoiced start and stop times
-    #for .i to .vuvRows
-    #    .curVuV$ = Get value: .i, "text"
-    #    if .curVuV$ = "U"
-    #        .removeV += 1
-    #        .removePitchFrom[.removeV] = Get value: .i, "tmin"
-    #        .removePitchTo[.removeV] = Get value: .i, "tmax"
-    #    endif
-    #endfor
 
 	if .interpolate_pitch
 		selectObject: .new

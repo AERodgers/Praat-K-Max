@@ -1,5 +1,5 @@
-# DYNAMIC TRIANGULAR MOVING POINT AVERAGE USING WINDDOW SIZE SPECFIED IN REFERENCE COLUMN
-# =======================================================================================
+# DYNAMIC TRIANGULAR M.P.A. USING WINDOW SIZE SPECFIED IN REFERENCE COLUMN
+# ========================================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

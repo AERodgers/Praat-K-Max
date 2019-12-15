@@ -1,5 +1,5 @@
-# MAX-K: GET TABLE OF (NORMALISED) CURVATURE OF F0 CONTOUR USING ANGLES OF CONTOUR
-# ================================================================================
+# MAX-K: GET CURVATURE OF F0 CONTOUR USING ANGLES OF CONTOUR
+# ==========================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
@@ -8,11 +8,12 @@
 
 # Dependencies: @norm2MeanD, @vectAngPlane, @normalise
 
+# calculates angles by treating each time and F0 point as the origin of two
+# vectors, using the previous and subsequent frames as co-ordinate vectors.
+# Angles are converted to a ratio, where K = (pi - theta) / pi.
+# If .normalise flagged, K is normalised to the utterance.
+
 procedure k: .table, .normalise
-    # calculates table of curvatures (K) by treating fo@TPa->fo@TPb and fo@TPb->fo@TPc
-    # as coordinate vectors and calculating the angle in radians between each vector.
-    # This convered to a ratio. K = (pi - theta) / pi --> if .normalise flagged, K is
-    # normalised to the utterance.
 
     # normalize time and F0 parameters to mean = 1
     selectObject: .table
@@ -37,9 +38,12 @@ procedure k: .table, .normalise
 
     .k[1] = 0
     .toneLike$[1] = ""
-    # calculate angle between coordinate vectors (and L or H-ness based on concavity)
+    # calculate angle between coordinate vectors, and likely tonal identity
+	# (L or H)based on concavity)
     for .i from 2 to .frames - 1
-        .curCoords## = {{.t#[.i-1],.fo#[.i-1]},{.t#[.i],.fo#[.i]},{.t#[.i+1],.fo#[.i+1]}}
+        .curCoords## = {{.t#[.i-1],.fo#[.i-1]},
+		            ... {.t#[.i],.fo#[.i]},
+			        ... {.t#[.i+1],.fo#[.i+1]}}
         @vectAngPlane: .curCoords##
         .k[.i] = (pi - vectAngPlane.rad) / pi
         if vectAngPlane.convex

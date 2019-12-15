@@ -8,9 +8,9 @@
 
 # Dependencies: @secondDerivative
 
-procedure j: .table
-    # calculates table of curvatures (K) via the second time derivative of fo [f0"(t)]
+# calculates table of curvatures (K) via second time derivative of fo [f0"(t)]
 
+procedure j: .table
     selectObject: .table
     .numRows = Get number of rows
     .xn = Get value: .numRows, "Time"

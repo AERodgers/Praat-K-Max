@@ -53,8 +53,8 @@ procedure drawStuffForEditing
     endif
     Line width: 1
     if draw_K
-        @drawK: 'curveEst$'.max,  'curveEst$'.table, 1, c3pogram.minT, c3pogram.maxT,
-            ... curveEst$, kCol$
+        @drawK: 'curveEst$'.max,  'curveEst$'.table, 1, c3pogram.minT,
+            ...  c3pogram.maxT, curveEst$, kCol$
     endif
 
     if draw_tonal and idealTableExists and userInput

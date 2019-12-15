@@ -15,7 +15,7 @@ procedure calc_mpa: .mpa_size, .table_object, .input_col$, .output_col$
         Append column: .output_col$
     endif
     for .current_point to .total_points
-        # calculate correct number of points to include to l and r of current point
+        # calculate number of frames to include to l and r of current frame
         if .current_point <= .mpa_lr
             .cur_mpa_lr = .current_point - 1
         elsif .total_points - .current_point < .mpa_lr

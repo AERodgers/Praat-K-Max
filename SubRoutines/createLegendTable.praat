@@ -8,7 +8,8 @@
 # October 10 -  December 8,  2019
 
 procedure createLegendTable
-    tempLegend = Create Table with column names: "legend", 1, "style colour text size"
+    tempLegend = Create Table with column names: "legend", 1,
+	    ... "style colour text size"
     legendLines = 1
     Set string value: 1, "style", "Dot"
     Set string value: 1, "colour", "Blue"

@@ -8,11 +8,11 @@
 
 # Contour idealisation
 
-# dependency: @pitch2Table, @removeRowsWhereNum, @tableStats, @physioConstraints[j/k],
-# @dynamic_mpa, @calc_mpa
+# dependencies: @pitch2Table, @removeRowsWhereNum, @tableStats,
+#               @physioConstraints[j/k], @dynamic_mpa, @calc_mpa
 
-procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
-        ... .smoothCoarse, .smoothFine, .jk$
+procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
+        ...  .minF0, .maxF0, .kMin, .smoothCoarse, .smoothFine, .jk$
 
     .capJK$ = replace_regex$ (.jk$, "[a-z]", "\U&", 0)
     # process pitch object
@@ -119,30 +119,31 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
         @find_nearest_table: .maxKTime[.i+1], .minMaxK, "Time"
         .lastKMinT = Get value: find_nearest_table.index - 1, "Time"
 
-        #if no intervening MinK, use elbow time at linear regression start and end points
+        #if no intervening MinK, use maxK time at linear regression start
+		# and end points
         if .noKMins
             .firstKMinT = .maxKTime[.i]
             .lastKminT = .maxKTime[.i + 1]
         endif
 
-        # if only one K min between Kmax points, treat it as inflexion point and
-        # use nearest time points to kMin to calculate slope
+        # if only one K min between Kmax points, treat it as inflexion point
+        # and use nearest time points to kMin to calculate slope
         if .firstKMinT = .lastKMinT
             .firstKMinT -= .timeStep - 0.0001
             .lastKMinT += .timeStep + 0.0001
         endif
 
         # add first and last min K values to appropriate arrays
-        .lineStart[.i] = .firstKMinT
-        .lineEnd[.i]  = .lastKMinT
+        lineSt[.i] = .firstKMinT
+        .lineNd[.i]  = .lastKMinT
     endfor
 
-    # get slope and intercept of linear Fn between each lineStart and lineEnd pair
+    # get slope and intercept of linear Fn between each lineStart and lineEnd
     for .i to .numSlopes
         selectObject: .pitchTable
         .tmpF0Tbl = Copy: "tmpF0Tbl"
-        @removeRowsWhereNum: .tmpF0Tbl, "Time", "> idealise.lineEnd[idealise.i]"
-        @removeRowsWhereNum: .tmpF0Tbl, "Time", "< idealise.lineStart[idealise.i]"
+        @removeRowsWhereNum: .tmpF0Tbl, "Time", "> idealise.lineNd[idealise.i]"
+        @removeRowsWhereNum: .tmpF0Tbl, "Time", "< idealiselineSt[idealise.i]"
         Formula: "F0", "12*log2(self/100)"
 
         @tableStats: .tmpF0Tbl, "Time", "F0"
@@ -174,7 +175,8 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
 	.idealT[1] = .maxKTime[1]
 	.idealF0[1] = 0
     for .i to .numSlopes -1
-        .idealT[.i + 1] = (.intercept[.i + 1] - .intercept[.i])/(.slope[.i] - .slope[.i + 1])
+        .idealT[.i + 1] = (.intercept[.i + 1] - .intercept[.i])/(.slope[.i]
+		    ... - .slope[.i + 1])
         # error check: spurious ideal intercept points
         if .idealT[.i + 1] < .idealT[.i]
             comment$ += " Error at TP " + string$(.i) +
@@ -194,7 +196,8 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
     .idealF0[1] = .slope[1] * .idealT[1] + .intercept[1]
 	.lastPt = .numMaxKpoints
 	.idealT[.lastPt] = .maxKTime[.lastPt]
-    .idealF0[.lastPt] = .slope[.numSlopes] * .idealT[.lastPt] + .intercept[.numSlopes]
+    .idealF0[.lastPt] = .slope[.numSlopes] * .idealT[.lastPt] +
+	    ... .intercept[.numSlopes]
     # populate table of ideal targets
 	selectObject: .tempKmax
 	Append column: "Time"
@@ -246,13 +249,14 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj, .minF0, .maxF0, .kMin,
         .curT = Get value: .i, "Time"
         .nextT = Get value: .i + 1, "Time"
         selectObject: .pitchTable
-        Formula: "IdealF0", "if self[""Time""] >=.curT and self[""Time""] <= .nextT "
+        Formula: "IdealF0",
+		    ... "if self[""Time""] >=.curT and self[""Time""] <= .nextT "
             ... + "then .slope[.i] * self[""Time""] + .intercept[.i]"
             ... + "else self endif"
     endfor
     # create dynamically smoothed contour
     @dynamic_mpa: .pitchTable, "Smoothing", "IdealF0", "SmoothedIdealF0"
-    # do fine grained smoothing to remove artefacts from dynamic smoothing
+    # grained smoothing to remove artefacts from dynamic smoothing
     @calc_mpa: (.smoothFine) * 2 + 1, .pitchTable, "SmoothedIdealF0", "TempF0"
     selectObject: .pitchTable
     Remove column: "Smoothing"

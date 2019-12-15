@@ -58,8 +58,8 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
     .vertS[2] = .yMax - (.y_unit * (.legendLines + 2))
     .vertE[2] = .yMax - .y_unit
 
-    .winningsection## = {{0, 0}, {0, 0}}
-    .winningsectionLen## = {{0, 0}, {0, 0}}
+    bestZone## = {{0, 0}, {0, 0}}
+    bestZoneLen## = {{0, 0}, {0, 0}}
     selectObject: .xyTable
     .numRows = Get number of rows
     .totalLen = 0
@@ -77,8 +77,8 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
                     ... and .curX <= .horE[.j] + .x_unit * 2
                     ... and .curY  >= .vertS[.k] - .y_unit * 2
                     ... and .curY <= .vertE[.k] + .y_unit * 2
-                    .winningsection##[.j,.k] = .winningsection##[.j,.k] + 1
-                    .winningsectionLen##[.j,.k] = .winningsectionLen##[.j,.k] + .curLen
+                    bestZone##[.j,.k] = bestZone##[.j,.k] + 1
+                    bestZoneLen##[.j,.k] = bestZoneLen##[.j,.k] + .curLen
                 endif
             endfor
         endfor
@@ -88,8 +88,8 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
     .most = 10^10
     for .j to 2
         for .k to 2
-            if .winningsectionLen##[.j, .k] < .most
-                .most = .winningsectionLen##[.j, .k]
+            if bestZoneLen##[.j, .k] < .most
+                .most = bestZoneLen##[.j, .k]
                 .least# = {.j, .k}
             endif
         endfor
@@ -160,13 +160,15 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
             Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .iRef,
                 ... .x_start + 2 * .x_unit, .y_start + .y_unit * .iRef
         elsif left$(.style$[.i], 1) = "D" or left$(.style$[.i], 1) = "d"
-            Paint circle: "White", .x_start + 1.25 * .x_unit, .y_start + .y_unit * .iRef,
+            Paint circle: "White", .x_start + 1.25 * .x_unit,
+			    ... .y_start + .y_unit * .iRef,
                 ... (.size[.i] + 1) / 500
             Paint circle: .colour$[.i], .x_start + 1.25 * .x_unit,
                 ... .y_start + .y_unit * .iRef, (.size[.i]) / 500
         else
             Colour: .colour$[.i]
-            Text: .x_start + 1.25 * .x_unit , "centre", .y_start + .y_unit * .iRef,
+            Text: .x_start + 1.25 * .x_unit , "centre",
+			    ... .y_start + .y_unit * .iRef,
                 ... "Half", "#" + .style$[.i]
         endif
     endfor

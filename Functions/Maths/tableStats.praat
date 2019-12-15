@@ -29,7 +29,8 @@ procedure tableStats: .table, .colX$, .colY$
         noprogress To linear regression
         .linear_regression = selected()
         .linear_regression$ = Info
-        .slope = extractNumber (.linear_regression$, "Coefficient of factor '.colX$': ")
+        .slope = extractNumber (.linear_regression$,
+		    ... "Coefficient of factor '.colX$': ")
         .slope = number(fixed$(.slope, 3))
         .intercept = extractNumber (.linear_regression$, "Intercept: ")
         .intercept = number(fixed$(.intercept, 3))

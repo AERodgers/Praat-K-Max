@@ -36,8 +36,8 @@ procedure main
                 right = rindex(smoothString$, " ")
                 length = length(smoothString$)
                 pre_smoothing = number(left$(smoothString$, left))
-                coarse_smoothing = number(mid$(smoothString$, length - left + 1,
-                    ... right - left - 1))
+                coarse_smoothing = number(mid$(smoothString$,
+                    ...  length - left + 1, right - left - 1))
                 fine_smoothing = number(right$(smoothString$, length - right))
             endif
         else
@@ -46,8 +46,8 @@ procedure main
             comment$ = ""
             Set string value: tableRow, "count", curSound$
             Set string value: tableRow, "sound", sound$
-            Set string value: tableRow, "smooth", string$(pre_smoothing)
-                ... + " " + string$(coarse_smoothing) + " " + string$(fine_smoothing)
+            Set string value: tableRow, "smooth", string$(pre_smoothing) + " " 
+                ... + string$(coarse_smoothing) + " " + string$(fine_smoothing)
         endif
 
         #edit textgrid if it exists
@@ -64,7 +64,6 @@ procedure main
             @findTier: "r_tier", textgrid, r_tier$
 
             # get Tonal annotation from TextGrid (if exists)
-            # [NB: function written so that multiple tiers can be used to identify tones]
             if t_tier
                 keepTiers# = {t_tier}
                 @getTonal: keepTiers#, textgrid
@@ -76,13 +75,14 @@ procedure main
             ### Respond to previous UI commands (if applicable)
             # read in resynth (if previously chosen)
             if edit_choice = 3
-                resynthManip = Read from file: manipPath$ + sound$ + ".Manipulation"
+                resynthManip = Read from file: manipPath$ + sound$ +
+				    ... ".Manipulation"
                 show_RS = 1
             endif
             # run reset of K analysis, smoothing, and fix pitch if selected
             if edit_choice < 3 and edit_choice
                     selectObject: textgrid
-                    # Remove K tiers if contour being resmoothed or F0 re-corrected
+                    # Remove K tiers if contour being smoothed or F0 corrected
                     numTiers = Get number of tiers
                     for i to numTiers
                         curTier = numTiers - i + 1
@@ -94,12 +94,14 @@ procedure main
                 if edit_choice = 2
                     # backup original pitch object
                     if not pitchSaved#[curr_sound] and pitchExists
-                        tempPitch = Read from file: pitchPath$ + sound$ + ".Pitch"
+                        tempPitch = Read from file: pitchPath$ + sound$
+						    ... + ".Pitch"
                         Save as text file: backupPath$ + sound$ + ".Pitch"
                         Remove
                         pitchSaved#[curr_sound] = 1
                     endif
-                    @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3, minF0, maxF0
+                    @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3,
+					    ... minF0, maxF0
                     selectObject: fixPitch.new
                     Save as text file: pitchPath$ + sound$ + ".Pitch"
                     Remove
@@ -113,7 +115,7 @@ procedure main
                alreadyOpened#[curr_sound] = 1
            endif
 
-            # add second set of STH tiers -- NB: adds tiers for own use: remove later
+            # add second set of tiers. NB: adds tiers for own use: remove later
             kTiers = 1
             if userInput
                 @findTier: "first_tier", textgrid, "rhythmic"
@@ -145,7 +147,7 @@ procedure main
             endif
             fixedPitch = Smooth: pre_smoothing
 
-            # create pitch table (note: will only work with interpolated pitch contour!)
+            # create pitch table (only works with interpolated pitch contour!)
             selectObject: fixedPitch
             noprogress Down to PitchTier
             pitchTier = selected()
@@ -158,7 +160,7 @@ procedure main
             plusObject: tableOfReal
             Remove
 
-            ### Calculate Elbows of smoothed contour using @j (fo'') or @k (angle)
+            ### Calculate maximum curvature using @j (fo'') or @k (angle)
             @'curveEst$': pitchTable, 0
 
             # populate empty maxK Tier
@@ -194,8 +196,9 @@ procedure main
             @drawStuffForEditing
 
             if userInput
-                # Create temporary text grid for editing (declutter view window)
-                @temp_textgrid: "textgrid", r_tier$ + " " + t_tier$ + " maxK " + keepTiers$
+                # Create temporary textgrid for editing (declutter view window)
+                @temp_textgrid: "textgrid", r_tier$ + " " + t_tier$ + " maxK "
+				    ... + keepTiers$
 
                 # show sound and textgrid
                 selectObject: temp_textgrid.object
@@ -210,11 +213,11 @@ procedure main
                     integer: "Praat smooothing bandwidth", pre_smoothing
                     integer: "Physiological constraints", coarse_smoothing
                     integer: "Fine grained smoothing", fine_smoothing
-                    comment: "Image Options"
-                    boolean: "Draw corrected contour", draw_f0_corrected
-                    boolean: "Draw curvature contour", draw_K
-                    boolean: "Draw resynthesised contour", draw_resynth
-                    boolean: "Draw tonal annotation and ideal targets", draw_tonal
+                    comment: "Image Drawing Options"
+                    boolean: "Corrected contour", draw_f0_corrected
+                    boolean: "Curvature contour", draw_K
+                    boolean: "Resynthesised contour", draw_resynth
+                    boolean: "Tonal annotation and ideal targets", draw_tonal
                     sentence: "Comment", comment$
                     integer: "Next object", curr_sound + 1
                 edit_choice = endPause:
@@ -225,10 +228,10 @@ procedure main
                     ... "Next",
                     ... "Exit", 4
 
-                draw_f0_corrected = draw_corrected_contour
-                draw_K = draw_curvature_contour
-                draw_resynth = draw_resynthesised_contour
-                draw_tonal = draw_tonal_annotation_and_ideal_targets
+                draw_f0_corrected = corrected_contour
+                draw_K = curvature_contour
+                draw_resynth = resynthesised_contour
+                draw_tonal = tonal_annotation_and_ideal_targets
 				coarse_smoothing = physiological_constraints
 				fine_smoothing = fine_grained_smoothing
 				pre_smoothing = praat_smooothing_bandwidth

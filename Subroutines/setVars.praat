@@ -36,7 +36,15 @@ procedure setVars
     draw_K = 1
     draw_resynth = 1
     draw_tonal = 1
-
+	
+    # set fixPitch variables
+	fixPitch.candidates = 15
+    fixPitch.s_threshold = 0.03
+    fixPitch.v_threshold = 0.45
+    fixPitch.oct_cost = 0.01
+    fixPitch.oct_j_cost = 0.35
+    fixPitch.vuv_cost = 0.14
+	
     #colour variables
     #idealCol$ = "{0.2, 1, 1}"
     #fixedF0Col$ = "{1,0.5,0}"

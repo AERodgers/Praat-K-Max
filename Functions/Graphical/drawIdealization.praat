@@ -6,11 +6,11 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure drawIdealization: .pitchObject, .minT, .maxT, .minF0, .maxF0, .colour$
+procedure drawIdealization: .pitchObj, .minT, .maxT, .minF0, .maxF0, .colour$
     Select outer viewport: 0, 6.5, 0, 3.35
     Solid line
     Line width: 2
-    selectObject: .pitchObject
+    selectObject: .pitchObj
     Colour: .colour$
     Draw semitones (re 100 Hz): .minT, .maxT, .minF0, .maxF0, "no"
     Black

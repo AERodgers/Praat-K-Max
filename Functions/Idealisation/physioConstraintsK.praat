@@ -6,8 +6,10 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep, .smoothingFactor
-    selectObject: .pointsTable
+procedure physioConstraintsK: .pointsTable, .f0Table, .timeStep,
+    ... .smoothingFactor
+    
+	selectObject: .pointsTable
     .table = Copy: "newIdeal"
 
     # convert F0 to ST re 100 Hz

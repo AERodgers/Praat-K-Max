@@ -7,40 +7,40 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 procedure infoLines
+nl$ = "newline$"
     writeInfoLine: "MAX-Κ, v.1.0.0",
-    ... newline$, "==============",
-    ... newline$, "by Antoin Eoin Rodgers (rodgeran@tcd.ie)",
-    ... newline$, "   Phonetics and Speech Laboratory, Trinity College, Dublin."
+    ... 'nl$', "==============",
+    ... 'nl$', "by Antoin Eoin Rodgers (rodgeran@tcd.ie)",
+    ... 'nl$', "   Phonetics and Speech Laboratory, Trinity College, Dublin."
 if not batch_process_directory
-    appendInfoLine:
-    ... newline$,
-    ... newline$, "SOUND AND TEXTGRID WINDOW",
-    ... newline$, " - Displays only textgrid tiers relevant to analysis, along with any",
-    ... newline$, "   others specified in the master menu.",
-    ... newline$, " - Annotate salient points of maximum curvature the tonal tier.",
-    ... newline$, "   NOTE: blank annotations in the tonal tier will be deleted.",
-    ... newline$,
-    ... newline$, "UI MENU",
-    ... newline$, "   NB: YOU MUST CLICK ""PROCESS"" TO SAVE AND REVIEW CHANGES",
-    ... newline$, " - Smoothing parameters can be changed on the fly .",
-    ... newline$, " - Use ""Smooth"" recalculates max-K and ""Fix Pitch"" ",
-    ... "edit the contour.",
-    ... newline$, " - Use ""Next"" to move to the next contour or ""<"" to go back one.",
-    ... newline$, " - Change the value in ""Next object"" to jump to a different object.",
-    ... newline$, " - Click ""Exit"" to exit the script cleanly.",
-    ... newline$, " - Current number object and total number are shown in the title bar.",
-    ... newline$,
-    ... newline$, "FIX PITCH",
-    ... newline$, " - Annotate F0 stretches to be deleted due to gross segmental effects ",
-    ... newline$, " - in the fist window (then click ""continue"").",
-    ... newline$, " - Correct any other erros (e.g. pitch halving an or doubling) in the",
-    ... newline$, "   second window (manipulation object).",
-    ... newline$, " - Function is called automatically if no pitch object found.",
-    ... newline$,
-    ... newline$, "   NB: BE VERY JUDICIOUS WHEN USING THE FIX PITCH FUNCTION!",
-    ... newline$
+appendInfoLine:
+	... 'nl$', "SOUND AND TEXTGRID WINDOW",
+	... 'nl$', " - Displays textgrid tiers relevant to analysis, along with",
+	... 'nl$', "   any others specified in the master menu.",
+	... 'nl$', " - Annotate salient points of maximum curvature in tonal tier.",
+	... 'nl$', "   NOTE: blank annotations in the tonal tier will be deleted.",
+	... 'nl$',
+	... 'nl$', "UI MENU",
+	... 'nl$', "   NB: YOU MUST CLICK ""PROCESS"" TO SAVE AND REVIEW CHANGES",
+	... 'nl$', " - Smoothing parameters can be changed on the fly .",
+	... 'nl$', " - Use ""Smooth"" recalculates max-K and ""Fix Pitch"" ",
+	... "to edit the contour.",
+	... 'nl$', " - Use ""Next"" to move to next contour or ""<"" to go back.",
+	... 'nl$', " - Change value in ""Next object"" to jump to another object.",
+	... 'nl$', " - Click ""Exit"" to exit the script cleanly.",
+	... 'nl$', " - Current object number and total are shown in the title bar.",
+	... 'nl$',
+	... 'nl$', "FIX PITCH",
+	... 'nl$', " - Annotate F0 stretches to delete due to gross perturbations",
+	... 'nl$', " - in the fist window (then click ""continue"").",
+	... 'nl$', " - Correct any other errors (e.g. pitch halving or doubling)",
+	... 'nl$', "   in the second window (manipulation object).",
+	... 'nl$', " - Function is called automatically if no pitch object found.",
+	... 'nl$',
+	... 'nl$', "   NB: BE VERY JUDICIOUS WHEN USING THE FIX PITCH FUNCTION!",
+	... 'nl$'
 endif
-    appendInfo: newline$, newline$, "Started at:  ",  mid$(date$(), 12, 8)
+    appendInfo: 'nl$', 'nl$', "Started at:  ",  mid$(date$(), 12, 8)
     if batch_process_directory
         appendInfo: " ...this may take a while..."
     endif
