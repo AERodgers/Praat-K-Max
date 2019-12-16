@@ -15,7 +15,7 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
     .table = Copy: "newIdeal"
 
     # convert F0 to ST re 100 Hz
-    Formula: "F0", "12 * log2(self/100)"
+    Formula: "ideal_F0", "12 * log2(self/100)"
 
     .numPoints = Get number of rows
 
@@ -23,12 +23,12 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
     .undefined = 0
     for .i from 2 to .numPoints - 1
         selectObject: .table
-        .x[.i] = Get value: .i, "Time"
-        .x0 = Get value: .i - 1, "Time"
-        .x2 = Get value: .i + 1, "Time"
+        .x[.i] = Get value: .i, "ideal_T"
+        .x0 = Get value: .i - 1, "ideal_T"
+        .x2 = Get value: .i + 1, "ideal_T"
         .xLeft[.i] = (.x[.i] + .x0) / 2
         .xRight[.i] = (.x[.i] + .x2) / 2
-        .y1 = Get value: .i, "F0"
+        .y1 = Get value: .i, "ideal_F0"
         .slope0 = Get value: .i - 1, "Slope"
         .intercept0 = Get value: .i - 1, "Intercept"
         .slope2 = Get value: .i, "Slope"

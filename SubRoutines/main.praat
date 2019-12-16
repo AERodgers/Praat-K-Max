@@ -78,7 +78,7 @@ procedure main
 
             # PROCESS PREVIOUS UI COMMANDS AND OUTCOMES,(IF APPLICABLE)
             # read in resynth (if previously chosen)
-            
+
             if edit_choice = 3
                 resynthManip = Read from file: manipPath$ + sound$ +
                     ... ".Manipulation"
@@ -145,12 +145,9 @@ procedure main
             endif
 
             if pitchExists and not tempPitch
-                tempPitch = Read from file: pitchPath$ + sound$ + ".Pitch"
+                pitchOrig = Read from file: pitchPath$ + sound$ + ".Pitch"
                 noprogress Interpolate
-                secondTempPitch = selected()
-                selectObject: tempPitch
-                Remove
-                tempPitch = secondTempPitch
+                tempPitch = selected()
                 selectObject: tempPitch
             elsif not tempPitch
                 @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3,

@@ -15,27 +15,40 @@ procedure saveAndRemoveFiles
     Save as text file: manipPath$ + sound$ + ".Manipulation"
     Remove
 
+    # fix idealTT table for readablility
     selectObject: idealise.table
-    Save as text file: outputPath$ + sound$
+    .numRows = Get number of rows
+    Insert column: 2, "maxK_F0 (Hz)"
+    Formula: "ideal_F0", "fixed$(self, 1)"
+    Formula (column range): "maxK_T", "ideal_T", "fixed$(self, 3)"
+    Formula (column range): "Slope", "Intercept", "fixed$(self, 2)"
+    for .i to .numRows
+        selectObject: idealise.table
+        .curT = Get value: .i, "maxK_T"
+        selectObject: pitchOrig
+        .curF0 = Get value at time: .curT, "Hertz", "Linear"
+        selectObject: idealise.table
+        Set string value: .i, "maxK_F0 (Hz)", fixed$(.curF0, 1)
+    endfor
+    selectObject: idealise.table
+    Set column label (label): "ideal_F0", "ideal_F0 (Hz)"
+    Set column label (label): "maxK_T", "maxK_T (s)"
+    Set column label (label): "ideal_T", "ideal_T (s)"
+    Set column label (label): "Slope", "Slope (ST)"
+    Set column label (label): "Intercept", "Intercept (ST re 100 Hz)"
+    Save as tab-separated file: outputPath$ + sound$
         ... + "_ideal_TTs.Table"
+    Remove
+
+    selectObject: pitchOrig
     Remove
 
     selectObject: idealise.pitchTable
     # convert ST back to Hz
     Formula (column range): "IdealF0", "SmoothedIdealF0",
         ... "if self = undefined then undefined else 2^(self/12)*100 endif"
-
-tempRows = Get number of rows
-undefIdeal = 0
-undefSmooth = 0
-for l to tempRows
-    curIdeal = Get value: l, "IdealF0"
-    undefIdeal += (curIdeal = undefined)
-    curSmooth = Get value: l, "IdealF0"
-    undefSmooth += (curIdeal = undefined)
-endfor
-
-    Save as text file: manipPath$ + sound$
+    Remove column: "Frame"
+    Save as tab-separated file: outputPath$ + sound$
         ... + "_all_F0.Table"
     Remove
 

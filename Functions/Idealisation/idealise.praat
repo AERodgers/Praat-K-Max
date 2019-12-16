@@ -106,7 +106,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
 
     # prepare KMax Table for later
     selectObject: .tempKmax
-    Set column label (label): "Time", "KTime"
+    Set column label (label): "Time", "maxK_T"
 
     # Get start and end times for linear regression calculations
     # based on minK first after Max K(n) and last before MaxK(n+1)
@@ -183,12 +183,12 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         ... .intercept[.numSlopes]
     # populate table of ideal targets
     selectObject: .tempKmax
-    Append column: "Time"
-    Append column: "F0"
+    Append column: "ideal_T"
+    Append column: "ideal_F0"
     Append column: "Text"
     Append column: "Slope"
     Append column: "Intercept"
-    Rename: "Elbows and Ideals"
+    Rename: "K-Max and Ideals"
     .table = .tempKmax
     Remove column: "MinMax"
 
@@ -201,8 +201,8 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
                 ... "semitones re 100 Hz", "Linear"
         endif
         selectObject: .table
-        Set numeric value: .i, "Time", .idealT[.i]
-        Set numeric value: .i, "F0", .idealF0[.i]
+        Set numeric value: .i, "ideal_T", .idealT[.i]
+        Set numeric value: .i, "ideal_F0", .idealF0[.i]
         Set string value: .i, "Text", .maxKText$[.i]
     endfor
 
@@ -217,7 +217,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     Set numeric value: .numMaxKpoints, "Intercept", .idealF0[.numMaxKpoints]
 
     # convert ST re 100 to Hz
-    Formula: "F0", "100*2^(self/12)"
+    Formula: "ideal_F0", "100*2^(self/12)"
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
@@ -228,8 +228,8 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     # create contour of ideal curve (i.e., linear curve with no constraints)
     for .i to .numMaxKpoints - 1
         selectObject: .table
-        .curT = Get value: .i, "Time"
-        .nextT = Get value: .i + 1, "Time"
+        .curT = Get value: .i, "ideal_T"
+        .nextT = Get value: .i + 1, "ideal_T"
         selectObject: .pitchTable
         Formula: "IdealF0",
             ... "if self[""Time""] >=.curT and self[""Time""] <= .nextT "

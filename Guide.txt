@@ -108,15 +108,15 @@
     #     4. resynth directory: resynthesised pitch object and sound file
     #     5. manipulation directory:
     #            a. [soundName].Manipulation: resynthesised manipulation object
-    #            b. [soundName]_all_F0.Table: time (secs) and all F0 (Hz)
-    #                   contours: initial smoothed, ideal, and smoothed ideal
     #     6. output directory
     #            a. Max-K_Analysis_Report.txt: tab-separated file reporting
     #                   latest smoothing parameters, tonal tier annotations and
     #                   comments for each set of files
     #            b. MAX-K_form_parameters.txt: tab-separated file listing most
     #                   recent master UI form processing parameter settings.
-    #            c. [soundName]_ideal_TTs.Table: table showing time (secs)
+    #            c. [soundName]_all_F0.Table: time (secs) and all F0 (Hz)
+    #                   contours: initial smoothed, ideal, and smoothed ideal
+    #            d. [soundName]_ideal_TTs.Table: table showing time (secs)
     #                   and F0 (Hz) coordinates of of maximum curvature ideal
     #                   tonal targets along with maxK annotations
     #

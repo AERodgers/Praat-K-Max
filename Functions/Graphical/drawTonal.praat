@@ -16,7 +16,7 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
     selectObject: .table
     .idealTable = Copy: "TempIdeal"
     .offset = (.f0MaxSt - .f0MinST)/15
-    Formula: "F0", "12*log2(self/100) + .offset"
+    Formula: "ideal_F0", "12*log2(self/100) + .offset"
 
     Colour: .colour$
     .textExists = Get column index: "Text"
@@ -24,13 +24,13 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
         Formula: "Text", "replace$(self$, ""%"", ""\% "", 0)"
         Formula: "Text", "replace$(self$, ""_"", ""\_ "", 0)"
         Formula: "Text", """##"" + self$"
-        Scatter plot: "Time", .tMin, .tMax, "F0",
+        Scatter plot: "ideal_T", .tMin, .tMax, "ideal_F0",
             ... .f0MinST, .f0MaxSt, "Text", 12, "no"
     endif
 
-    Formula: "F0", "self - .offset"
+    Formula: "ideal_F0", "self - .offset"
     Line width: 2
-    Scatter plot (mark): "Time", .tMin, .tMax, "F0",
+    Scatter plot (mark): "ideal_T", .tMin, .tMax, "ideal_F0",
         ... .f0MinST, .f0MaxSt, 2, "no", "x"
     Remove
 
