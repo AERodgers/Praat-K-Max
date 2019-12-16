@@ -14,7 +14,7 @@
     # A. REQUIREMENTS
     #    1. sound file (.wav)
     #    2. textgrid with at least an interval tier showing start and end of
-	#       utterance.
+    #       utterance.
     #    3. all textgrid files must share the same name as the sound file.
     #
     # B. OPTIONAL
@@ -29,9 +29,9 @@
     #    4. File format: prefixes for pitch and resynthesised sound files.
     #           Suffix for sound file (default ".wav").
     #    5. Pitch processing parameters: set minimum and maximum F0, and pitch
-	#           smoothing parameter bandwidth for Praat Smooth function, which
-	#           is performed on the pitch object before curvature estimation
-	#           (10 default: higher = less smoothing)
+    #           smoothing parameter bandwidth for Praat Smooth function, which
+    #           is performed on the pitch object before curvature estimation
+    #           (10 default: higher = less smoothing)
     #    6. Post idealisation smoothing parameters (moving point average)
     #           a. Physiological constraints: (lower = less smoothing)
     #                  Smoothes the "ideal curve" to simulate the effects of
@@ -46,7 +46,7 @@
     # D. RUNNING THE MAIN ANALYSIS PROCEDURE
     #    The Info window displays a reference guide.
     #    The following events occur for each textrid and sound file in the
-	#    directory.
+    #    directory.
     #    1. The first time a textgrid is opened, it is backed up.
     #    2. If a pitch object is not found, @fixPitch will be called. This
     #       first promts the user to annotate a textgrid to show sections of
@@ -62,7 +62,7 @@
     #       estimated Cepstral Peak Prominence at that time. (Red dots indicate
     #       CPP values more than one SD below the utterance mean.)
     #       The figure also can display other values derived from the script
-	#       (see D.5.b.).
+    #       (see D.5.b.).
     #       NOTE: A legend is drawn before the image is saved but not earlier.
     #    4. The script will display the sound and a textgrid for the current
     #       object. The textgrid only displays the reference, tonal, and maxK
@@ -70,7 +70,7 @@
     #       master menu. MaxK marks estimated locations of maximum curvature
     #       and their most likely tone type (H or L).
     #       THE USER SHOULD ANNOTATE THE TONAL TIER USING TIME POINTS INDICATED
-	#       IN MAXK.
+    #       IN MAXK.
     #    5. A UI window will appear.
     #       NB: THE "PROCESS" BUTTON MUST BE SELECTED IN ORDER TO SAVE CHANGES!
     #           a. The user can change the following parameters on the fly:
@@ -94,7 +94,7 @@
     #                     current MaxK and Tonal annotation tier)
     #                  2. "Fix F0": runs @FixPitch (see D.1. above)
     #                  2. "Process": PROCESS, SAVE, AND REVIEW ANNOTATIONS
-	#                     AND RESYNTHESIS
+    #                     AND RESYNTHESIS
     #                  3. "<": Go back one object without saving .
     #                  4. "Next": Go to the "Next object" without saving.
     #                  5. "Exit": exit script (clears all temporary objects and
@@ -126,4 +126,4 @@
     #            utterance voicing
     #     3. When idealisation functions break down a warning beep sounds
     #             and the error is decsribed in "WARNING AND OBSERVATIONS"
-	#             at the bottom of the UI menu.
+    #             at the bottom of the UI menu.
