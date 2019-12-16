@@ -20,7 +20,7 @@ procedure setVars
     pre_smoothing = praat_smooothing_bandwidth
     coarse_smoothing = physiological_constraints
     fine_smoothing = fine_grained_smoothing
-    
+
     # shorten beep variable
     errorBeep = errorBeep.sound
     # set flags and counters
@@ -51,10 +51,7 @@ procedure setVars
     tonalCol$ = "Navy"
     kCol$ = "Red"
 
-
     # flag to add tiers for script author only [NOT FOR PUBLIC VERSION]
     justForAER = 1
-    
-
 
 endproc

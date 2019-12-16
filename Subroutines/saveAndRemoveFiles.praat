@@ -16,7 +16,7 @@ procedure saveAndRemoveFiles
     Remove
 
     selectObject: idealise.table
-    Save as text file: manipPath$ + sound$
+    Save as text file: outputPath$ + sound$
         ... + "_ideal_TTs.Table"
     Remove
 

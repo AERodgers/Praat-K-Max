@@ -71,7 +71,8 @@
     #       and their most likely tone type (H or L).
     #       THE USER SHOULD ANNOTATE THE TONAL TIER USING TIME POINTS INDICATED
 	#       IN MAXK.
-    #    5. A menu window will appear.
+    #    5. A UI window will appear.
+    #       NB: THE "PROCESS" BUTTON MUST BE SELECTED IN ORDER TO SAVE CHANGES!
     #           a. The user can change the following parameters on the fly:
     #                  1. Initial Praat smoothing bandwidth
     #                  2. Physiological constraints
@@ -84,8 +85,10 @@
     #                  4. Draw tonal tier annotations and ideal targets
     #           c. The user can add a "Comment" to the report file
     #           d. Change the "Next object" value to jump to a different file
-    #               in the directory.
-    #           e. The options buttons, allow the user to:
+    #              in the directory.
+    #           e. OBSERVATIONS AND ERRORS are shown if they appear.
+    #              A beep alerts you to estimation errors of ideal targets.
+    #           f. The options buttons, allow the user to:
     #                  1. Smooth: re-Smooth the contour using Praat smoothing
     #                     factor in the textbox. (Note: this will delete the
     #                     current MaxK and Tonal annotation tier)
@@ -97,7 +100,6 @@
     #                  5. "Exit": exit script (clears all temporary objects and
     #                     completes report)
     #                  7. "Revert" and "Stop" are default Praat menu options.
-    #              NOTE: PROCESS MUST BE SELECTED IN ORDER TO SAVE CHANGES!!!
     #
     # E. OUTPUT
     #     1. main directory: updated TextGrids (if saved)
@@ -108,20 +110,20 @@
     #            a. [soundName].Manipulation: resynthesised manipulation object
     #            b. [soundName]_all_F0.Table: time (secs) and all F0 (Hz)
     #                   contours: initial smoothed, ideal, and smoothed ideal
+    #     6. output directory
+    #            a. Max-K_Analysis_Report.txt: tab-separated file reporting
+    #                   latest smoothing parameters, tonal tier annotations and
+    #                   comments for each set of files
+    #            b. MAX-K_form_parameters.txt: tab-separated file listing most
+    #                   recent master UI form processing parameter settings.
     #            c. [soundName]_ideal_TTs.Table: table showing time (secs)
     #                   and F0 (Hz) coordinates of of maximum curvature ideal
     #                   tonal targets along with maxK annotations
-    #     6. output directory
-    #            1. Max-K_Analysis_Report.txt: tab-separated file reporting
-    #                   latest smoothing parameters, tonal tier annotations and
-    #                   comments for each set of files
-    #            2. MAX-K_form_parameters.txt: tab-separated file listing most
-    #                   recent master UI form processing parameter settings.
     #
     # FAILSAFES / ERROR HANDLING
     #     1. Textgrid backup (backup folder)
-    #     2. % annotations are added to Max K to show onset and offset of 
+    #     2. % annotations are added to Max K to show onset and offset of
     #            utterance voicing
-    #     3. When idealisation functions break down a warning beep sounds 
+    #     3. When idealisation functions break down a warning beep sounds
     #             and the error is decsribed in "WARNING AND OBSERVATIONS"
 	#             at the bottom of the UI menu.
