@@ -8,4 +8,5 @@
  Extract the ZIP file and run the script named: "Max-K.praat".
 
  Don't forget to read "guide.txt" to learn how to use the Max-K!
+ 
  When running the main routine, the Info window also shows a short user guide.
