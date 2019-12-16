@@ -170,16 +170,16 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     .idealT[1] = .maxKTime[1]
     .idealF0[1] = 0
     for .i to .numSlopes -1
-        .idealT[.i + 1] = (.intercept[.i + 1] - .intercept[.i])/(.slope[.i]
-            ... - .slope[.i + 1])
+        .idealT[.i + 1] = (.intercept[.i + 1] - .intercept[.i]) /
+            ... (.slope[.i] - .slope[.i + 1])
         # error check: spurious ideal intercept points
-        if .idealT[.i + 1] < .idealT[.i]
-		    feedback += 1
-			warning = 1
-            feedback$[feedback] = " Error at TP " + string$(.i) +
-                ... " (" + fixed$(.idealT[.i], 3) + " secs). Please correct."
-            endif
-        endif
+        #if .idealT[.i + 1] < .idealT[.i]
+		#    feedback += 1
+	#		warning = 1
+    #        feedback$[feedback] = " Error at TP " + string$(.i) +
+    #            ... " (" + fixed$(.idealT[.i], 3) + " secs). Please correct."
+#
+#        endif
         .idealF0[.i + 1] = .slope[.i] * .idealT[.i + 1] + .intercept[.i]
     endfor
 
@@ -289,6 +289,25 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     .wav = Get resynthesis (overlap-add)
     .new_name$ = resynthesis_prefix$ + .sound$
     Rename: .new_name$
+
+    # check for errors in ideal times
+    selectObject: .pitchTable
+    .numRows = Get number of rows
+    .checkTMin = Get value: 1, "Time"
+    .checkTMin -= .timeStep * 2
+    .checkTMax = Get value: .numRows, "Time"
+    .checkTMax += .timeStep * 2
+    for .i to .lastPt - 1
+        if .idealT[.i] >= .idealT[.i + 1]
+            ... or .idealT[.i] < .checkTMin
+            ... or .idealT[.i] > .checkTMax
+            # error check: spurious ideal intercept points
+            feedback += 1
+            warning = 1
+            feedback$[feedback] = " Error at TP " + string$(.i) +
+                ... " (" + fixed$(.idealT[.i], 3) + " secs). Please correct."
+        endif
+    endfor
 
     #remove remaining objects
     selectObject: .pitchTier
