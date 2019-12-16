@@ -10,7 +10,7 @@
 procedure drawStuffForEditing
     # Draw C3Pogram
     rsPitchFileExists =
-	    ... fileReadable(resynthPath$ + rsPrefix$ + sound$ + ".Pitch")
+        ... fileReadable(resynthPath$ + rsPrefix$ + sound$ + ".Pitch")
     idealTableExists = fileReadable(manipPath$ + sound$ + "_ideal_TTs.Table")
 
     # calculate figure title and subtitle based on contour display flags

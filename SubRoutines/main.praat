@@ -50,7 +50,7 @@ procedure main
         selectObject: textgrid_list
         textgridExists = Has word: sound$
         if textgridExists
-		    tempPitch = 0
+            tempPitch = 0
             # read in sound and scale audio
             soundobject = Read from file: dir$ + sound$ + suffix$
             Scale intensity: 65
@@ -78,7 +78,7 @@ procedure main
 
             # PROCESS PREVIOUS UI COMMANDS AND OUTCOMES,(IF APPLICABLE)
             # read in resynth (if previously chosen)
-			
+            
             if edit_choice = 3
                 resynthManip = Read from file: manipPath$ + sound$ +
                     ... ".Manipulation"
@@ -160,7 +160,7 @@ procedure main
                 Save as text file: pitchPath$ + sound$ + ".Pitch"
             endif
 
-			selectObject: tempPitch
+            selectObject: tempPitch
             fixedPitch = Smooth: pre_smoothing
 
             # CREATE PITCH TABLE (REQUIRES INTERPOLATED PITCH OBJECT)
@@ -234,16 +234,16 @@ procedure main
                     boolean: "Tonal annotation and ideal targets", draw_tonal
                     sentence: "Comment", comment$
                     integer: "Next object", curr_sound + 1
-					if feedback
-					    comment: "ERRORS AND OBSERVATIONS"
-						if warning
-							selectObject: errorBeep
-							Play
-						endif
-					endif
-					for i to feedback
-					    comment: feedback$[i]
-					endfor
+                    if feedback
+                        comment: "ERRORS AND OBSERVATIONS"
+                        if warning
+                            selectObject: errorBeep
+                            Play
+                        endif
+                    endif
+                    for i to feedback
+                        comment: feedback$[i]
+                    endfor
                 edit_choice = endPause:
                     ... "Smooth",
                     ... "Fix F0",
@@ -260,8 +260,8 @@ procedure main
                 fine_smoothing = fine_grained_smoothing
                 pre_smoothing = praat_smooothing_bandwidth
                 @merge_textgrids
-				feedback = 0
-				warning = 0
+                feedback = 0
+                warning = 0
             endif
 
             # purge Blanks in tone tier

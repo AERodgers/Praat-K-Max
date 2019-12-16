@@ -21,18 +21,18 @@ procedure saveAndRemoveFiles
     Remove
 
     selectObject: idealise.pitchTable
-	# convert ST back to Hz
-	Formula (column range): "IdealF0", "SmoothedIdealF0",
-	    ... "if self = undefined then undefined else 2^(self/12)*100 endif"
+    # convert ST back to Hz
+    Formula (column range): "IdealF0", "SmoothedIdealF0",
+        ... "if self = undefined then undefined else 2^(self/12)*100 endif"
 
 tempRows = Get number of rows
 undefIdeal = 0
 undefSmooth = 0
 for l to tempRows
     curIdeal = Get value: l, "IdealF0"
-	undefIdeal += (curIdeal = undefined)
-	curSmooth = Get value: l, "IdealF0"
-	undefSmooth += (curIdeal = undefined)
+    undefIdeal += (curIdeal = undefined)
+    curSmooth = Get value: l, "IdealF0"
+    undefSmooth += (curIdeal = undefined)
 endfor
 
     Save as text file: manipPath$ + sound$
@@ -43,10 +43,10 @@ endfor
     Save as text file: resynthPath$ + rsPrefix$ + sound$ + ".Pitch"
     Remove
 
-	selectObject: textgrid
-	if userInput
-		Save as text file: dir$ + sound$ + ".TextGrid"
-	endif
+    selectObject: textgrid
+    if userInput
+        Save as text file: dir$ + sound$ + ".TextGrid"
+    endif
 
     #update report
     @updateReport

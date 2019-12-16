@@ -153,9 +153,9 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
             selectObject: .tmpF0Tbl
             .intercept[.i] = Get mean: "F0"
             .slope[.i] = 0
-			feedback += 1
+            feedback += 1
             feedback$[feedback] = "undefined slope at point #" + string$(.i)
-			    ... + " changed to 0 and intercept to "
+                ... + " changed to 0 and intercept to "
                 ... + fixed$(.intercept[.i], 1) + "."
             endif
         endif
@@ -172,14 +172,6 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     for .i to .numSlopes -1
         .idealT[.i + 1] = (.intercept[.i + 1] - .intercept[.i]) /
             ... (.slope[.i] - .slope[.i + 1])
-        # error check: spurious ideal intercept points
-        #if .idealT[.i + 1] < .idealT[.i]
-		#    feedback += 1
-	#		warning = 1
-    #        feedback$[feedback] = " Error at TP " + string$(.i) +
-    #            ... " (" + fixed$(.idealT[.i], 3) + " secs). Please correct."
-#
-#        endif
         .idealF0[.i + 1] = .slope[.i] * .idealT[.i + 1] + .intercept[.i]
     endfor
 
@@ -304,8 +296,9 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
             # error check: spurious ideal intercept points
             feedback += 1
             warning = 1
-            feedback$[feedback] = " Error at TP " + string$(.i) +
-                ... " (" + fixed$(.idealT[.i], 3) + " secs). Please correct."
+            feedback$[feedback] = "Spurious estimated ideal target at or near "
+                ... + string$(.i) + " (" + fixed$(.idealT[.i], 3)
+                ... + " secs). Please correct."
         endif
     endfor
 

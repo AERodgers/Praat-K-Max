@@ -42,9 +42,9 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
    # check for undefined F0 values
    if .undefined
        feedback += 1
-	   warning = 1
-	   feedback$[feedback] =
-	       ... " Undefined value detected, probably at boundary. Please check."
+       warning = 1
+       feedback$[feedback] =
+           ... " Undefined value detected, probably at boundary. Please check."
    endif
 
     selectObject: .f0Table

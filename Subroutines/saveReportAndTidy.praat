@@ -22,7 +22,7 @@ procedure saveReportAndTidy
     selectObject: sound_list
     plusObject: textgrid_list
     plusObject: report
-	plusObject: errorBeep
+    plusObject: errorBeep
     Remove
 
 
