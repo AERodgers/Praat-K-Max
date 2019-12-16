@@ -59,7 +59,7 @@ procedure drawStuffForEditing
     endif
 
     if draw_tonal and idealTableExists and userInput
-        tempIdeal = Read from file: manipPath$ + sound$
+        tempIdeal = Read from file: outputPath$ + sound$
             ... + "_ideal_TTs.Table"
         @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
             ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$

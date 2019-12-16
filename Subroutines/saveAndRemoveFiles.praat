@@ -18,7 +18,7 @@ procedure saveAndRemoveFiles
     # fix idealTT table for readablility
     selectObject: idealise.table
     .numRows = Get number of rows
-    Insert column: 2, "maxK_F0 (Hz)"
+    Insert column: 2, "maxK_F0"
     Formula: "ideal_F0", "fixed$(self, 1)"
     Formula (column range): "maxK_T", "ideal_T", "fixed$(self, 3)"
     Formula (column range): "Slope", "Intercept", "fixed$(self, 2)"
@@ -28,14 +28,10 @@ procedure saveAndRemoveFiles
         selectObject: pitchOrig
         .curF0 = Get value at time: .curT, "Hertz", "Linear"
         selectObject: idealise.table
-        Set string value: .i, "maxK_F0 (Hz)", fixed$(.curF0, 1)
+        Set string value: .i, "maxK_F0", fixed$(.curF0, 1)
     endfor
     selectObject: idealise.table
-    Set column label (label): "ideal_F0", "ideal_F0 (Hz)"
-    Set column label (label): "maxK_T", "maxK_T (s)"
-    Set column label (label): "ideal_T", "ideal_T (s)"
-    Set column label (label): "Slope", "Slope (ST)"
-    Set column label (label): "Intercept", "Intercept (ST re 100 Hz)"
+
     Save as tab-separated file: outputPath$ + sound$
         ... + "_ideal_TTs.Table"
     Remove
