@@ -9,9 +9,8 @@
 
 procedure main
     for curr_sound to numSounds
-        # set binary flags
+        # set flags and variables
         show_RS = 0
-
         # get sound info
         selectObject: sound_list
         sound$ = Get string: curr_sound
@@ -77,8 +76,9 @@ procedure main
                 tonalText$ =  ""
             endif
 
-            # PROCESS PREVIOUS UI COMMANDS,(IF APPLICABLE)
+            # PROCESS PREVIOUS UI COMMANDS AND OUTCOMES,(IF APPLICABLE)
             # read in resynth (if previously chosen)
+			
             if edit_choice = 3
                 resynthManip = Read from file: manipPath$ + sound$ +
                     ... ".Manipulation"
@@ -234,6 +234,16 @@ procedure main
                     boolean: "Tonal annotation and ideal targets", draw_tonal
                     sentence: "Comment", comment$
                     integer: "Next object", curr_sound + 1
+					if feedback
+					    comment: "ERRORS AND OBSERVATIONS"
+						if warning
+							selectObject: errorBeep
+							Play
+						endif
+					endif
+					for i to feedback
+					    comment: feedback$[i]
+					endfor
                 edit_choice = endPause:
                     ... "Smooth",
                     ... "Fix F0",
@@ -250,6 +260,8 @@ procedure main
                 fine_smoothing = fine_grained_smoothing
                 pre_smoothing = praat_smooothing_bandwidth
                 @merge_textgrids
+				feedback = 0
+				warning = 0
             endif
 
             # purge Blanks in tone tier

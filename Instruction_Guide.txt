@@ -122,6 +122,6 @@
     #     1. Textgrid backup (backup folder)
     #     2. % annotations are added to Max K to show onset and offset of 
     #            utterance voicing
-    #     3. Error windows when idealisation functions break down and added to 
-    #            comments textbox and report entry (shown in report during
-	#            batch processing)
+    #     3. When idealisation functions break down a warning beep sounds 
+    #             and the error is decsribed in "WARNING AND OBSERVATIONS"
+	#             at the bottom of the UI menu.

@@ -50,6 +50,7 @@ endform
 @infoLines
 @setUpDirsAndFiles
 @getSoundGridInfo
+@errorBeep
 @setVars
 @saveMenuVars
 @main
@@ -58,6 +59,7 @@ endform
 # INCLUDE SUBROUTINES AND FUNCTION LIBRARIES
 
 # Subroutines take no arguments, written specifically for this set of scripts
+include Subroutines/errorBeep.praat
 include Subroutines/infoLines.praat
 include Subroutines/main.praat
 include Subroutines/setUpDirsAndFiles.praat

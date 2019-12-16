@@ -20,7 +20,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     @pitch2Table: .pitchObj, 0
     .pitchTable  = pitch2Table.table
 
-    # process tiers (get array of elbow and boundary times)
+    # process tiers to get tonal tier (future proofed in case multiple)
     selectObject: .grid
     .sound$ = selected$ ("TextGrid")
     .tempGrid = Copy: "tempGrid"
@@ -33,9 +33,9 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         endif
     endfor
 
-    # Get time array from trimmed .tempGrid
+    # Get user-defined KMax table from trimmed grid
     .tempKmax = Down to Table: "yes", 3, "yes", "no"
-    # remove duplicate time points
+    # remove duplicate time points (again, future proofing)
     Sort rows: "tmin"
     .numRows = Get number of rows
     for .i to .numRows - 1
@@ -53,11 +53,12 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     Remove column: "tier"
     Set column label (index): 1, "Time"
     Append column: "MinMax"
-    # get array of boundary and elbow times
+    # get array of boundary and maxK times
     .numMaxKpoints = Get number of rows
     for .i to .numMaxKpoints
         .maxKTime[.i] = Get value: .i, "Time"
         .maxKText$[.i] = Get value: .i, "text"
+        # use IViE convention for unspecified boundary
         if .i = 1
             .maxKText$[.i] = "%" + replace$(.maxKText$[.i], "0", "", 1)
         elsif .i = .numMaxKpoints
@@ -92,12 +93,13 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         .curT = Get value: .curRow, "Time"
         .lastT = Get value: .curRow - 1, "Time"
         .curMinMax = Get value: .curRow, "MinMax"
-        if .curT = .lastT and .curMinMax = 0
+        if round(.curT*1000) = round(.lastT*1000) and .curMinMax = 0
             Remove row: .curRow
         elsif .curT = .lastT and .curMinMax = 1
             Remove row: .curRow - 1
         endif
     endfor
+
     # Remove temporary tables
     selectObject: .tempKmin
     Remove
@@ -110,23 +112,20 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     # based on minK first after Max K(n) and last before MaxK(n+1)
     selectObject: .minMaxK
     .numSlopes = .numMaxKpoints - 1
-
     for .i to .numSlopes
         @find_nearest_table: .maxKTime[.i], .minMaxK, "Time"
         .firstKMinT = Get value: find_nearest_table.index + 1, "Time"
         .noKMins = Get value: find_nearest_table.index + 1, "MinMax"
         @find_nearest_table: .maxKTime[.i+1], .minMaxK, "Time"
         .lastKMinT = Get value: find_nearest_table.index - 1, "Time"
-
-        #if no intervening MinK, use maxK time at linear regression start
-        # and end points
+        #if no intervening MinK, use last two valid time points
         if .noKMins
-            .firstKMinT = .maxKTime[.i]
-            .lastKminT = .maxKTime[.i + 1]
+            .lastKMinT = .firstKMinT
+            .firstKMinT = .lastKMinT - (.timeStep + 0.0001)
         endif
 
-        # if only one K min between Kmax points, treat it as inflexion point
-        # and use nearest time points to kMin to calculate slope
+        # if only one K min between Kmax points, use T +/- (time step + error)
+        # for linear regression
         if .firstKMinT = .lastKMinT
             .firstKMinT -= .timeStep - 0.0001
             .lastKMinT += .timeStep + 0.0001
@@ -154,14 +153,11 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
             selectObject: .tmpF0Tbl
             .intercept[.i] = Get mean: "F0"
             .slope[.i] = 0
-            comment$ += " slope " + string$(.i) + "-> 0, "
-                ... + "intercept -> " + fixed$(.intercept[.i], 1) + "."
-           # if userInput
-           #     beginPause: "WARNING"
-           #     comment: "Undefined slope at point " + string$(.i)
-           #     comment: "changing slope to 0 and F0 to mean of section."
-           #     endPause: "Continue", 1
-           # endif
+			feedback += 1
+            feedback$[feedback] = "undefined slope at point #" + string$(.i)
+			    ... + " changed to 0 and intercept to "
+                ... + fixed$(.intercept[.i], 1) + "."
+            endif
         endif
 
         # Remove surplus objects
@@ -178,14 +174,10 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
             ... - .slope[.i + 1])
         # error check: spurious ideal intercept points
         if .idealT[.i + 1] < .idealT[.i]
-            comment$ += " Error at TP " + string$(.i) +
-                ... " (" + fixed$(.idealT[.i], 3) + ")"
-            if userInput
-                beginPause: "ERROR"
-                comment: "The idealised contour will contain an error."
-                comment: "Problem with "
-                    ... + .sound$ + " at tone point point " + string$(.i)
-                endPause: "Check manually", 1
+		    feedback += 1
+			warning = 1
+            feedback$[feedback] = " Error at TP " + string$(.i) +
+                ... " (" + fixed$(.idealT[.i], 3) + " secs). Please correct."
             endif
         endif
         .idealF0[.i + 1] = .slope[.i] * .idealT[.i + 1] + .intercept[.i]

@@ -22,7 +22,9 @@ procedure saveReportAndTidy
     selectObject: sound_list
     plusObject: textgrid_list
     plusObject: report
+	plusObject: errorBeep
     Remove
+
 
     ### Task completion Info
     appendInfoLine: newline$, "Finished at: ", mid$(date$(), 12, 8)

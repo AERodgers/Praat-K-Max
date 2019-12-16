@@ -41,13 +41,10 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
 
    # check for undefined F0 values
    if .undefined
-       comment$ += " Undefined values defected"
-       if userInput
-           beginPause: "ERROR"
-           comment: "Current contour contains undefined F0"
-           comment: "Most likely in boundary tier"
-           endPause: "Check manually", 1
-       endif
+       feedback += 1
+	   warning = 1
+	   feedback$[feedback] =
+	       ... " Undefined value detected, probably at boundary. Please check."
    endif
 
     selectObject: .f0Table
