@@ -8,7 +8,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 -  December 8, 2019
+# October 10 - December 16, 2019
 
 # SEE "Instruction_Guide.txt" for details on how to use the script
 

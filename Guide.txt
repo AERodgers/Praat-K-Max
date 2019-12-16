@@ -4,11 +4,13 @@
 # using estimated points of maximum curvature in the contour.
 #
 # Written for Praat 6.0.40
-
+#
+# Version 1.0.0.0
+#
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 -  December 8, 2019
+# October 10 - December 16, 2019
 
 # Opens sound files and texgrids in a directory for editing and analysis.
     # A. REQUIREMENTS
