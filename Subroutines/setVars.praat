@@ -30,7 +30,7 @@ procedure setVars
     show_RS = 0
     alreadyOpened# = zero# (numSounds)
     pitchSaved# = zero# (numSounds)
-    draw_f0_corrected = 1
+    draw_f0_corrected = 0
     draw_K = 1
     draw_resynth = 1
     draw_tonal = 1
