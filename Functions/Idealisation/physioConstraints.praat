@@ -59,7 +59,7 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
 
     # convert Smoothing to array of odd numbers
     Formula: "Smoothing", "2 * floor(self / 2) + 1"
-    Formula: "Smoothing", "if self=undefined then self=1 else self endif"
+    Formula: "Smoothing", "if self = undefined then self = 1 else self endif"
     # remove surplus objects
     selectObject: .table
     Remove
