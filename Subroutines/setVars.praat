@@ -20,6 +20,9 @@ procedure setVars
     pre_smoothing = praat_smooothing_bandwidth
     coarse_smoothing = physiological_constraints
     fine_smoothing = fine_grained_smoothing
+    forPrinting = format_for_printing
+    drawSpectro = draw_spectrogram
+	
 
     # shorten beep variable
     errorBeep = errorBeep.sound

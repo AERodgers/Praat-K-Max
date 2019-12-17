@@ -41,6 +41,11 @@ form MAX-K: Master UI Menu
     comment Post idealisation smoothing parameters (moving point average)
     natural Physiological_constraints 1
     natural Fine_grained_smoothing 1
+
+	comment Image options
+    natural For printing 0
+    natural Draw spectrogram 1
+	forPrinting
     comment
     boolean Batch_process_directory
 endform
@@ -62,6 +67,7 @@ endform
 include Subroutines/errorBeep.praat
 include Subroutines/infoLines.praat
 include Subroutines/main.praat
+include Subroutines/uiWindow.praat
 include Subroutines/setUpDirsAndFiles.praat
 include Subroutines/setVars.praat
 include Subroutines/getSoundGridInfo.praat
