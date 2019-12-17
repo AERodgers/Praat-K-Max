@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 - December 16, 2019
+# October 10 - December 17, 2019
 
 procedure main
     for curr_sound to numSounds
@@ -25,18 +25,19 @@ procedure main
             if comment$ = "?" or comment$ = " "
                 comment$ = ""
             endif
-			pre_smoothing = Get value: tableRow, "pre_smooth"
-			coarse_smoothing = Get value: tableRow, "coarse_smooth"
-			fine_smoothing = Get value: tableRow, "fine_smooth"
+            if edit_choice > 3 or edit_choice < 1
+            pre_smoothing = Get value: tableRow, "pre_smooth"
+            coarse_smoothing = Get value: tableRow, "coarse_smooth"
+            fine_smoothing = Get value: tableRow, "fine_smooth"
         else
             Append row
             tableRow = Get number of rows
             comment$ = ""
             Set string value: tableRow, "count", curSound$
             Set string value: tableRow, "sound", sound$
-			Set numeric value: tableRow, "pre_smooth", pre_smoothing
-			Set numeric value: tableRow, "coarse_smooth", coarse_smoothing
-			Set numeric value: tableRow, "fine_smooth", fine_smoothing
+            Set numeric value: tableRow, "pre_smooth", pre_smoothing
+            Set numeric value: tableRow, "coarse_smooth", coarse_smoothing
+            Set numeric value: tableRow, "fine_smooth", fine_smoothing
         endif
 
         ### OPEN TEXTGRID FOR EDITING, IF EXISTS
@@ -304,7 +305,7 @@ procedure main
                 if draw_tonal
                     @drawTonal: idealise.table, c3pogram.minT, c3pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0,
-					... "ideal_T", "ideal_F0", tonalCol$
+                    ... "ideal_T", "ideal_F0", tonalCol$
                 endif
                 @saveAndRemoveFiles
             endif

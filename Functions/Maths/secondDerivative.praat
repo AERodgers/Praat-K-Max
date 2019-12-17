@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 - December 16, 2019
+# October 10 - December 17, 2019
 
 # Calculates the second time derivative of a continous contour
 # assuming that the x axis has a constant delta of .dx.

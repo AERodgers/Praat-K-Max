@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 - December 16, 2019
+# October 10 - December 17, 2019
 
 procedure drawStuffForEditing
     # Draw C3Pogram
@@ -73,7 +73,7 @@ procedure drawStuffForEditing
             ... + "_ideal_TTs.Table"
         @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
             ... drawC3pogram.minF0, drawC3pogram.maxF0,
-			... "ideal_T", "ideal_F0", tonalCol$
+            ... "ideal_T", "ideal_F0", tonalCol$
         selectObject: tempIdeal
         Remove
     endif

@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 - December 16, 2019
+# October 10 - December 17, 2019
 
 
 procedure setUpDirsAndFiles
@@ -52,7 +52,7 @@ procedure setUpDirsAndFiles
         report = Create Table with column names:
             ... "Max-K_Analysis_Report", 0,
             ... "count sound tonalText comments " + 
-			... "pre_smooth coarse_smooth fine_smooth"
+            ... "pre_smooth coarse_smooth fine_smooth"
     endif
 
 endproc
