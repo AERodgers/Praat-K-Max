@@ -52,12 +52,12 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
     for .i from 2 to .numPoints - 1
         Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
             ... + "self[""Time""] <= .xRight[.i] then "
-            ... + ".smoothVal * 0.5 * "
+            ... + ".smoothVal * "
             ... + "log10(abs(.dxdy2[.i] / (.xRight[.i] - .xLeft[.i]))) "
             ... + "else self[""Smoothing""] endif"
     endfor
 
-    # convert Smoothing to array of odd numbers
+    # convert Smoothing values to odd numbers for MPA
     Formula: "Smoothing", "2 * floor(self / 2) + 1"
     Formula: "Smoothing", "if self = undefined then self = 1 else self endif"
     # remove surplus objects

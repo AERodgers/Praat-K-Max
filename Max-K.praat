@@ -39,7 +39,7 @@ form MAX-K: Master UI Menu
     natural Praat_smooothing_bandwidth 10
 
     comment Post idealisation smoothing parameters (moving point average)
-    natural Physiological_constraints 8
+    natural Physiological_constraints 1
     natural Fine_grained_smoothing 1
     comment
     boolean Batch_process_directory
