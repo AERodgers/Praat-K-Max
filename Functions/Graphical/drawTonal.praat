@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .t$, .f0$, .col$
+procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxST, .t$, .f0$, .col$
     # set picture window
     Line width: 1
     Solid line
@@ -33,10 +33,10 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .t$, .f0$, .col$
         Formula: "Text", """##"" + self$"
         Colour: "White"
         Scatter plot: "T_shadow", .tMin, .tMax, "F0_shadow",
-            ... .f0MinST, .f0MaxSt, "Text", 12, "no"
+            ... .f0MinST, .f0MaxST, "Text", 12, "no"
         Colour: .col$
         Scatter plot: .t$, .tMin, .tMax, .f0$,
-            ... .f0MinST, .f0MaxSt, "Text", 12, "no"
+            ... .f0MinST, .f0MaxST, "Text", 12, "no"
     endif
 
     Formula: .f0$, "self - .offset"
@@ -45,10 +45,10 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .t$, .f0$, .col$
     Line width: 2
     Colour: "White"
     Scatter plot (mark): "T_shadow", .tMin, .tMax, "F0_shadow",
-        ... .f0MinST, .f0MaxSt, 2, "no", "x"
+        ... .f0MinST, .f0MaxST, 2, "no", "x"
     Colour: .col$
     Scatter plot (mark): .t$, .tMin, .tMax, .f0$,
-        ... .f0MinST, .f0MaxSt, 2, "no", "x"
+        ... .f0MinST, .f0MaxST, 2, "no", "x"
     Remove
 
     # return picture window to default state
