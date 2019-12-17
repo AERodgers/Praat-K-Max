@@ -44,8 +44,6 @@ procedure setVars
     fixPitch.vuv_cost = 0.14
 
     #colour variables
-    # cyan = "{0.2, 1, 1}"
-    #orange = "{1,0.5,0}"
     fixedF0Col$ = "Black"
     idealCol$ = "Lime"
     tonalCol$ = "Navy"

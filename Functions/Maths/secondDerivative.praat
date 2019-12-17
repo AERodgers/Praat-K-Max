@@ -11,12 +11,12 @@
 # assuming that the x axis has a constant delta of .dx.
 # Note: 1st and last rows columns will be undefined
 
-procedure secondDerivative: .table, .yCol$, .dxdy2Col$, .dx
+procedure secondDerivative: .table, .y$, .dxdy2Col$, .dx
     selectObject: .table
     Append row
     Insert row: 1
-    .y0$ = .yCol$ + "0"
-    .y2$ = .yCol$ + "2"
+    .y0$ = .y$ + "0"
+    .y2$ = .y$ + "2"
     Append column: .y0$
     Append column: .y2$
 
@@ -26,13 +26,13 @@ procedure secondDerivative: .table, .yCol$, .dxdy2Col$, .dx
     endif
     numRows = Get number of rows
     for  .i from 2 to numRows - 1
-        .curY = Get value: .i, .yCol$
+        .curY = Get value: .i, .y$
         Set numeric value: .i + 1, .y0$ , .curY
         Set numeric value: .i - 1, .y2$ , .curY
     endfor
     Remove row: 1
     Remove row: numRows - 1
-    Formula: .dxdy2Col$, "(self[.y0$] + self[.y2$] - 2 * self[.yCol$]) / .dx"
+    Formula: .dxdy2Col$, "(self[.y0$] + self[.y2$] - 2 * self[.y$]) / .dx ^ 2"
     Remove column: .y0$
     Remove column: .y2$
 endproc

@@ -148,6 +148,8 @@ procedure main
                 pitchOrig = Read from file: pitchPath$ + sound$ + ".Pitch"
                 noprogress Interpolate
                 tempPitch = selected()
+                selectObject: pitchOrig
+                Remove
                 selectObject: tempPitch
             elsif not tempPitch
                 @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3,
@@ -310,7 +312,6 @@ procedure main
                     ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
                 endif
                 @saveAndRemoveFiles
-
             endif
 
             # Add legend and save figure

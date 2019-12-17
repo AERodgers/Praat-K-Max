@@ -11,17 +11,17 @@
 procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .col$
     .yAxisMin = 0
     .yAxisMax = pi * 1.1
-    .rightText$ = "Curvature [%F_0''(t)]"
+    .rightText$ = "Curvature [%f_0\""p(t)]"
     selectObject: .kTable
     .yAxisMin = Get maximum: "K"
     .yAxisMax = Get minimum: "K"
-    .yAxisMin += 1
-    .yAxisMax -= 1
+    .yAxisMin = .yAxisMin * 1.1
+    .yAxisMax = .yAxisMax * 1.1
 
     #Draw maxK points and magnitudes
     selectObject: .kMaxTable
     .numRows = Get number of rows
-    Axes: .minT, .maxT, .yAxisMin, .yAxisMax
+    Axes: .minT, .maxT, .yAxisMax, .yAxisMin
     Solid line
     Line width: 2
     Colour: .col$

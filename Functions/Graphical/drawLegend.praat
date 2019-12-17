@@ -162,14 +162,32 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
         elsif left$(.style$[.i], 1) = "D" or left$(.style$[.i], 1) = "d"
             Paint circle: "White", .x_start + 1.25 * .x_unit,
                 ... .y_start + .y_unit * .iRef,
-                ... (.size[.i] + 1) / 500
+                ... ((.size[.i] + 0.25) * .x_unit / 4)
             Paint circle: .colour$[.i], .x_start + 1.25 * .x_unit,
-                ... .y_start + .y_unit * .iRef, (.size[.i]) / 500
+                ... .y_start + .y_unit * .iRef, (.size[.i] * .x_unit / 4)
+            .curCol$ = .colour$[.i]
+            .lighter# = '.curCol$' * 2
+            .lighter$ = "{" + string$(.lighter#[1])
+                ... + ", " + string$(.lighter#[2])
+                ... + ", " + string$(.lighter#[3]) + "}"
+            Paint circle: "White", .x_start + 0.75 * .x_unit,
+                ... .y_start + .y_unit * .iRef,
+                ... ((.size[.i]) * .x_unit / 4)
+            Paint circle: .lighter$, .x_start + 0.75 *.x_unit,
+                ... .y_start + .y_unit * .iRef,
+                ... ((.size[.i] - 0.25) * .x_unit / 4)
+            Paint circle: "White", .x_start + 1.75 * .x_unit,
+                ... .y_start + .y_unit * .iRef,
+                ... ((.size[.i]) * .x_unit / 4)
+            Paint circle: .lighter$, .x_start + 1.75 * .x_unit,
+                ... .y_start + .y_unit * .iRef,
+                ... ((.size[.i] - 0.25) * .x_unit / 4)
+
         else
             Colour: .colour$[.i]
             Text: .x_start + 1.25 * .x_unit , "centre",
                 ... .y_start + .y_unit * .iRef,
-                ... "Half", "#" + .style$[.i]
+                ... "Half", .style$[.i]
         endif
     endfor
 

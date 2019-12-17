@@ -15,8 +15,15 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
 
     selectObject: .table
     .idealTable = Copy: "TempIdeal"
-    .offset = (.f0MaxSt - .f0MinST)/15
+    .offset = Vertical mm to world coordinates: 5
     Formula: "ideal_F0", "12*log2(self/100) + .offset"
+
+    .tShadow = Horizontal mm to world coordinates: 0.1
+    .f0Shadow = Vertical mm to world coordinates: 0.1
+    Append column: "T_shadow"
+    Append column: "F0_shadow"
+    Formula: "T_shadow", "self[""ideal_T""] + .tShadow"
+    Formula: "F0_shadow", "self[""ideal_F0""]  - .f0Shadow"
 
     Colour: .colour$
     .textExists = Get column index: "Text"
@@ -24,12 +31,22 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
         Formula: "Text", "replace$(self$, ""%"", ""\% "", 0)"
         Formula: "Text", "replace$(self$, ""_"", ""\_ "", 0)"
         Formula: "Text", """##"" + self$"
+        Colour: "White"
+        Scatter plot: "T_shadow", .tMin, .tMax, "F0_shadow",
+            ... .f0MinST, .f0MaxSt, "Text", 12, "no"
+        Colour: .colour$
         Scatter plot: "ideal_T", .tMin, .tMax, "ideal_F0",
             ... .f0MinST, .f0MaxSt, "Text", 12, "no"
     endif
 
     Formula: "ideal_F0", "self - .offset"
+    Formula: "T_shadow", "self[""ideal_T""] + .tShadow"
+    Formula: "F0_shadow", "self[""ideal_F0""]"
     Line width: 2
+    Colour: "White"
+    Scatter plot (mark): "T_shadow", .tMin, .tMax, "F0_shadow",
+        ... .f0MinST, .f0MaxSt, 2, "no", "x"
+    Colour: .colour$
     Scatter plot (mark): "ideal_T", .tMin, .tMax, "ideal_F0",
         ... .f0MinST, .f0MaxSt, 2, "no", "x"
     Remove

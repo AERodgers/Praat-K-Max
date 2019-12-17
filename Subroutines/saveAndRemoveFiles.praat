@@ -25,7 +25,7 @@ procedure saveAndRemoveFiles
     for .i to .numRows
         selectObject: idealise.table
         .curT = Get value: .i, "maxK_T"
-        selectObject: pitchOrig
+        selectObject: tempPitch
         .curF0 = Get value at time: .curT, "Hertz", "Linear"
         selectObject: idealise.table
         Set string value: .i, "maxK_F0", fixed$(.curF0, 1)
@@ -34,9 +34,6 @@ procedure saveAndRemoveFiles
 
     Save as tab-separated file: outputPath$ + sound$
         ... + "_ideal_TTs.Table"
-    Remove
-
-    selectObject: pitchOrig
     Remove
 
     selectObject: idealise.pitchTable

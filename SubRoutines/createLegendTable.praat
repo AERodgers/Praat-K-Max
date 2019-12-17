@@ -12,16 +12,16 @@ procedure createLegendTable
         ... "style colour text size"
     legendLines = 1
     Set string value: 1, "style", "Dot"
-    Set string value: 1, "colour", "Blue"
-    Set string value: 1, "text", "%F_0 (CPP)"
-    Set numeric value: 1, "size", 2
+    Set string value: 1, "colour", "{0.2, 0.2, 1}"
+    Set string value: 1, "text", "%f_0 (CPP)"
+    Set numeric value: 1, "size", 0.75
 
     if draw_f0_corrected
         legendLines += 1
         Append row
         Set string value: legendLines, "style", "Line"
         Set string value: legendLines, "colour", fixedF0Col$
-        Set string value: legendLines, "text", "Corrected F0"
+        Set string value: legendLines, "text", "corrected %f_0"
         Set numeric value: legendLines, "size", 2
     endif
 
@@ -30,7 +30,7 @@ procedure createLegendTable
         Append row
         Set string value: legendLines, "style", "Line"
         Set string value: legendLines, "colour", kCol$
-        Set string value: legendLines, "text", "curvature"
+        Set string value: legendLines, "text", "%f_0\""p(t)"
         Set numeric value: legendLines, "size", 1
     endif
 
@@ -39,7 +39,7 @@ procedure createLegendTable
         Append row
         Set string value: legendLines, "style", "Line"
         Set string value: legendLines, "colour", idealCol$
-        Set string value: legendLines, "text", "%F_0 Resynthesis"
+        Set string value: legendLines, "text", "%f_0 resynthesis"
         Set numeric value: legendLines, "size", 2
     endif
 
@@ -48,7 +48,7 @@ procedure createLegendTable
         Append row
         Set string value: legendLines, "style", "x"
         Set string value: legendLines, "colour", tonalCol$
-        Set string value: legendLines, "text", "Ideal Targets"
+        Set string value: legendLines, "text", "ideal targets"
         Set numeric value: legendLines, "size", 10
     endif
 

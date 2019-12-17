@@ -11,7 +11,7 @@ procedure drawStuffForEditing
     # Draw C3Pogram
     rsPitchFileExists =
         ... fileReadable(resynthPath$ + rsPrefix$ + sound$ + ".Pitch")
-    idealTableExists = fileReadable(manipPath$ + sound$ + "_ideal_TTs.Table")
+    idealTableExists = fileReadable(outputPath$ + sound$ + "_ideal_TTs.Table")
 
     # calculate figure title and subtitle based on contour display flags
     subPrt1$[1] = ""
@@ -32,7 +32,7 @@ procedure drawStuffForEditing
     with = (subPrt1 or subPrt2) + 1
     comma = (subPrt1 and subPrt2) + 1
 
-    heading$ =  replace$(sound$, "_", "\_ ", 0) + " %F_0 contour"
+    heading$ =  replace$(sound$, "_", "\_ ", 0) + " %f_0 contour"
     subPrt1$ = subPrt1$[subPrt1 + 1]
     headingPt2$ = subPrt2$[subPrt2 + 1]
     subtitle$ = with$[with] + subPrt1$ + comma$[comma] + headingPt2$
@@ -58,22 +58,24 @@ procedure drawStuffForEditing
             ...  c3pogram.maxT, kCol$
     endif
 
-    if draw_tonal and idealTableExists and userInput
-        tempIdeal = Read from file: outputPath$ + sound$
-            ... + "_ideal_TTs.Table"
-        @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
-            ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
-        selectObject: tempIdeal
-        Remove
-    endif
-
     ### draw idealised pitch contour
     if rsPitchFileExists and userInput and draw_resynth
         .tempPitch = Read from file:
-            ... resynthPath$ + rsPrefix$ + sound$ + ".Pitch"
+        ... resynthPath$ + rsPrefix$ + sound$ + ".Pitch"
         @drawIdealization: .tempPitch, c3pogram.minT, c3pogram.maxT,
-            ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
+        ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
         selectObject: .tempPitch
+        Remove
+    endif
+
+    if draw_tonal and idealTableExists and userInput
+        tempIdeal = Read from file: outputPath$ + sound$
+            ... + "_ideal_TTs.Table"
+		#Formula: "maxK_F0", "12 * log2(self/100)"
+		#Formula: "ideal_F0", "12 * log2(self/100)"
+        @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
+            ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
+        selectObject: tempIdeal
         Remove
     endif
 

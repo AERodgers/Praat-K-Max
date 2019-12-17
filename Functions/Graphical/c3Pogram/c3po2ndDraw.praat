@@ -10,10 +10,10 @@ procedure c3po2ndDraw: .type, .pitch_scale, .title$, .subtitle$
     Select outer viewport: 0, 6.5, 0, 3.35
     if .pitch_scale = 2
         .leftMajor = 5
-        .leftText$ = "F0 (ST re 100 Hz)"
+        .leftText$ = "%f_0 (ST re 100 Hz)"
     else
         .leftMajor = 50
-        .leftText$ = "F0 (Hz)"
+        .leftText$ = "%f_0 (Hz)"
     endif
     Line width: 2
     Marks left every: 1, .leftMajor, "yes", "yes", "no"

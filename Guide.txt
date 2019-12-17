@@ -123,8 +123,9 @@
     #            c. [soundName]_all_F0.Table: time (secs) and all F0 (Hz)
     #                   contours: initial smoothed, ideal, and smoothed ideal
     #            d. [soundName]_ideal_TTs.Table: table showing time (secs)
-    #                   and F0 (Hz) coordinates of of maximum curvature ideal
-    #                   tonal targets along with maxK annotations
+    #                   and F0 (Hz) coordinates of maximum curvature ideal
+    #                   tonal targets along with maxK annotations. Slope re ST,
+    #                   Intercept ST re 100 Hz.
     #
     # FAILSAFES / ERROR HANDLING
     #     1. Textgrid backup (backup folder);
