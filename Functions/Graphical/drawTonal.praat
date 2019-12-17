@@ -12,7 +12,7 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .t$, .f0$, .col$
     Solid line
 
     Select outer viewport: 0, 6.5, 0, 3.35
-
+    Axes: .tMin, .tMax, .f0MinST, .f0MaxST
     selectObject: .table
     .idealTable = Copy: "TempIdeal"
     .offset = Vertical mm to world coordinates: 5
