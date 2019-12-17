@@ -8,13 +8,13 @@
 
 # dependency: @draw_table_line
 
-procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .col$
+procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$, .col$
     .yAxisMin = 0
     .yAxisMax = pi * 1.1
     .rightText$ = "Curvature [%f_0\""p(t)]"
     selectObject: .kTable
-    .yAxisMin = Get maximum: "K"
-    .yAxisMax = Get minimum: "K"
+    .yAxisMin = Get maximum: .k$
+    .yAxisMax = Get minimum: .k$
     .yAxisMin = .yAxisMin * 1.1
     .yAxisMax = .yAxisMax * 1.1
 
@@ -27,8 +27,8 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .col$
     Colour: .col$
 
 for .i to .numRows
-    .tempVal = Get value: .i, "Time"
-    .tempK = Get value: .i, "K"
+    .tempVal = Get value: .i, .t$
+    .tempK = Get value: .i, .k$
     Line width: 1
     Solid line
     Draw line: .tempVal, 0, .tempVal, .tempK
@@ -38,7 +38,7 @@ endfor
         Draw line: .minT, 0, .maxT, 0
 
     #Draw K contour
-    @draw_table_line: .kTable, "Time", "K", .minT, .maxT, 0
+    @draw_table_line: .kTable, .t$, .k$, .minT, .maxT, 0
     Marks right every: 1, ceiling((.yAxisMin - .yAxisMax)/12),
         ...  "yes", "yes", "no"
     Text right: "yes", .rightText$

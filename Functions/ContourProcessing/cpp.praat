@@ -8,7 +8,7 @@
 
 # dependencies: @removeRowsWhereNum
 
-procedure cpp: .sound, .minF0, .maxF0, .pitchTable
+procedure cpp: .sound, .minF0, .maxF0, .pitchTable, .time$, .f0$
     # set arbitrary cut off value for within-utterance CPP
     .cppArbCutOff$ = "< cpp.mean - cpp.stDev * 1"
 
@@ -19,11 +19,11 @@ procedure cpp: .sound, .minF0, .maxF0, .pitchTable
     selectObject: .pitchTable
     .table = Copy: "CPP"
     .numRows = Get number of rows
-    Set column label (index): 2, "time"
+    Set column label (index): 2, .time$
 
     for .i to .numRows
-        .time[.i] = Get value: .i, "time"
-        .f0[.i] = Get value: .i, "F0"
+        .time[.i] = Get value: .i, .time$
+        .f0[.i] = Get value: .i, .f0$
     endfor
 
     for .i to .numRows

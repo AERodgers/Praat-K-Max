@@ -25,11 +25,9 @@ procedure main
             if comment$ = "?" or comment$ = " "
                 comment$ = ""
             endif
-            if edit_choice > 3
-                pre_smoothing = Get value: tableRow, "pre_smooth"
-                coarse_smoothing = Get value: tableRow, "coarse_smooth"
-                fine_smoothing = Get value: tableRow, "fine_smooth"
-            endif
+			pre_smoothing = Get value: tableRow, "pre_smooth"
+			coarse_smoothing = Get value: tableRow, "coarse_smooth"
+			fine_smoothing = Get value: tableRow, "fine_smooth"
         else
             Append row
             tableRow = Get number of rows
@@ -172,7 +170,7 @@ procedure main
             Remove
 
             # CALCULATE MAXIMUM CURVATURE USING F0''(t)
-            @k: pitchTable, 0
+            @k: pitchTable, "Time", "F0"
             # populate empty maxK Tier
             if not kTiers
                 @findTier: "maxK_tier", textgrid, "maxK"
@@ -305,7 +303,8 @@ procedure main
                     ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
                 if draw_tonal
                     @drawTonal: idealise.table, c3pogram.minT, c3pogram.maxT,
-                    ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
+                    ... drawC3pogram.minF0, drawC3pogram.maxF0,
+					... "ideal_T", "ideal_F0", tonalCol$
                 endif
                 @saveAndRemoveFiles
             endif

@@ -38,7 +38,7 @@ procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,
     Rename: "pitch"
 
     # get second VQ table (only cpp implemented in the STH version)
-    @cpp: .sound, .minF0, .maxF0, pitch2Table.table
+    @cpp: .sound, .minF0, .maxF0, pitch2Table.table, "Time", "F0"
     .vqTable = cpp.table
 
     # draw cp3ogram

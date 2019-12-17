@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
+procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .t$, .f0$, .col$
     # set picture window
     Line width: 1
     Solid line
@@ -16,16 +16,16 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
     selectObject: .table
     .idealTable = Copy: "TempIdeal"
     .offset = Vertical mm to world coordinates: 5
-    Formula: "ideal_F0", "12*log2(self/100) + .offset"
+    Formula: .f0$, "12*log2(self/100) + .offset"
 
     .tShadow = Horizontal mm to world coordinates: 0.1
     .f0Shadow = Vertical mm to world coordinates: 0.1
     Append column: "T_shadow"
     Append column: "F0_shadow"
-    Formula: "T_shadow", "self[""ideal_T""] + .tShadow"
-    Formula: "F0_shadow", "self[""ideal_F0""]  - .f0Shadow"
+    Formula: "T_shadow", "self[.t$] + .tShadow"
+    Formula: "F0_shadow", "self[.f0$]  - .f0Shadow"
 
-    Colour: .colour$
+    Colour: .col$
     .textExists = Get column index: "Text"
     if .textExists
         Formula: "Text", "replace$(self$, ""%"", ""\% "", 0)"
@@ -34,20 +34,20 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxSt, .colour$
         Colour: "White"
         Scatter plot: "T_shadow", .tMin, .tMax, "F0_shadow",
             ... .f0MinST, .f0MaxSt, "Text", 12, "no"
-        Colour: .colour$
-        Scatter plot: "ideal_T", .tMin, .tMax, "ideal_F0",
+        Colour: .col$
+        Scatter plot: .t$, .tMin, .tMax, .f0$,
             ... .f0MinST, .f0MaxSt, "Text", 12, "no"
     endif
 
-    Formula: "ideal_F0", "self - .offset"
-    Formula: "T_shadow", "self[""ideal_T""] + .tShadow"
-    Formula: "F0_shadow", "self[""ideal_F0""]"
+    Formula: .f0$, "self - .offset"
+    Formula: "T_shadow", "self[.t$] + .tShadow"
+    Formula: "F0_shadow", "self[.f0$]"
     Line width: 2
     Colour: "White"
     Scatter plot (mark): "T_shadow", .tMin, .tMax, "F0_shadow",
         ... .f0MinST, .f0MaxSt, 2, "no", "x"
-    Colour: .colour$
-    Scatter plot (mark): "ideal_T", .tMin, .tMax, "ideal_F0",
+    Colour: .col$
+    Scatter plot (mark): .t$, .tMin, .tMax, .f0$,
         ... .f0MinST, .f0MaxSt, 2, "no", "x"
     Remove
 

@@ -10,12 +10,12 @@
 # contour at each turning point, i, (as elsewhere it is equal to zero). The
 # smoothing factor is applied as log2(fo"(t[i])) between local turning points.
 
-procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
+procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal, .t$, .f0$
     selectObject: .pointsTable
     .table = Copy: "newIdeal"
 
     # convert F0 to ST re 100 Hz
-    Formula: "ideal_F0", "12 * log2(self/100)"
+    Formula: .f0$, "12 * log2(self/100)"
 
     .numPoints = Get number of rows
 
@@ -23,12 +23,12 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
     .undefined = 0
     for .i from 2 to .numPoints - 1
         selectObject: .table
-        .x[.i] = Get value: .i, "ideal_T"
-        .x0 = Get value: .i - 1, "ideal_T"
-        .x2 = Get value: .i + 1, "ideal_T"
+        .x[.i] = Get value: .i, .t$
+        .x0 = Get value: .i - 1, .t$
+        .x2 = Get value: .i + 1, .t$
         .xLeft[.i] = (.x[.i] + .x0) / 2
         .xRight[.i] = (.x[.i] + .x2) / 2
-        .y1 = Get value: .i, "ideal_F0"
+        .y1 = Get value: .i, .f0$
         .slope0 = Get value: .i - 1, "Slope"
         .intercept0 = Get value: .i - 1, "Intercept"
         .slope2 = Get value: .i, "Slope"

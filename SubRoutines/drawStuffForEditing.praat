@@ -55,7 +55,7 @@ procedure drawStuffForEditing
     Line width: 1
     if draw_K
         @drawK: k.max,  k.table, 1, c3pogram.minT,
-            ...  c3pogram.maxT, kCol$
+            ...  c3pogram.maxT, "Time", "K", kCol$
     endif
 
     ### draw idealised pitch contour
@@ -72,7 +72,8 @@ procedure drawStuffForEditing
         tempIdeal = Read from file: outputPath$ + sound$
             ... + "_ideal_TTs.Table"
         @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
-            ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
+            ... drawC3pogram.minF0, drawC3pogram.maxF0,
+			... "ideal_T", "ideal_F0", tonalCol$
         selectObject: tempIdeal
         Remove
     endif

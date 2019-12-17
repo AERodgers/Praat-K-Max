@@ -6,18 +6,18 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# Dependencies: @secondDerivative
+# Dependencies: @secondDerivative, .PitchTable with .time$ and .f0$ columns
 
 # calculates table of curvatures (K) via second time derivative of fo [f0"(t)]
 
-procedure k: .table
+procedure k: .table, .time$, .f0$
     selectObject: .table
     .numRows = Get number of rows
-    .xn = Get value: .numRows, "Time"
-    .x[2] = Get value: 2, "Time"
-    .x[1] = Get value: 1, "Time"
+    .xn = Get value: .numRows, .time$
+    .x[2] = Get value: 2, .time$
+    .x[1] = Get value: 1, .time$
     .dx = .x[2] - .x[1]
-    @secondDerivative: .table, "F0","K", .dx
+    @secondDerivative: .table, .f0$,"K", .dx
 
     Formula: "toneLike", "if self[""K""] < 0 then ""H"" else ""L"" endif"
     Formula: "K", "if self[""K""] = undefined then 0 else self endif"
@@ -43,15 +43,15 @@ procedure k: .table
     .max = Extract rows where column (text): "MinMax", "is equal to", "Extreme"
     Remove column: "MinMax"
     .numRows = Get number of rows
-    .mT[1] = Get value: 1, "Time"
-    .mT[2] = Get value: .numRows, "Time"
+    .mT[1] = Get value: 1, .time$
+    .mT[2] = Get value: .numRows, .time$
     .x[2] = .xn
     # add boundary to if no MaxK nearby
     for .i to 2
         if abs(.x[.i] - .mT[.i]) > 0.02
             selectObject: .tempK
             .temp = Extract rows where column (number):
-                ... "Time", "equal to", .x[.i]
+                ... .time$, "equal to", .x[.i]
             Remove column: "MinMax"
             plusObject: .max
             .newMax = Append
@@ -60,7 +60,7 @@ procedure k: .table
             Remove
             .max = .newMax
             selectObject: .max
-            Sort rows: "Time"
+            Sort rows: .time$
             .numRows += 1
         endif
     endfor
@@ -70,15 +70,15 @@ procedure k: .table
     .min = Extract rows where column (text): "MinMax", "is equal to", "Rootlike"
     Remove column: "MinMax"
     .numRows = Get number of rows
-    .mT[1] = Get value: 1, "Time"
-    .mT[2] = Get value: .numRows, "Time"
+    .mT[1] = Get value: 1, .time$
+    .mT[2] = Get value: .numRows, .time$
     .x[2] = .xn
     # add boundary to if no MaxK nearby
     for .i to 2
         if abs(.x[.i] - .mT[.i]) > 0.02
             selectObject: .tempK
             .temp = Extract rows where column (number):
-                ... "Time", "equal to", .x[.i]
+                ... .time$, "equal to", .x[.i]
             Remove column: "MinMax"
             plusObject: .min
             .newMin = Append
@@ -87,7 +87,7 @@ procedure k: .table
             Remove
             .min = .newMin
             selectObject: .min
-            Sort rows: "Time"
+            Sort rows: .time$
             .numRows += 1
         endif
     endfor

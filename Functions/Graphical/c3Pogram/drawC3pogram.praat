@@ -39,9 +39,9 @@ procedure drawC3pogram: .pitchTable, .secondParam,
         selectObject: .pitchTable
         .curT = Get value: .i, "Time"
         .curF0 = Get value: .i, "F0"
-        @find_nearest_table: .curT, .secondParam, "time"
+        @find_nearest_table: .curT, .secondParam, "Time"
         .curShade = Get value: find_nearest_table.index, "shade"
-        .curShadeT = Get value: find_nearest_table.index, "time"
+        .curShadeT = Get value: find_nearest_table.index, "Time"
         if not(abs(.curShadeT - .curT)*1000 > 5.5555)
             if .type  = 1
                 Paint circle: "{'.curShade','.curShade','.curShade'}",

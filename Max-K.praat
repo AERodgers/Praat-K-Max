@@ -26,7 +26,7 @@ form MAX-K: Master UI Menu
     comment Tier names
     word Reference_tier syllable
     word Tonal_tier STHtone
-    sentence Other_tiers_to_show phono boundary comments
+    sentence Other_tiers_to_show phono comments
 
     comment File format
     word Pitch_prefix PF_
@@ -71,7 +71,9 @@ include Subroutines/saveMenuVars.praat
 include Subroutines/saveAndRemoveFiles.praat
 include Subroutines/saveReportAndTidy.praat
 
-# Functions take arguments and are designed to be adaptable for other scripts
+# Functions take arguments and can largely be used in other scripts
+#     (17/12/19 - I will add better annotations to functions later to make them
+#     to use in other scripts easier - AER)
 include Functions/ContourProcessing.praat
 include Functions/Graphical.praat
 include Functions/Idealisation.praat
