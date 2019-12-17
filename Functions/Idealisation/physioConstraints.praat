@@ -35,7 +35,7 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
         .intercept2 = Get value: .i, "Intercept"
         .y0 = .x0 * .slope0 + .intercept0
         .y2 = .x2 * .slope2 + .intercept2
-        .dxdy2[.i] = (.y0 + .y2 - 2 * .y1) / .dx
+        .dxdy2[.i] = (.y0 + .y2 - 2 * .y1) / .dx ^ 2
         .undefined += (.dxdy2[.i] = undefined)
    endfor
 
