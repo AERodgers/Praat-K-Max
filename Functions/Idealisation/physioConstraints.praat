@@ -52,8 +52,8 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal
     for .i from 2 to .numPoints - 1
         Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
             ... + "self[""Time""] <= .xRight[.i] then "
-            ... + ".smoothVal * log10(abs(.dx * .dxdy2[.i] / "
-            ... + "(.xRight[.i] - .xLeft[.i]))^0.5) "
+            ... + ".smoothVal * 0.1 * "
+            ... + "abs(.dx * .dxdy2[.i] / (.xRight[.i] - .xLeft[.i]))^0.5 "
             ... + "else self[""Smoothing""] endif"
     endfor
 

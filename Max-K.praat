@@ -67,7 +67,6 @@ include Subroutines/setVars.praat
 include Subroutines/getSoundGridInfo.praat
 include Subroutines/drawStuffForEditing.praat
 include Subroutines/createLegendTable.praat
-include Subroutines/updateReport.praat
 include Subroutines/saveMenuVars.praat
 include Subroutines/saveAndRemoveFiles.praat
 include Subroutines/saveReportAndTidy.praat

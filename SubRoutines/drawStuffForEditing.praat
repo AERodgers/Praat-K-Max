@@ -71,8 +71,6 @@ procedure drawStuffForEditing
     if draw_tonal and idealTableExists and userInput
         tempIdeal = Read from file: outputPath$ + sound$
             ... + "_ideal_TTs.Table"
-		#Formula: "maxK_F0", "12 * log2(self/100)"
-		#Formula: "ideal_F0", "12 * log2(self/100)"
         @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
             ... drawC3pogram.minF0, drawC3pogram.maxF0, tonalCol$
         selectObject: tempIdeal

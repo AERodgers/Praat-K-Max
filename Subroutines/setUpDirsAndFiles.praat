@@ -51,7 +51,8 @@ procedure setUpDirsAndFiles
     else
         report = Create Table with column names:
             ... "Max-K_Analysis_Report", 0,
-            ... "count sound smooth tonalText comments"
+            ... "count sound tonalText comments " + 
+			... "pre_smooth coarse_smooth fine_smooth"
     endif
 
 endproc

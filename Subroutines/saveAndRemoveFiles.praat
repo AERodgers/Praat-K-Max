@@ -55,5 +55,10 @@ procedure saveAndRemoveFiles
     endif
 
     #update report
-    @updateReport
+    selectObject: report
+    Set string value: tableRow, "comments", comment$
+    Set numeric value: tableRow, "pre_smooth", pre_smoothing
+    Set numeric value: tableRow, "coarse_smooth", coarse_smoothing
+    Set numeric value: tableRow, "fine_smooth", fine_smoothing
+    Set string value: tableRow, "tonalText", tonalText$
 endproc

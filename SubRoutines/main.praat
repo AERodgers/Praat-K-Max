@@ -26,14 +26,9 @@ procedure main
                 comment$ = ""
             endif
             if edit_choice > 3
-                smoothString$ = Get value: tableRow, "smooth"
-                left = index(smoothString$, " ")
-                right = rindex(smoothString$, " ")
-                length = length(smoothString$)
-                pre_smoothing = number(left$(smoothString$, left))
-                coarse_smoothing = number(mid$(smoothString$,
-                    ...  length - left + 1, right - left - 1))
-                fine_smoothing = number(right$(smoothString$, length - right))
+                pre_smoothing = Get value: tableRow, "pre_smooth"
+                coarse_smoothing = Get value: tableRow, "coarse_smooth"
+                fine_smoothing = Get value: tableRow, "fine_smooth"
             endif
         else
             Append row
@@ -41,8 +36,9 @@ procedure main
             comment$ = ""
             Set string value: tableRow, "count", curSound$
             Set string value: tableRow, "sound", sound$
-            Set string value: tableRow, "smooth", string$(pre_smoothing) + " "
-                ... + string$(coarse_smoothing) + " " + string$(fine_smoothing)
+			Set numeric value: tableRow, "pre_smooth", pre_smoothing
+			Set numeric value: tableRow, "coarse_smooth", coarse_smoothing
+			Set numeric value: tableRow, "fine_smooth", fine_smoothing
         endif
 
         ### OPEN TEXTGRID FOR EDITING, IF EXISTS
