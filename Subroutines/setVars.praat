@@ -23,6 +23,7 @@ procedure setVars
 
     # set default drawing flags
     draw_figure = 1
+    format_for_printing = 0
     widthCoeff = 1
     drawSpectro = 1
     draw_f0_corrected = 1

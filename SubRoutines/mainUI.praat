@@ -27,9 +27,9 @@ procedure mainUI
 		natural: "Fine grained smoothing", fine_smoothing
 		comment: "General Image Options"
         boolean: "Draw_figure", draw_figure
-        boolean: "Draw_spectrogram", drawSpectro
-        boolean: "Format_for_printing", widthCoeff
-        comment: "Parameter display options"
+        boolean: "Format_for_printing", format_for_printing
+        comment: "Display options"
+		boolean: "Draw_spectrogram", drawSpectro
 		boolean: "Corrected contour", draw_f0_corrected
 		boolean: "Curvature contour", draw_K
 		boolean: "Resynthesised contour", draw_resynth

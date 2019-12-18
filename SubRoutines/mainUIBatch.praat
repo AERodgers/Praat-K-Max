@@ -9,14 +9,14 @@
 
 procedure mainUIBatch
 	beginPause: "Select image options before running batch analysis"
-        boolean: "Draw_figure",  draw_figure
-        comment: "Image options"
+        boolean: "Draw figure",  draw_figure
+        comment: "Image display options"
+		boolean: "Draw spectrogram", drawSpectro
 		boolean: "Corrected contour", draw_f0_corrected
 		boolean: "Curvature contour", draw_K
 		boolean: "Resynthesised contour", draw_resynth
 		boolean: "Tonal annotation and ideal targets", draw_tonal
-        boolean: "Draw_spectrogram", drawSpectro
-        boolean: "Format_for_printing", widthCoeff
+        boolean: "Format for printing", format_for_printing
 	continue = endPause: "Begin Processing", 1
 
     #shorten UI names

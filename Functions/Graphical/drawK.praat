@@ -24,19 +24,21 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
     .numRows = Get number of rows
     Axes: .minT, .maxT, .yAxisMax, .yAxisMin
     Solid line
-    Line width: 1 * .widthCoeff
+    Line width: 1.5 * .widthCoeff
     Colour: .col$
-
     for .i to .numRows
         .tempVal = Get value: .i, .t$
         .tempK = Get value: .i, .k$
-        Line width: 1
-        Solid line
-        Draw line: .tempVal, 0, .tempVal, .tempK
+        if .tempVal >= .minT and .tempVal >= .maxT
+            Line width: 1
+            Solid line
+            Draw line: .tempVal, 0, .tempVal, .tempK
+        endif
     endfor
 
     # Draw horizontal line at 0
     Draw line: .minT, 0, .maxT, 0
+
     #Draw K contour
     Line width: 2 * .widthCoeff
     @draw_table_line: .kTable, .t$, .k$, .minT, .maxT, 0

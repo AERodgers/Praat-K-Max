@@ -41,29 +41,31 @@ procedure drawC3pogram: .pitchTable, .secondParam,
         @find_nearest_table: .curT, .secondParam, "Time"
         .curShade = Get value: find_nearest_table.index, "shade"
         .curShadeT = Get value: find_nearest_table.index, "Time"
-        if not(abs(.curShadeT - .curT)*1000 > 5.5555)
-            if .type  = 1
-                Paint circle: "Black",
-                   ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
-                Paint circle: "{'.curShade','.curShade','.curShade'}",
-                   ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
-            elsif .type  = 2
-                Paint circle: "Black",
-                   ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
-                Paint circle: "{'.curShade','.curShade','.curShade'}",
-                   ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
+        if  .curT >= .minT and .curT <= .maxT
+            if not(abs(.curShadeT - .curT)*1000 > 5.5555)
+                if .type  = 1
+                    Paint circle: "Black",
+                       ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
+                    Paint circle: "{'.curShade','.curShade','.curShade'}",
+                       ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
+                elsif .type  = 2
+                    Paint circle: "Black",
+                       ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
+                    Paint circle: "{'.curShade','.curShade','.curShade'}",
+                       ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
+                else
+                    Paint circle: "Black",
+                       ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
+                    Paint circle: "{'.curShade','.curShade',1-'.curShade'}",
+                       ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
+                endif
             else
-                Paint circle: "Black",
-                   ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
-                Paint circle: "{'.curShade','.curShade',1-'.curShade'}",
-                   ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
-            endif
-        else
-            Paint circle: "{0.1,0,0}", .curT, .curF0, .diam * 0.2
-            Line width: 0.5
-            Paint circle: "{1,0,0}", .curT, .curF0, .diam * 0.1
-            Line width: 0.5
+                Paint circle: "{0.1,0,0}", .curT, .curF0, .diam * 0.2
+                Line width: 0.5
+                Paint circle: "{1,0,0}", .curT, .curF0, .diam * 0.1
+                Line width: 0.5
 
+            endif
         endif
         Line width: 1
         Colour: "Black"
