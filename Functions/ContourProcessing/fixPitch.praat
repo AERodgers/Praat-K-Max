@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 - December 17, 2019
+# October 10 - December 18, 2019
 
 # Dependencies: @Trimf0 from ProsodyPro (not implemented for Max-K)
 #               see: http://www.homepages.ucl.ac.uk/~uclyyix/ProsodyPro/

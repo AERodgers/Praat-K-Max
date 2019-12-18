@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 - December 17, 2019
+# October 10 - December 18, 2019
 
 procedure mainUI
 	# Create temporary textgrid for editing (declutter view window)
@@ -25,15 +25,15 @@ procedure mainUI
 		natural: "Praat smooothing bandwidth", pre_smoothing
 		natural: "Physiological constraints", coarse_smoothing
 		natural: "Fine grained smoothing", fine_smoothing
-		comment: "Image Drawing Options"
+		comment: "General Image Options"
+        boolean: "Draw_figure", draw_figure
+        boolean: "Draw_spectrogram", drawSpectro
+        boolean: "Format_for_printing", widthCoeff
+        comment: "Parameter display options"
 		boolean: "Corrected contour", draw_f0_corrected
 		boolean: "Curvature contour", draw_K
 		boolean: "Resynthesised contour", draw_resynth
 		boolean: "Tonal annotation and ideal targets", draw_tonal
-        comment: "Image options"
-        boolean: "Draw_figure",  draw_figure
-        boolean: "Format_for_printing", widthCoeff
-        boolean: "Draw_spectrogram", drawSpectro
 		sentence: "Comment", comment$
 		integer: "Next object", curr_sound + 1
 		if feedback

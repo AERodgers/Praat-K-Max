@@ -5,7 +5,7 @@
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
-# October 10 - December 17, 2019
+# October 10 - December 18, 2019
 
 procedure createLegendTable
     tempLegend = Create Table with column names: "legend", 1,
