@@ -75,7 +75,6 @@ procedure main
 
             # PROCESS PREVIOUS UI COMMANDS AND OUTCOMES,(IF APPLICABLE)
             # read in resynth (if previously chosen)
-
             if edit_choice = 3
                 resynthManip = Read from file: manipPath$ + sound$ +
                     ... ".Manipulation"
