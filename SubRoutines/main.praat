@@ -8,6 +8,9 @@
 # October 10 - December 17, 2019
 
 procedure main
+    if not userInput
+        @mainUIBatch
+    endif
     for curr_sound to numSounds
         # set flags and variables
         show_RS = 0
@@ -15,7 +18,6 @@ procedure main
         selectObject: sound_list
         sound$ = Get string: curr_sound
         curSound$ = string$(curr_sound)
-
         ### GET PREVIOUS REPORT DATA, IF EXISTS
         ###
         selectObject: report
@@ -26,9 +28,10 @@ procedure main
                 comment$ = ""
             endif
             if edit_choice > 3 or edit_choice < 1
-            pre_smoothing = Get value: tableRow, "pre_smooth"
-            coarse_smoothing = Get value: tableRow, "coarse_smooth"
-            fine_smoothing = Get value: tableRow, "fine_smooth"
+                pre_smoothing = Get value: tableRow, "pre_smooth"
+                coarse_smoothing = Get value: tableRow, "coarse_smooth"
+                fine_smoothing = Get value: tableRow, "fine_smooth"
+            endif
         else
             Append row
             tableRow = Get number of rows
@@ -39,7 +42,6 @@ procedure main
             Set numeric value: tableRow, "coarse_smooth", coarse_smoothing
             Set numeric value: tableRow, "fine_smooth", fine_smoothing
         endif
-
         ### OPEN TEXTGRID FOR EDITING, IF EXISTS
         ###
         selectObject: textgrid_list
@@ -99,7 +101,6 @@ procedure main
                     tempPitch = fixPitch.new
                 endif
             endif
-
 
             # ADD EXTRA TIERS IF NOT PRESENT
             kTiers = 1
@@ -200,11 +201,12 @@ procedure main
                 endeditor
             endif
 
-            @drawStuffForEditing
-
+            if draw_figure
+                @drawStuffForEditing
+            endif
             ### RUN UI MENU
             if userInput
-                @uiWindow
+                @mainUI
             endif
 
             # purge Blanks in tone tier
@@ -249,27 +251,32 @@ procedure main
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
                     ... minF0, maxF0, k.min,
                     ... coarse_smoothing, fine_smoothing
-                @drawIdealization: idealise.pitch, c3pogram.minT, c3pogram.maxT,
-                    ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$
-                if draw_tonal
+                if  draw_resynth * draw_figure
+                    @drawIdealization:
+                        ... idealise.pitch, c3pogram.minT, c3pogram.maxT,
+                        ... drawC3pogram.minF0, drawC3pogram.maxF0,
+                        ... idealCol$, widthCoeff
+                endif
+                if draw_tonal * draw_figure
                     @drawTonal: idealise.table, c3pogram.minT, c3pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0,
-                    ... "ideal_T", "ideal_F0", tonalCol$
+                    ... "ideal_T", "ideal_F0", tonalCol$, widthCoeff
                 endif
                 @saveAndRemoveFiles
             endif
 
             # Add legend and save figure
-            @createLegendTable
-            yOffset = (drawC3pogram.maxF0 - drawC3pogram.minF0)/15
-            @drawLegend: c3pogram.minT, c3pogram.maxT,
-            ... drawC3pogram.minF0, drawC3pogram.maxF0,
-                ... pitchTable, "Time", "F0",
-                ... tempLegend, 0.01
-            selectObject: tempLegend
-            Remove
-            Save as 300-dpi PNG file:  imagePath$ + sound$ + ".png"
-
+            if  draw_figure
+                @createLegendTable
+                yOffset = (drawC3pogram.maxF0 - drawC3pogram.minF0)/15
+                @drawLegend: c3pogram.minT, c3pogram.maxT,
+                ... drawC3pogram.minF0, drawC3pogram.maxF0,
+                    ... pitchTable, "Time", "F0",
+                    ... tempLegend, 0.01
+                selectObject: tempLegend
+                Remove
+                Save as 300-dpi PNG file:  imagePath$ + sound$ + ".png"
+            endif
             # remove current for loop surplus objects
             selectObject: textgrid
             plusObject: soundobject

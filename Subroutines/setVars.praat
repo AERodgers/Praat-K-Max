@@ -20,12 +20,19 @@ procedure setVars
     pre_smoothing = praat_smooothing_bandwidth
     coarse_smoothing = physiological_constraints
     fine_smoothing = fine_grained_smoothing
-    forPrinting = format_for_printing
-    drawSpectro = draw_spectrogram
-	
+
+    # set default drawing flags
+    draw_figure = 1
+    widthCoeff = 1
+    drawSpectro = 1
+    draw_f0_corrected = 1
+    draw_K = 1
+    draw_resynth = 1
+	draw_tonal = 1
 
     # shorten beep variable
     errorBeep = errorBeep.sound
+
     # set flags and counters
     feedback = 0
     warning = 0
@@ -33,10 +40,6 @@ procedure setVars
     show_RS = 0
     alreadyOpened# = zero# (numSounds)
     pitchSaved# = zero# (numSounds)
-    draw_f0_corrected = 0
-    draw_K = 1
-    draw_resynth = 1
-    draw_tonal = 1
 
     # set j variables
     fixPitch.candidates = 15

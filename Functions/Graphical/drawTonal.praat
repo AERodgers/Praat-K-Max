@@ -6,7 +6,8 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxST, .t$, .f0$, .col$
+procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxST, .t$, .f0$,
+        ... .col$, .widthCoeff
     # set picture window
     Line width: 1
     Solid line
@@ -48,7 +49,7 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxST, .t$, .f0$, .col$
         ... .f0MinST, .f0MaxST, 2, "no", "x"
     Colour: .col$
     Scatter plot (mark): .t$, .tMin, .tMax, .f0$,
-        ... .f0MinST, .f0MaxST, 2, "no", "x"
+        ... .f0MinST, .f0MaxST, 2 + (.widthCoeff/2), "no", "x"
     Remove
 
     # return picture window to default state

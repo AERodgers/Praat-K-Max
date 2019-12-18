@@ -10,7 +10,7 @@
 
 procedure setUpDirsAndFiles
     dir$ = directory$
-    suffix$ = sound_suffix$
+    suffix$ = ".wav"
 
     # correct form errors
     if suffix$ != "" and left$(suffix$, 1) != "."
@@ -51,7 +51,7 @@ procedure setUpDirsAndFiles
     else
         report = Create Table with column names:
             ... "Max-K_Analysis_Report", 0,
-            ... "count sound tonalText comments " + 
+            ... "count sound tonalText comments " +
             ... "pre_smooth coarse_smooth fine_smooth"
     endif
 

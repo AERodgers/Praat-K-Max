@@ -7,7 +7,7 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 # October 10 - December 17, 2019
 
-procedure uiWindow
+procedure mainUI
 	# Create temporary textgrid for editing (declutter view window)
 	@temp_textgrid: "textgrid", r_tier$ + " " + t_tier$ + " maxK "
 		... + keepTiers$
@@ -30,6 +30,10 @@ procedure uiWindow
 		boolean: "Curvature contour", draw_K
 		boolean: "Resynthesised contour", draw_resynth
 		boolean: "Tonal annotation and ideal targets", draw_tonal
+        comment: "Image options"
+        boolean: "Draw_figure",  draw_figure
+        boolean: "Format_for_printing", widthCoeff
+        boolean: "Draw_spectrogram", drawSpectro
 		sentence: "Comment", comment$
 		integer: "Next object", curr_sound + 1
 		if feedback
@@ -50,6 +54,7 @@ procedure uiWindow
 		... "Next",
 		... "Exit", 4
 
+    #shorten UI names
 	draw_f0_corrected = corrected_contour
 	draw_K = curvature_contour
 	draw_resynth = resynthesised_contour
@@ -57,6 +62,9 @@ procedure uiWindow
 	coarse_smoothing = physiological_constraints
 	fine_smoothing = fine_grained_smoothing
 	pre_smoothing = praat_smooothing_bandwidth
+    widthCoeff = (format_for_printing) + 1
+    drawSpectro = draw_spectrogram
+
 	@merge_textgrids
 	feedback = 0
 	warning = 0

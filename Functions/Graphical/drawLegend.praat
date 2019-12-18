@@ -160,26 +160,22 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
             Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .iRef,
                 ... .x_start + 2 * .x_unit, .y_start + .y_unit * .iRef
         elsif left$(.style$[.i], 1) = "D" or left$(.style$[.i], 1) = "d"
-            Paint circle: "White", .x_start + 1.25 * .x_unit,
-                ... .y_start + .y_unit * .iRef,
-                ... ((.size[.i] + 0.25) * .x_unit / 4)
-            Paint circle: .colour$[.i], .x_start + 1.25 * .x_unit,
-                ... .y_start + .y_unit * .iRef, (.size[.i] * .x_unit / 4)
-            .curCol$ = .colour$[.i]
-            .lighter# = '.curCol$' * 2
-            .lighter$ = "{" + string$(.lighter#[1])
-                ... + ", " + string$(.lighter#[2])
-                ... + ", " + string$(.lighter#[3]) + "}"
-            Paint circle: "White", .x_start + 0.75 * .x_unit,
+            @colourChange: .colour$[.i],  "drawLegend.lighter$", "* 2"
+            Paint circle: "Black", .x_start + 0.75 * .x_unit,
                 ... .y_start + .y_unit * .iRef,
                 ... ((.size[.i]) * .x_unit / 4)
-            Paint circle: .lighter$, .x_start + 0.75 *.x_unit,
+            Paint circle: "Black", .x_start + 1.25 * .x_unit,
                 ... .y_start + .y_unit * .iRef,
-                ... ((.size[.i] - 0.25) * .x_unit / 4)
-            Paint circle: "White", .x_start + 1.75 * .x_unit,
+                ... ((.size[.i] + 0.25) * .x_unit / 4)
+            Paint circle: "Black", .x_start + 1.75 * .x_unit,
                 ... .y_start + .y_unit * .iRef,
                 ... ((.size[.i]) * .x_unit / 4)
             Paint circle: .lighter$, .x_start + 1.75 * .x_unit,
+                ... .y_start + .y_unit * .iRef,
+                ... ((.size[.i] - 0.25) * .x_unit / 4)
+            Paint circle: .colour$[.i], .x_start + 1.25 * .x_unit,
+                ... .y_start + .y_unit * .iRef, (.size[.i] * .x_unit / 4)
+            Paint circle: .lighter$, .x_start + 0.75 *.x_unit,
                 ... .y_start + .y_unit * .iRef,
                 ... ((.size[.i] - 0.25) * .x_unit / 4)
 

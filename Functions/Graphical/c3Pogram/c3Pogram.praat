@@ -11,7 +11,7 @@
 
 # NB Redundant procedures removed from current script.
 procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,
-         ... .grid, .sound, .tier, .minF0, .maxF0
+         ... .grid, .sound, .tier, .minF0, .maxF0, .widthCoeff
      # arbitrary cut off values (below which pink in output graph)
 
     .type = .param2
@@ -43,7 +43,7 @@ procedure c3pogram: .param2, .pitch_scale, .paintSpect, .title$, .subtitle$,
 
     # draw cp3ogram
     @drawC3pogram: pitch2Table.table, .vqTable, .minT, .maxT, .minF0, .maxF0,
-        ... .type, .pitch_scale
+        ... .type, .pitch_scale, .widthCoeff
     @c3po2ndDraw: .type, .pitch_scale, .title$, .subtitle$
     selectObject: .vqTable
     plusObject: pitch2Table.table

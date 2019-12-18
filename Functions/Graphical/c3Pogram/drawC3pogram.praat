@@ -6,11 +6,10 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependencies: @find_nearest_table
+# dependencies: @find_nearest_table; depends on @c3pogram
 
 procedure drawC3pogram: .pitchTable, .secondParam,
-    ... .minT, .maxT, .minF0, .maxF0, .type, .pitch_scale
-
+    ... .minT, .maxT, .minF0, .maxF0, .type, .pitch_scale, .widthCoeff
     # adjust F0 if pitch scale set to semitones
     selectObject: .pitchTable
     if .pitch_scale = 2
@@ -26,7 +25,7 @@ procedure drawC3pogram: .pitchTable, .secondParam,
 
     Select outer viewport: 0, 6.5, 0, 3.35
     Axes: .minT, .maxT, .minF0, .maxF0
-    .diam = Horizontal mm to world coordinates: 0.9
+    .diam = Horizontal mm to world coordinates: 0.5 * .widthCoeff + 0.4
     Font size: 10
     Helvetica
     Solid line
@@ -44,23 +43,27 @@ procedure drawC3pogram: .pitchTable, .secondParam,
         .curShadeT = Get value: find_nearest_table.index, "Time"
         if not(abs(.curShadeT - .curT)*1000 > 5.5555)
             if .type  = 1
+                Paint circle: "Black",
+                   ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
                 Paint circle: "{'.curShade','.curShade','.curShade'}",
                    ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
             elsif .type  = 2
+                Paint circle: "Black",
+                   ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
                 Paint circle: "{'.curShade','.curShade','.curShade'}",
                    ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
             else
+                Paint circle: "Black",
+                   ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
                 Paint circle: "{'.curShade','.curShade',1-'.curShade'}",
                    ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
             endif
-            Line width: 0.5
-            Colour: "blue"
-            Draw circle: .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
         else
+            Paint circle: "{0.1,0,0}", .curT, .curF0, .diam * 0.2
+            Line width: 0.5
             Paint circle: "{1,0,0}", .curT, .curF0, .diam * 0.1
             Line width: 0.5
-            Red
-            Draw circle: .curT, .curF0, .diam * 0.1
+
         endif
         Line width: 1
         Colour: "Black"

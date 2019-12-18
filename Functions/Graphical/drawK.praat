@@ -8,7 +8,8 @@
 
 # dependency: @draw_table_line
 
-procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$, .col$
+procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
+        ... .col$, .widthCoeff
     .yAxisMin = 0
     .yAxisMax = pi * 1.1
     .rightText$ = "Curvature [%f_0\""p(t)]"
@@ -23,25 +24,26 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$, .col$
     .numRows = Get number of rows
     Axes: .minT, .maxT, .yAxisMax, .yAxisMin
     Solid line
-    Line width: 2
+    Line width: 1 * .widthCoeff
     Colour: .col$
 
-for .i to .numRows
-    .tempVal = Get value: .i, .t$
-    .tempK = Get value: .i, .k$
-    Line width: 1
-    Solid line
-    Draw line: .tempVal, 0, .tempVal, .tempK
-endfor
+    for .i to .numRows
+        .tempVal = Get value: .i, .t$
+        .tempK = Get value: .i, .k$
+        Line width: 1
+        Solid line
+        Draw line: .tempVal, 0, .tempVal, .tempK
+    endfor
 
     # Draw horizontal line at 0
-        Draw line: .minT, 0, .maxT, 0
-
+    Draw line: .minT, 0, .maxT, 0
     #Draw K contour
+    Line width: 2 * .widthCoeff
     @draw_table_line: .kTable, .t$, .k$, .minT, .maxT, 0
+    Line width: 2
     Marks right every: 1, ceiling((.yAxisMin - .yAxisMax)/12),
         ...  "yes", "yes", "no"
     Text right: "yes", .rightText$
-
+    Line width: 1
     Select outer viewport: 0, 6.5, 0, 4
 endproc

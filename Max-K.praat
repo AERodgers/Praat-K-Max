@@ -14,7 +14,7 @@
 
 # INPUT FORM
 form MAX-K: Master UI Menu
-    comment Directory Information
+    comment Directory and file Information
     sentence Directory
     sentence Pitch_directory pitch
     sentence Output_directory output
@@ -22,31 +22,19 @@ form MAX-K: Master UI Menu
     sentence Resynth_directory resynth
     sentence Backup_directory backup
     sentence Manipulation_directory manipulation
-
+    word Pitch_prefix PF_
+    word Resynthesis_prefix RS_
     comment Tier names
     word Reference_tier syllable
     word Tonal_tier STHtone
     sentence Other_tiers_to_show phono comments
-
-    comment File format
-    word Pitch_prefix PF_
-    word Resynthesis_prefix RS_
-    word Sound_suffix .wav
-
     comment Pitch Processing Parameters
-    natural Minimum_F0 55
-    natural Maximum_F0 400
+    natural Minimum_F0 60
+    natural Maximum_F0 340
     natural Praat_smooothing_bandwidth 10
-
-    comment Post idealisation smoothing parameters (moving point average)
+    comment Post-idealisation smoothing parameters
     natural Physiological_constraints 1
     natural Fine_grained_smoothing 1
-
-	comment Image options
-    natural For printing 0
-    natural Draw spectrogram 1
-	forPrinting
-    comment
     boolean Batch_process_directory
 endform
 
@@ -67,7 +55,8 @@ endform
 include Subroutines/errorBeep.praat
 include Subroutines/infoLines.praat
 include Subroutines/main.praat
-include Subroutines/uiWindow.praat
+include Subroutines/mainUIBatch.praat
+include Subroutines/mainUI.praat
 include Subroutines/setUpDirsAndFiles.praat
 include Subroutines/setVars.praat
 include Subroutines/getSoundGridInfo.praat

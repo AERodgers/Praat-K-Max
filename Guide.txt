@@ -28,22 +28,21 @@
     #           files. (Leave blank if files to be stored in main directory.)
     #    3. Tier names: Name of reference (default "syllable") and tonal tiers.
     #           Extra tiers can also be listed in "Other tiers to show".
-    #    4. File format: prefixes for pitch and resynthesised sound files.
-    #           Suffix for sound file (default ".wav").
-    #    5. Pitch processing parameters: set minimum and maximum F0, and pitch
+    #    4. Pitch processing parameters: set minimum and maximum F0, and pitch
     #           smoothing parameter bandwidth for Praat Smooth function, which
     #           is performed on the pitch object before curvature estimation
     #           (10 default: higher = less smoothing)
-    #    6. Post idealisation smoothing parameters (moving point average)
+    #    5. Post idealisation smoothing parameters (moving point average)
     #           a. Physiological constraints: (lower = less smoothing)
     #                  Smoothes the "ideal curve" to simulate the effects of
     #                  physiological constraints on pitch movement
     #           b. Fine-grained smoothing: (higher = more smoothing)
     #                  runs an MPA smoothing function over the contour to
     #                  remove any remaining artefacts.
-    #    7. Batch process directory: runs through whole directory and processes
+    #    6. Batch process directory: runs through whole directory and processes
     #       all files automatically. This assumes the user has already run the
-    #       process manually (LARGELY REDUNDANT IN RELEASE VERSION).
+    #       process manually. A figure options menu is opened before batch
+    #       processing begins.
     #
     # D. RUNNING THE MAIN ANALYSIS PROCEDURE
     #    The Info window displays a reference guide.
