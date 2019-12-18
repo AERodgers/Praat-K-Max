@@ -34,7 +34,6 @@ form MAX-K: Master UI Menu
     natural Praat_smooothing_bandwidth 10
     comment Post-idealisation smoothing parameters
     natural Physiological_constraints 1
-    natural Fine_grained_smoothing 1
     boolean Batch_process_directory
 endform
 

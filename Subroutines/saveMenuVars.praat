@@ -12,5 +12,4 @@ procedure saveMenuVars
         ... + newline$ + "Maximum_F0" + tab$ + string$(maximum_F0)
         ... + newline$ + "Pre_smoothing" + tab$ + string$(pre_smoothing)
         ... + newline$ + "Coarse_smoothing" + tab$ + string$(coarse_smoothing)
-        ... + newline$ + "Fine_smoothing" + tab$ + string$(fine_smoothing)
 endproc

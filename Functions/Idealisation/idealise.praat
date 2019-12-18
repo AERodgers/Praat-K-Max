@@ -12,7 +12,7 @@
 #               @physioConstraints, @dynamic_mpa, @calc_mpa
 
 procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
-        ...  .minF0, .maxF0, .kMin, .smoothCoarse, .smoothFine
+        ...  .minF0, .maxF0, .kMin, .smoothCoarse
 
     # process pitch object
     selectObject: .pitchObj
@@ -239,12 +239,8 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     endfor
     # create dynamically smoothed contour
     @dynamic_mpa: .pitchTable, "Smoothing", "IdealF0", "SmoothedIdealF0"
-    # grained smoothing to remove artefacts from dynamic smoothing
-    @calc_mpa: (.smoothFine) * 2 + 1, .pitchTable, "SmoothedIdealF0", "TempF0"
     selectObject: .pitchTable
     Remove column: "Smoothing"
-    Remove column: "SmoothedIdealF0"
-    Set column label (label): "TempF0", "SmoothedIdealF0"
 
     ### resynthise
     selectObject: .sound

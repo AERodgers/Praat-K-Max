@@ -48,6 +48,7 @@ procedure drawTonal: .table, .tMin, .tMax, .f0MinST, .f0MaxST, .t$, .f0$,
     Scatter plot (mark): "T_shadow", .tMin, .tMax, "F0_shadow",
         ... .f0MinST, .f0MaxST, 2, "no", "x"
     Colour: .col$
+    Line width: 2 * .widthCoeff
     Scatter plot (mark): .t$, .tMin, .tMax, .f0$,
         ... .f0MinST, .f0MaxST, 2 + (.widthCoeff/2), "no", "x"
     Remove

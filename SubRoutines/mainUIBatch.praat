@@ -25,7 +25,6 @@ procedure mainUIBatch
 	draw_resynth = resynthesised_contour
 	draw_tonal = tonal_annotation_and_ideal_targets
 	coarse_smoothing = physiological_constraints
-	fine_smoothing = fine_grained_smoothing
 	pre_smoothing = praat_smooothing_bandwidth
     widthCoeff = (format_for_printing) + 1
     drawSpectro = draw_spectrogram

@@ -30,7 +30,6 @@ procedure main
             if edit_choice > 3 or edit_choice < 1
                 pre_smoothing = Get value: tableRow, "pre_smooth"
                 coarse_smoothing = Get value: tableRow, "coarse_smooth"
-                fine_smoothing = Get value: tableRow, "fine_smooth"
             endif
         else
             Append row
@@ -40,7 +39,6 @@ procedure main
             Set string value: tableRow, "sound", sound$
             Set numeric value: tableRow, "pre_smooth", pre_smoothing
             Set numeric value: tableRow, "coarse_smooth", coarse_smoothing
-            Set numeric value: tableRow, "fine_smooth", fine_smoothing
         endif
         ### OPEN TEXTGRID FOR EDITING, IF EXISTS
         ###
@@ -239,7 +237,7 @@ procedure main
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
                     ... minF0, maxF0, k.min,
-                    ... coarse_smoothing, fine_smoothing
+                    ... coarse_smoothing
                 @saveAndRemoveFiles
             elsif edit_choice = 2
                 curr_sound -= 1
@@ -249,7 +247,7 @@ procedure main
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
                     ... minF0, maxF0, k.min,
-                    ... coarse_smoothing, fine_smoothing
+                    ... coarse_smoothing
                 if  draw_resynth * draw_figure
                     @drawIdealization:
                         ... idealise.pitch, c3pogram.minT, c3pogram.maxT,

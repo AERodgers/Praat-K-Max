@@ -24,7 +24,6 @@ procedure mainUI
 		comment: "Current smoothing parameters"
 		natural: "Praat smooothing bandwidth", pre_smoothing
 		natural: "Physiological constraints", coarse_smoothing
-		natural: "Fine grained smoothing", fine_smoothing
 		comment: "General Image Options"
         boolean: "Draw_figure", draw_figure
         boolean: "Format_for_printing", format_for_printing
@@ -60,7 +59,6 @@ procedure mainUI
 	draw_resynth = resynthesised_contour
 	draw_tonal = tonal_annotation_and_ideal_targets
 	coarse_smoothing = physiological_constraints
-	fine_smoothing = fine_grained_smoothing
 	pre_smoothing = praat_smooothing_bandwidth
     widthCoeff = (format_for_printing) + 1
     drawSpectro = draw_spectrogram

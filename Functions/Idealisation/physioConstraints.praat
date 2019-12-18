@@ -13,6 +13,8 @@
 procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal, .t$, .f0$
     selectObject: .pointsTable
     .table = Copy: "newIdeal"
+    .shape$ = "rectangle"
+    .shape$ = "triangle"
 
     # convert F0 to ST re 100 Hz
     Formula: .f0$, "12 * log2(self/100)"
@@ -47,18 +49,34 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal, .t$, .f0$
            ... " Undefined value detected, probably at boundary. Please check."
    endif
 
+    # smooth K while maintaining same area under the contour as stylisation
     selectObject: .f0Table
     Append column: "Smoothing"
-    for .i from 2 to .numPoints - 1
-        Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
-            ... + "self[""Time""] <= .xRight[.i] then "
-            ... + ".smoothVal * "
-            ... + "log10(abs(.dxdy2[.i] / (.xRight[.i] - .xLeft[.i]))) "
-            ... + "else self[""Smoothing""] endif"
-    endfor
+    if .shape$ = "rectangle"
+        for .i from 2 to .numPoints - 1
+            Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
+                ... + "self[""Time""] <= .xRight[.i] then "
+                ... + ".dxdy2[.i] / (.xRight[.i] - .xLeft[.i]) "
+                ... + "else self[""Smoothing""] endif"
+        endfor
+    elsif .shape$ = "triangle"
+        for .i from 2 to .numPoints - 1
+            .yTri = 2 * .dx * .dxdy2[.i] / (.xRight[.i] - .xLeft[.i])
+            .slopeLeft = 2 * .yTri / (.x[.i] - .xLeft[.i])
+            .slopeRight = 2 * .yTri / (.xRight[.i] - .x[.i])
+            Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
+                ... + "self[""Time""] <= .x[.i] then "
+                ... + "(self[""Time""] - .xLeft[.i]) * .slopeLeft "
+                ... + "else self[""Smoothing""] endif"
+            Formula: "Smoothing", "if self[""Time""] >= .x[.i] and "
+                ... + "self[""Time""] <= .xRight[.i] then "
+                ... + "(.xRight[.i] - self[""Time""]) * .slopeRight "
+                ... + "else self[""Smoothing""] endif"
+        endfor
+    endif
 
     # convert Smoothing values to odd numbers for MPA
-    Formula: "Smoothing", "2 * floor(self / 2) + 1"
+    Formula: "Smoothing", "2 * floor((.smoothVal + log10(abs(self))) / 2) + 1"
     Formula: "Smoothing", "if self = undefined then self = 1 else self endif"
     # remove surplus objects
     selectObject: .table

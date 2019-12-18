@@ -19,7 +19,6 @@ procedure setVars
     userInput = not batch_process_directory
     pre_smoothing = praat_smooothing_bandwidth
     coarse_smoothing = physiological_constraints
-    fine_smoothing = fine_grained_smoothing
 
     # set default drawing flags
     draw_figure = 1

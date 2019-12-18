@@ -40,7 +40,7 @@ procedure createLegendTable
         Set string value: legendLines, "style", "Line"
         Set string value: legendLines, "colour", idealCol$
         Set string value: legendLines, "text", "%f_0 resynthesis"
-        Set numeric value: legendLines, "size", 2 * widthCoeff
+        Set numeric value: legendLines, "size", 3 * widthCoeff
     endif
 
     if draw_tonal
