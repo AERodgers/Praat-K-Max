@@ -15,7 +15,7 @@
 # INPUT FORM
 form MAX-K: Master UI Menu
     comment Directory and file Information
-    sentence Directory
+    sentence Directory Example
     sentence Pitch_directory pitch
     sentence Output_directory output
     sentence Image_directory image
@@ -25,12 +25,12 @@ form MAX-K: Master UI Menu
     word Pitch_prefix PF_
     word Resynthesis_prefix RS_
     comment Tier names
-    word Reference_tier syllable
-    word Tonal_tier STHtone
+    word Reference_tier sentence
+    word Tonal_tier tones
     sentence Other_tiers_to_show phono comments
     comment Pitch Processing Parameters
-    natural Minimum_F0 60
-    natural Maximum_F0 340
+    natural Minimum_F0 50
+    natural Maximum_F0 300
     natural Praat_smooothing_bandwidth 10
     comment Post-idealisation smoothing parameters
     natural Physiological_constraints 1
