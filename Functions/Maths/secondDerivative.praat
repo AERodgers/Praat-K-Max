@@ -1,4 +1,4 @@
-# SECOND DERIVATIVE OF A CONTINUOUS CONTOUR
+# SECOND DERIVATIVE OF A DISCRETE CONTOUR
 # =========================================
 # Written for Praat 6.0.40
 
@@ -7,11 +7,30 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 # October 10 - December 18, 2019
 
-# Calculates the second time derivative of a continous contour
-# assuming that the x axis has a constant delta of .dx.
+# Calculates the second time derivative of a discrete contour
 # Note: 1st and last rows columns will be undefined
+# Note: stores the intercept of f(x) and f'(x) for use in doubleIntegral
+#
+#   N - 1
+#  ------
+#  \      d2y     1     /                    \
+#   |     ---  = --- * |  y     + y    - 2y   | ,   n  = NaN , n  = NaN
+#  /      dx^2   dx^2   \  n+1     n-1     n /       1          N
+#  ------
+#   n = 2
 
-procedure secondDerivative: .table, .y$, .dxdy2Col$, .dx
+
+procedure secondDerivative: .table, .x$, .y$, .d2ydx2Col$
+    selectObject: .table
+    .x1 = Get value: 1, .x$
+    .x2 = Get value: 2, .x$
+	.dx = .x2 - .x1
+
+    selectObject: .table
+    .i_fx = Get value: 1, .y$
+    .y2 = Get value: 2, .y$
+    .i_dydx =  (.y2 - .i_fx) /( .dx)
+
     selectObject: .table
     Append row
     Insert row: 1
@@ -20,9 +39,9 @@ procedure secondDerivative: .table, .y$, .dxdy2Col$, .dx
     Append column: .y0$
     Append column: .y2$
 
-    .dxdy2Exists = Get column index: .dxdy2Col$
-    if not .dxdy2Exists
-        Append column: .dxdy2Col$
+    .d2ydx2Exists = Get column index: .d2ydx2Col$
+    if not .d2ydx2Exists
+        Append column: .d2ydx2Col$
     endif
     numRows = Get number of rows
     for  .i from 2 to numRows - 1
@@ -32,7 +51,7 @@ procedure secondDerivative: .table, .y$, .dxdy2Col$, .dx
     endfor
     Remove row: 1
     Remove row: numRows - 1
-    Formula: .dxdy2Col$, "(self[.y0$] + self[.y2$] - 2 * self[.y$]) / .dx ^ 2"
+    Formula: .d2ydx2Col$, "(self[.y0$] + self[.y2$] - 2 * self[.y$]) / .dx ^ 2"
     Remove column: .y0$
     Remove column: .y2$
 endproc

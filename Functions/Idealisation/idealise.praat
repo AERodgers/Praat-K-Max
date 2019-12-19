@@ -221,7 +221,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
 
     ### Use dynamic smoothing to simulate physiological constraints
     # calculate dynamic smoothing parameters and populate F0 table
-    @physioConstraints: .table, .pitchTable, .timeStep, .smoothCoarse,
+    @physioConstraints: .table, .pitchTable, "Time", .smoothCoarse,
         ... "ideal_T", "ideal_F0"
     selectObject: .pitchTable
     Rename: "pitchTable"

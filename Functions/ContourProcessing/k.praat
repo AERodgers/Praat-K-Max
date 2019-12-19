@@ -17,7 +17,7 @@ procedure k: .table, .time$, .f0$
     .x[2] = Get value: 2, .time$
     .x[1] = Get value: 1, .time$
     .dx = .x[2] - .x[1]
-    @secondDerivative: .table, .f0$,"K", .dx
+    @secondDerivative: .table, .time$, .f0$, "K"
 
     Formula: "toneLike", "if self[""K""] < 0 then ""H"" else ""L"" endif"
     Formula: "K", "if self[""K""] = undefined then 0 else self endif"

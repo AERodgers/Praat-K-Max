@@ -6,16 +6,25 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# calculates the physiological smoothing parameter using fo"(t) of the ideal
-# contour at each turning point, i, (as elsewhere it is equal to zero). The
-# smoothing factor is applied as log2(fo"(t[i])) between local turning points.
+# calculates the physiological smoothing parameter using smoothing factor
+# and fo"(t) of the ideal contour at each turning point.
 
-procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal, .t$, .f0$
-    selectObject: .pointsTable
+procedure physioConstraints: .idealTable, .f0Table, .tOrig$, .smFac, .t$, .f0$
+    # get .dx from first pair of defined values in .tOrig$ of .f0Table
+    selectObject: .f0Table
+    .curX = 1
+    .x2 = Get value: 2, .tOrig$
+    .x1 = Get value: 1, .tOrig$
+    .dx = .x2 - .x1
+    while .dx = undefined
+        .curX += 1
+        .x2 = Get value: .curX + 1, .tOrig$
+        .x1 = Get value: .curX, .tOrig$
+        .dx = .x2 - .x1
+    endwhile
+
+    selectObject: .idealTable
     .table = Copy: "newIdeal"
-    .shape$ = "rectangle"
-    .shape$ = "triangle"
-
     # convert F0 to ST re 100 Hz
     Formula: .f0$, "12 * log2(self/100)"
 
@@ -49,35 +58,20 @@ procedure physioConstraints: .pointsTable, .f0Table, .dx, .smoothVal, .t$, .f0$
            ... " Undefined value detected, probably at boundary. Please check."
    endif
 
-    # smooth K while maintaining same area under the contour as stylisation
+    # create rectangular K with same area as K or stylization
     selectObject: .f0Table
     Append column: "Smoothing"
-    if .shape$ = "rectangle"
-        for .i from 2 to .numPoints - 1
-            Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
-                ... + "self[""Time""] <= .xRight[.i] then "
-                ... + ".dxdy2[.i] / (.xRight[.i] - .xLeft[.i]) "
-                ... + "else self[""Smoothing""] endif"
-        endfor
-    elsif .shape$ = "triangle"
-        for .i from 2 to .numPoints - 1
-            .yTri = 2 * .dx * .dxdy2[.i] / (.xRight[.i] - .xLeft[.i])
-            .slopeLeft = 2 * .yTri / (.x[.i] - .xLeft[.i])
-            .slopeRight = 2 * .yTri / (.xRight[.i] - .x[.i])
-            Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
-                ... + "self[""Time""] <= .x[.i] then "
-                ... + "(self[""Time""] - .xLeft[.i]) * .slopeLeft "
-                ... + "else self[""Smoothing""] endif"
-            Formula: "Smoothing", "if self[""Time""] >= .x[.i] and "
-                ... + "self[""Time""] <= .xRight[.i] then "
-                ... + "(.xRight[.i] - self[""Time""]) * .slopeRight "
-                ... + "else self[""Smoothing""] endif"
-        endfor
-    endif
+    for .i from 2 to .numPoints - 1
+        Formula: "Smoothing", "if self[""Time""] >= .xLeft[.i] and "
+            ... + "self[""Time""] <= .xRight[.i] then "
+            ... + ".dxdy2[.i] / (.xRight[.i] - .xLeft[.i]) "
+            ... + "else self[""Smoothing""] endif"
+    endfor
 
-    # convert Smoothing values to odd numbers for MPA
-    Formula: "Smoothing", "2 * floor((.smoothVal + log10(abs(self))) / 2) + 1"
+    # incorporate smoothing factor, and calculate odd numbers for MPA
+    Formula: "Smoothing", "2 * floor((.smFac + log10(abs(self))) / 2) + 1"
     Formula: "Smoothing", "if self = undefined then self = 1 else self endif"
+
     # remove surplus objects
     selectObject: .table
     Remove
