@@ -41,7 +41,7 @@ appendInfoLine:
     ... 'nl$', "   NB: BE VERY JUDICIOUS WHEN USING THE FIX PITCH FUNCTION!",
     ... 'nl$'
 endif
-    appendInfo: 'nl$', 'nl$', "Started at:  ",  mid$(date$(), 12, 8)
+    appendInfo: 'nl$', "Started at:  ",  mid$(date$(), 12, 8)
     if batch_process_directory
         appendInfo: " ...this may take a while..."
     endif

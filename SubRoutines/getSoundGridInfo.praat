@@ -26,7 +26,18 @@ procedure getSoundGridInfo
     selectObject: sound_list_temp
     Remove
 
-    # get list of textgrids in target file
+    # list sounds and indices in Info window for user convenience
+    if not batch_process_directory
+        selectObject: sound_list
+        appendInfoLine: newline$, newline$, "Index", tab$, "Sound"
+        for i to numSounds
+            i$ = Get string: i
+            appendInfoLine: i, tab$, i$
+        endfor
+    endif
+    appendInfoLine: newline$
+    
+    # get list of textgrids in target directory
     textgrid_file_list = Create Strings as file list: "textgrids",
         ... dir$ + "*.TextGrid"
     textgrid_list_temp1 = selected ()
@@ -37,5 +48,6 @@ procedure getSoundGridInfo
     textgrid_list = selected ()
     selectObject: textgrid_list_temp1
     plusObject: textgrid_list_temp2
+
     Remove
 endproc
