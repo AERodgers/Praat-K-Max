@@ -269,7 +269,7 @@ procedure main
                 @drawLegend: c3pogram.minT, c3pogram.maxT,
                 ... drawC3pogram.minF0, drawC3pogram.maxF0,
                     ... pitchTable, "Time", "F0",
-                    ... tempLegend, 0.01
+                    ... tempLegend, 0.01, widthCoeff
                 selectObject: tempLegend
                 Remove
                 Save as 300-dpi PNG file:  imagePath$ + sound$ + ".png"

@@ -7,7 +7,7 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
-    ... .xyTable, .xCol$, .yCol$, .legendTable, .threshold
+    ... .xyTable, .xCol$, .yCol$, .legendTable, .threshold,  .widthCoeff
 
     Line width: 1
     Solid line
@@ -178,12 +178,23 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
             Paint circle: .lighter$, .x_start + 0.75 *.x_unit,
                 ... .y_start + .y_unit * .iRef,
                 ... ((.size[.i] - 0.25) * .x_unit / 4)
-
         else
+            .temp = Create Table with column names: "table", 1, "X Y Mrk Xs Ys"
+            .xS = Horizontal mm to world coordinates: 0.2
+            .yS = Vertical mm to world coordinates: 0.2
+            Set numeric value: 1, "X" , .x_start + 1.25 * .x_unit
+            Set numeric value: 1, "Y" , .y_start + .y_unit * .iRef
+            Set numeric value: 1, "Xs" , .x_start + 1.25 * .x_unit + .xS
+            Set numeric value: 1, "Ys" , .y_start + .y_unit * .iRef - .yS
+            Set string value: 1, "Mrk", .style$[.i]
+            Line width: 2 * .widthCoeff
+            Colour: "White"
+            Scatter plot (mark): "Xs", .xMin, .xMax, "Ys",
+                ... .yMin, .yMax, 2 + (.widthCoeff/2), "no", left$(.style$[.i], 1)
             Colour: .colour$[.i]
-            Text: .x_start + 1.25 * .x_unit , "centre",
-                ... .y_start + .y_unit * .iRef,
-                ... "Half", .style$[.i]
+            Scatter plot (mark): "X", .xMin, .xMax, "Y",
+                ... .yMin, .yMax, 2 + (.widthCoeff/2), "no", left$(.style$[.i], 1)
+            Remove
         endif
     endfor
 
