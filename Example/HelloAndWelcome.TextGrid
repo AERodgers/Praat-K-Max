@@ -55,7 +55,7 @@ item []:
         name = "tones" 
         xmin = 0 
         xmax = 1.4321768707482994 
-        points: size = 9 
+        points: size = 10 
         points [1]:
             number = 0.16858843537414975 
             mark = "L" 
@@ -66,21 +66,24 @@ item []:
             number = 0.46858843537414974 
             mark = "_0" 
         points [4]:
-            number = 0.6482127829310281 
+            number = 0.6485884353741497 
             mark = "L_" 
         points [5]:
-            number = 0.8885884353741497 
+            number = 0.7835884353741497 
             mark = "H*" 
         points [6]:
-            number = 0.9635884353741496 
-            mark = "+L" 
+            number = 0.8885884353741497 
+            mark = "_0" 
         points [7]:
+            number = 0.9485884353741496 
+            mark = "L_" 
+        points [8]:
             number = 1.0385884353741497 
             mark = "H*" 
-        points [8]:
+        points [9]:
             number = 1.1285884353741498 
             mark = "+L" 
-        points [9]:
+        points [10]:
             number = 1.2785884353741497 
             mark = "L" 
     item [6]:
@@ -88,7 +91,7 @@ item []:
         name = "maxK" 
         xmin = 0 
         xmax = 1.4321768707482994 
-        points: size = 14 
+        points: size = 16 
         points [1]:
             number = 0.16858843537414975 
             mark = "L" 
@@ -108,26 +111,32 @@ item []:
             number = 0.5435884353741497 
             mark = "L" 
         points [7]:
-            number = 0.5885884353741496 
+            number = 0.6035884353741496 
             mark = "H" 
         points [8]:
             number = 0.6485884353741497 
             mark = "L" 
         points [9]:
+            number = 0.7235884353741496 
+            mark = "L" 
+        points [10]:
+            number = 0.7835884353741497 
+            mark = "H" 
+        points [11]:
             number = 0.8885884353741497 
             mark = "H" 
-        points [10]:
-            number = 0.9635884353741496 
-            mark = "L" 
-        points [11]:
-            number = 1.0385884353741497 
-            mark = "H" 
         points [12]:
-            number = 1.1285884353741498 
+            number = 0.9485884353741496 
             mark = "L" 
         points [13]:
-            number = 1.2335884353741497 
+            number = 1.0385884353741497 
             mark = "H" 
         points [14]:
+            number = 1.1285884353741498 
+            mark = "L" 
+        points [15]:
+            number = 1.2335884353741497 
+            mark = "H" 
+        points [16]:
             number = 1.2785884353741497 
             mark = "L" 

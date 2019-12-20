@@ -55,7 +55,7 @@ item []:
         name = "tones" 
         xmin = 0 
         xmax = 1.4321768707482994 
-        points: size = 9 
+        points: size = 7 
         points [1]:
             number = 0.16858843537414975 
             mark = "L" 
@@ -63,24 +63,18 @@ item []:
             number = 0.3335884353741497 
             mark = "H*" 
         points [3]:
-            number = 0.46858843537414974 
-            mark = "_0" 
-        points [4]:
             number = 0.6482127829310281 
             mark = "L_" 
-        points [5]:
+        points [4]:
             number = 0.8885884353741497 
             mark = "H*" 
-        points [6]:
+        points [5]:
             number = 0.9635884353741496 
             mark = "+L" 
-        points [7]:
+        points [6]:
             number = 1.0385884353741497 
             mark = "H*" 
-        points [8]:
-            number = 1.1285884353741498 
-            mark = "+L" 
-        points [9]:
+        points [7]:
             number = 1.2785884353741497 
             mark = "L" 
     item [6]:

@@ -41,13 +41,37 @@ procedure setVars
     alreadyOpened# = zero# (numSounds)
     pitchSaved# = zero# (numSounds)
 
-    # set j variables
-    fixPitch.candidates = 15
-    fixPitch.s_threshold = 0.03
-    fixPitch.v_threshold = 0.45
-    fixPitch.oct_cost = 0.01
-    fixPitch.oct_j_cost = 0.35
-    fixPitch.vuv_cost = 0.14
+    # set "To Pitch" variables if not set in @toPitchVariables
+    if not variableExists("max__number_of_candidates")
+        fixPitch.candidates = 15
+    else
+        fixPitch.candidates = candidates
+    endif
+    if not variableExists("silence_threshold")
+        fixPitch.s_threshold = 0.03
+    else
+        fixPitch.s_threshold = silence_threshold
+    endif
+    if not variableExists("voicing_threshold")
+        fixPitch.v_threshold = 0.45
+    else
+        fixPitch.v_threshold = voicing_threshold
+    endif
+    if not variableExists("octave_cost")
+        fixPitch.oct_cost = 0.01
+    else
+        fixPitch.oct_cost = octave_cost
+    endif
+    if not variableExists("octave_jump_cost")
+        fixPitch.oct_j_cost = 0.35
+    else
+        fixPitch.oct_j_cost = octave_jump_cost
+    endif
+    if not variableExists("Voiced___unvoiced_cost")
+        fixPitch.vuv_cost = 0.14
+    else
+        fixPitch.vuv_cost = voiced_unvoiced_cost
+    endif
 
     #colour variables
     fixedF0Col$ = "Black"

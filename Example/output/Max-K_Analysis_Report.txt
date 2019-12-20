@@ -1,2 +1,2 @@
 count	sound	tonalText	comments	pre_smooth	coarse_smooth	fine_smooth
-1	HelloAndWelcome	L H*_0 L_H*+L H* L	?	10	1	?
+1	HelloAndWelcome	L H*_0 L_H*_0 L_H*+L L	?	11	1	?
