@@ -6,9 +6,9 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 #
-# works in conjunction with @merge_textgrids
+# works in conjunction with @textgridMerge
 
-procedure temp_textgrid: .original$, .keep_list$
+procedure textgridTemp: .original$, .keep_list$
     # convert .keep_list$ to array of tiers to be kept
     # (.keep$[.n] with .n elements)
     .list_length = length(.keep_list$)

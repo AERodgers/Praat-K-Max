@@ -101,7 +101,7 @@
     #                  2. "Process": PROCESS, SAVE, AND REVIEW ANNOTATIONS
     #                     AND RESYNTHESIS
     #                  3. "<": Go back one object without saving
-    #                  4. "Next": Go to the "Next object" without saving
+    #                  4. ">": Go to the "Next object" without saving
     #                  5. "Exit": exit script (clears all temporary objects and
     #                     completes report)
     #                  7. "Revert" and "Stop" are default Praat menu options

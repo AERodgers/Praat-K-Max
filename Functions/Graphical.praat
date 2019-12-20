@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-include Functions/Graphical/draw_table_line.praat
+include Functions/Graphical/drawTableLine.praat
 include Functions/Graphical/drawK.praat
 include Functions/Graphical/drawIdealization.praat
 include Functions/Graphical/drawTonal.praat

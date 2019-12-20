@@ -7,7 +7,7 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # other graphical functions
-procedure draw_table_line: .tableObj, .xCol$, .yCol$,
+procedure drawTableLine: .tableObj, .xCol$, .yCol$,
         ... .x_axis_min, .x_axis_max, .ignore_zeros
     selectObject: .tableObj
     .rows_tot = Get number of rows

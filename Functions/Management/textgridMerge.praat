@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 #
-# works in conjunction with @temp_textgrid
+# works in conjunction with @textgridTemp
 
 ### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
 # ==============================================
@@ -16,16 +16,16 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependency: temp_textgrid.object
+# dependency: textgridTemp.object
 
-procedure merge_textgrids
+procedure textgridMerge
     # get number of and list of original and temporary tiers
-    selectObject: temp_textgrid.object
+    selectObject: textgridTemp.object
     .temp_n_tiers = Get number of tiers
     for .i to .temp_n_tiers
         .temp_tier$[.i] = Get tier name: .i
     endfor
-    selectObject: 'temp_textgrid.original$'
+    selectObject: 'textgridTemp.original$'
     .orig_n_tiers = Get number of tiers
     .name$ = selected$("TextGrid")
     for .i to .orig_n_tiers
@@ -33,11 +33,11 @@ procedure merge_textgrids
     endfor
 
     # create 1st tier of merged tier
-    selectObject: 'temp_textgrid.original$'
+    selectObject: 'textgridTemp.original$'
     Extract one tier: 1
     .new = selected()
     if .orig_tier$[1] = .temp_tier$[1]
-        selectObject: temp_textgrid.object
+        selectObject: textgridTemp.object
         Extract one tier: 1
         .temp_single_tier = selected ()
         plusObject: .new
@@ -59,10 +59,10 @@ procedure merge_textgrids
             endif
         endfor
         if .useTemp
-            selectObject: temp_textgrid.object
+            selectObject: textgridTemp.object
             Extract one tier: .useTemp
         else
-            selectObject: 'temp_textgrid.original$'
+            selectObject: 'textgridTemp.original$'
             Extract one tier: .i
         endif
         .temp_single_tier = selected ()
@@ -74,10 +74,10 @@ procedure merge_textgrids
         Remove
         .new = .newNew
     endfor
-    selectObject: 'temp_textgrid.original$'
-    plusObject: temp_textgrid.object
+    selectObject: 'textgridTemp.original$'
+    plusObject: textgridTemp.object
     Remove
-    'temp_textgrid.original$' = .new
-    selectObject: 'temp_textgrid.original$'
+    'textgridTemp.original$' = .new
+    selectObject: 'textgridTemp.original$'
     Rename: .name$
 endproc

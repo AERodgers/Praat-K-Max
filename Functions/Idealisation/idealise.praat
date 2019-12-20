@@ -9,7 +9,7 @@
 # Contour idealisation
 
 # dependencies: @pitch2Table, @removeRowsWhereNum, @tableStats,
-#               @physioConstraints, @dynamic_mpa, @calc_mpa
+#               @physioConstraints, @mpaDynamic, @mpa
 
 procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         ...  .minF0, .maxF0, .kMin, .smoothCoarse
@@ -113,11 +113,11 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     selectObject: .minMaxK
     .numSlopes = .numMaxKpoints - 1
     for .i to .numSlopes
-        @find_nearest_table: .maxKTime[.i], .minMaxK, "Time"
-        .firstKMinT = Get value: find_nearest_table.index + 1, "Time"
-        .noKMins = Get value: find_nearest_table.index + 1, "MinMax"
-        @find_nearest_table: .maxKTime[.i+1], .minMaxK, "Time"
-        .lastKMinT = Get value: find_nearest_table.index - 1, "Time"
+        @findNearestTable: .maxKTime[.i], .minMaxK, "Time"
+        .firstKMinT = Get value: findNearestTable.index + 1, "Time"
+        .noKMins = Get value: findNearestTable.index + 1, "MinMax"
+        @findNearestTable: .maxKTime[.i+1], .minMaxK, "Time"
+        .lastKMinT = Get value: findNearestTable.index - 1, "Time"
         #if no intervening MinK, use last two valid time points
         if .noKMins
             .lastKMinT = .firstKMinT
@@ -238,7 +238,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
             ... + "else self endif"
     endfor
     # create dynamically smoothed contour
-    @dynamic_mpa: .pitchTable, "Smoothing", "IdealF0", "SmoothedIdealF0"
+    @mpaDynamic: .pitchTable, "Smoothing", "IdealF0", "SmoothedIdealF0"
     selectObject: .pitchTable
     Remove column: "Smoothing"
 

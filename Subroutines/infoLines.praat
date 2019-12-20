@@ -25,7 +25,7 @@ appendInfoLine:
     ... 'nl$', " - Smoothing parameters can be changed on the fly .",
     ... 'nl$', " - Use ""Smooth"" recalculates max-K and ""Fix Pitch"" ",
     ... "to edit the contour.",
-    ... 'nl$', " - Use ""Next"" to move to next contour or ""<"" to go back.",
+    ... 'nl$', " - Use "">"" to move to next contour or ""<"" to go back.",
     ... 'nl$', " - Change value in ""Next object"" to jump to another object.",
     ... 'nl$', " - Click ""Exit"" to exit the script cleanly.",
     ... 'nl$', " - Current object number and total are shown in the title bar.",

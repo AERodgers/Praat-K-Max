@@ -1,21 +1,24 @@
-# TRIANGULAR MOVING POINT AVERAGE
-# ===============================
+# DYNAMIC TRIANGULAR M.P.A. USING WINDOW SIZE SPECFIED IN REFERENCE COLUMN
+# ========================================================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure calc_mpa: .mpa_size, .table_object, .input_col$, .output_col$
+procedure mpaDynamic: .table_object, .dynamic_col$, .input_col$, .output_col$
     selectObject: .table_object
     .total_points = Get number of rows
-    .mpa_lr = floor (.mpa_size/2)
-    .doesColExist =  Get column index: .output_col$
-    if not .doesColExist
+
+    .colExists = Get column index: .output_col$
+    if not .colExists
         Append column: .output_col$
     endif
+
     for .current_point to .total_points
-        # calculate number of frames to include to l and r of current frame
+        .mpa_size = Get value: .current_point,  .dynamic_col$
+        .mpa_lr = floor (.mpa_size/2)
+        # ensure MPA window size does not exceed the number of frames
         if .current_point <= .mpa_lr
             .cur_mpa_lr = .current_point - 1
         elsif .total_points - .current_point < .mpa_lr
@@ -25,7 +28,6 @@ procedure calc_mpa: .mpa_size, .table_object, .input_col$, .output_col$
         endif
         .total = 0
         .n = 0
-        #.n = .cur_mpa_lr * 2 + 1
         .cur_centre = Get value: .current_point, .input_col$
         for .add_these from (.current_point - .cur_mpa_lr)
             ... to (.current_point + .cur_mpa_lr)

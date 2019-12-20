@@ -22,10 +22,10 @@ procedure setVars
 
     # set default drawing flags
     draw_figure = 1
-    format_for_printing = 0
-    widthCoeff = 1
-    drawSpectro = 1
-    draw_f0_corrected = 1
+    format_for_printing = 1
+    widthCoeff = (format_for_printing) + 1
+    drawSpectro = 0
+    draw_f0_corrected = 0
     draw_K = 1
     draw_resynth = 1
 	draw_tonal = 1
@@ -80,6 +80,6 @@ procedure setVars
     kCol$ = "Red"
 
     # flag to add tiers for script author only [NOT FOR PUBLIC VERSION]
-    justForAER = 1
+    justForAER = 0
 
 endproc

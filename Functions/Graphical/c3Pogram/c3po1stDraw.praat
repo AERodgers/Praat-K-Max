@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependencies: @pitch2Table, @cpp, @find_nearest_table
+# dependencies: @pitch2Table, @cpp, @findNearestTable
 
 procedure c3po1stDraw: .sound, .paintSpectro, .minT, .maxT, .refTier
     Erase all

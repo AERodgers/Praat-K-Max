@@ -11,43 +11,109 @@ item []:
         name = "sentence" 
         xmin = 0 
         xmax = 1.4321768707482994 
-        intervals: size = 3 
+        intervals: size = 5 
         intervals [1]:
             xmin = 0 
             xmax = 0.07530346093810852 
             text = "" 
         intervals [2]:
             xmin = 0.07530346093810852 
-            xmax = 1.385652524451529 
-            text = "Hello and welcome" 
+            xmax = 0.533071253201891 
+            text = "HeLLO" 
         intervals [3]:
+            xmin = 0.533071253201891 
+            xmax = 0.9224886481924957 
+            text = "AND" 
+        intervals [4]:
+            xmin = 0.9224886481924957 
+            xmax = 1.385652524451529 
+            text = "WELcome" 
+        intervals [5]:
             xmin = 1.385652524451529 
             xmax = 1.4321768707482994 
             text = "" 
     item [2]:
         class = "IntervalTier" 
-        name = "sonorance" 
+        name = "syllable" 
         xmin = 0 
         xmax = 1.4321768707482994 
-        intervals: size = 1 
+        intervals: size = 7 
         intervals [1]:
             xmin = 0 
+            xmax = 0.07530346093810852 
+            text = "" 
+        intervals [2]:
+            xmin = 0.07530346093810852 
+            xmax = 0.19311796150108593 
+            text = "He-" 
+        intervals [3]:
+            xmin = 0.19311796150108593 
+            xmax = 0.533071253201891 
+            text = "-LLO" 
+        intervals [4]:
+            xmin = 0.533071253201891 
+            xmax = 0.9224886481924957 
+            text = "AND" 
+        intervals [5]:
+            xmin = 0.9224886481924957 
+            xmax = 1.1302378820096544 
+            text = "WEL-" 
+        intervals [6]:
+            xmin = 1.1302378820096544 
+            xmax = 1.385652524451529 
+            text = "-come" 
+        intervals [7]:
+            xmin = 1.385652524451529 
             xmax = 1.4321768707482994 
             text = "" 
     item [3]:
         class = "TextTier" 
-        name = "toneExtrema" 
+        name = "rhythm" 
         xmin = 0 
         xmax = 1.4321768707482994 
-        points: size = 0 
+        points: size = 6 
+        points [1]:
+            number = 0.07530346093810852 
+            mark = "%" 
+        points [2]:
+            number = 0.19311796150108593 
+            mark = "<" 
+        points [3]:
+            number = 0.533071253201891 
+            mark = "><" 
+        points [4]:
+            number = 0.9224886481924957 
+            mark = "><" 
+        points [5]:
+            number = 1.1302378820096544 
+            mark = ">" 
+        points [6]:
+            number = 1.385652524451529 
+            mark = "L%" 
     item [4]:
         class = "IntervalTier" 
-        name = "vowel" 
+        name = "phono" 
         xmin = 0 
         xmax = 1.4321768707482994 
-        intervals: size = 1 
+        intervals: size = 5 
         intervals [1]:
             xmin = 0 
+            xmax = 0.19311796150108593 
+            text = "" 
+        intervals [2]:
+            xmin = 0.19311796150108593 
+            xmax = 0.533071253201891 
+            text = "H*" 
+        intervals [3]:
+            xmin = 0.533071253201891 
+            xmax = 0.9224886481924957 
+            text = "!H*" 
+        intervals [4]:
+            xmin = 0.9224886481924957 
+            xmax = 1.1302378820096544 
+            text = "!H*+L" 
+        intervals [5]:
+            xmin = 1.1302378820096544 
             xmax = 1.4321768707482994 
             text = "" 
     item [5]:
@@ -58,7 +124,7 @@ item []:
         points: size = 10 
         points [1]:
             number = 0.16858843537414975 
-            mark = "L" 
+            mark = "0" 
         points [2]:
             number = 0.3335884353741497 
             mark = "H*" 
@@ -72,7 +138,7 @@ item []:
             number = 0.7835884353741497 
             mark = "H*" 
         points [6]:
-            number = 0.8885884353741497 
+            number = 0.8883134495559067 
             mark = "_0" 
         points [7]:
             number = 0.9485884353741496 

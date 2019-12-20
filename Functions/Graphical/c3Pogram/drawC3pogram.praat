@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependencies: @find_nearest_table; depends on @c3pogram
+# dependencies: @findNearestTable; depends on @c3pogram
 
 procedure drawC3pogram: .pitchTable, .secondParam,
     ... .minT, .maxT, .minF0, .maxF0, .type, .pitch_scale, .widthCoeff
@@ -38,9 +38,9 @@ procedure drawC3pogram: .pitchTable, .secondParam,
         selectObject: .pitchTable
         .curT = Get value: .i, "Time"
         .curF0 = Get value: .i, "F0"
-        @find_nearest_table: .curT, .secondParam, "Time"
-        .curShade = Get value: find_nearest_table.index, "shade"
-        .curShadeT = Get value: find_nearest_table.index, "Time"
+        @findNearestTable: .curT, .secondParam, "Time"
+        .curShade = Get value: findNearestTable.index, "shade"
+        .curShadeT = Get value: findNearestTable.index, "Time"
         if  .curT >= .minT and .curT <= .maxT
             if not(abs(.curShadeT - .curT)*1000 > 5.5555)
                 if .type  = 1
