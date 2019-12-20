@@ -9,11 +9,11 @@
 
 procedure mainUI
 	# Create temporary textgrid for editing (declutter view window)
-	@temp_textgrid: "textgrid", r_tier$ + " " + t_tier$ + " maxK "
+	@textgridTemp: "textgrid", r_tier$ + " " + t_tier$ + " maxK "
 		... + keepTiers$
 
 	# show sound and textgrid
-	selectObject: temp_textgrid.object
+	selectObject: textgridTemp.object
 	plusObject: soundobject
 
 	Edit
@@ -50,7 +50,7 @@ procedure mainUI
 		... "Fix F0",
 		... "Process",
 		... "<",
-		... "Next",
+		... ">",
 		... "Exit", 4
 
     #shorten UI names
@@ -63,7 +63,7 @@ procedure mainUI
     widthCoeff = (format_for_printing) + 1
     drawSpectro = draw_spectrogram
 
-	@merge_textgrids
+	@textgridMerge
 	feedback = 0
 	warning = 0
 endproc

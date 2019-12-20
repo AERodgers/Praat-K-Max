@@ -10,12 +10,13 @@
 # Calculates the double integral of a discrete contour
 # Note: Undefined values are set to 0 and n[0]=0 and [-1]=0 are effectively
 #       addded to the beginning of the array to generate value from n[1] to n[N]
-# Note: if @secondDerivative has note been run, make .i_fx = 0, .i_dydx = 0
+#       If @secondDerivative has not been run, make .i_fx = 0, .i_dydx = 0
 #
+#    N
 #  ------
-#  \        /    \     2      /      \      /     \     /      \
-#   |     f | x  | = dx  * f" | x    | + 2f | x   | - f | x    |
-#  /        \  n /            \  n-1 /      \ n-1 /     \  n-2 /
+#  \         /   \      2       /     \        /     \       /      \
+#   |     f | x   | = dx  * f" | x     | + 2f | x     | - f | x      |
+#  /         \ n /              \ n-1 /        \ n-1 /       \  n-2 /
 #  ------
 #   n = 1
 

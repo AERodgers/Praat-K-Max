@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependency: @draw_table_line
+# dependency: @drawTableLine
 
 procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
         ... .col$, .widthCoeff
@@ -29,7 +29,7 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
     for .i to .numRows
         .tempVal = Get value: .i, .t$
         .tempK = Get value: .i, .k$
-        if .tempVal >= .minT and .tempVal >= .maxT
+        if .tempVal >= .minT and .tempVal <= .maxT
             Line width: 1
             Solid line
             Draw line: .tempVal, 0, .tempVal, .tempK
@@ -41,7 +41,7 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
 
     #Draw K contour
     Line width: 2 * .widthCoeff
-    @draw_table_line: .kTable, .t$, .k$, .minT, .maxT, 0
+    @drawTableLine: .kTable, .t$, .k$, .minT, .maxT, 0
     Line width: 2
     Marks right every: 1, ceiling((.yAxisMin - .yAxisMax)/12),
         ...  "yes", "yes", "no"

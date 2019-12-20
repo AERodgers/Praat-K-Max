@@ -25,13 +25,13 @@ form MAX-K: Master UI Menu
     word Pitch_prefix PF_
     word Resynthesis_prefix RS_
     comment Tier names
-    word Reference_tier sentence
+    word Reference_tier syllable
     word Tonal_tier tones
-    sentence Other_tiers_to_show phono comments
+    sentence Other_tiers_to_show phono rhythm
     comment Pitch Processing Parameters
     natural Minimum_F0 50
     natural Maximum_F0 300
-    natural Praat_smooothing_bandwidth 10
+    natural Praat_smooothing_bandwidth 11
     comment Post-idealisation smoothing parameters
     natural Physiological_constraints 1
     boolean Batch_process_directory
@@ -66,8 +66,9 @@ include Subroutines/saveAndRemoveFiles.praat
 include Subroutines/saveReportAndTidy.praat
 
 # Functions take arguments and can largely be used in other scripts
-#     (17/12/19 - I will add better annotations to functions later to make them
-#     to use in other scripts easier - AER)
+#     (17/12/19 - I will add better annotations to functions later to make
+#     them easier to incorporate into other scripts easier - AER)
+
 include Functions/ContourProcessing.praat
 include Functions/Graphical.praat
 include Functions/Idealisation.praat
