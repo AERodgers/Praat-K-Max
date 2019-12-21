@@ -32,7 +32,7 @@ form MAX-K: Master UI Menu
     natural Minimum_F0 50
     natural Maximum_F0 300
     natural Praat_smooothing_bandwidth 10
-    boolean Call_detailed_parameter_menu 0
+    boolean Call_detailed_pitch_parameter_menu 0
     comment Post-idealisation smoothing parameters
     natural Physiological_constraints 1
     boolean Batch_process_directory 0
@@ -40,7 +40,7 @@ endform
 
 # CALL SUBROUTINES
 @versionCheck
-if call_detailed_parameter_menu
+if call_detailed_pitch_parameter_menu
     @toPitchVars
 endif
 @infoLines
