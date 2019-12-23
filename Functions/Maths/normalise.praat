@@ -7,7 +7,16 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # dependencies: @removeRowsWhere
-
+#
+#     N
+#  ------           y   -  y
+#  \                 n      min
+#   |     y_norm  = -----------
+#  /            n   y   -  y
+#  ------            max    min
+#   n = 1
+#
+#
 procedure normalise: .table, .col$
     selectObject: .table
     .temp = Copy: "temp"
