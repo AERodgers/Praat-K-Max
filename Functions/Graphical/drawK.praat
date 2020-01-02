@@ -1,5 +1,5 @@
-# MAX-K: DRAW CURVATURE
-# =====================
+# MAX-K: DRAW SECOND TIME DERIVATIVE OF F0
+# ========================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers
@@ -12,7 +12,7 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
         ... .col$, .widthCoeff
     .yAxisMin = 0
     .yAxisMax = pi * 1.1
-    .rightText$ = "Curvature [%f_0\""p(t)]"
+    .rightText$ = "Second time derivative of %f_0 [%f_0\""p(t)]"
     selectObject: .kTable
     .yAxisMin = Get maximum: .k$
     .yAxisMax = Get minimum: .k$

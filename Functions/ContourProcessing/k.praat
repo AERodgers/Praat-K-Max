@@ -1,4 +1,4 @@
-# MAX-K: GET TABLE OF (NORMALISED) CURVATURE OF F0 CONTOUR USING F0"(t)
+# MAX-K: USE F0"(t) TO ESTIMATE POINTS OF MINIMUM AND MAXIMUM CURVATURE
 # =====================================================================
 # Written for Praat 6.0.40
 
@@ -7,8 +7,6 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # Dependencies: @secondDerivative, .PitchTable with .time$ and .f0$ columns
-
-# calculates table of curvatures (K) via second time derivative of fo [f0"(t)]
 
 procedure k: .table, .time$, .f0$
     selectObject: .table

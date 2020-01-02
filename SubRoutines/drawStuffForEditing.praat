@@ -24,8 +24,8 @@ procedure drawStuffForEditing
     with$[2] = "with "
     subPrt2$[1]= ""
     subPrt2$[2] = "tonal annotations"
-    subPrt2$[3] = "curvature"
-    subPrt2$[4] = "curvature and tonal annotations"
+    subPrt2$[3] = "%f\""p_0"
+    subPrt2$[4] = "%f\""p_0 and tonal annotations"
 
     subPrt1 = draw_f0_corrected * 2 + draw_resynth
     subPrt2 = draw_K * 2 + draw_tonal

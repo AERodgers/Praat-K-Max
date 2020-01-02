@@ -168,7 +168,7 @@ procedure main
             plusObject: tableOfReal
             Remove
 
-            # CALCULATE MAXIMUM CURVATURE USING F0''(t)
+            # CALCULATE TIMES OF MAXIMUM AND MINIMUM CURVATURE USING F0"(t)
             @k: pitchTable, "Time", "F0"
             # populate empty maxK Tier
             if not kTiers

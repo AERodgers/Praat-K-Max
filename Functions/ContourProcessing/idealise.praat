@@ -8,8 +8,7 @@
 
 # Contour idealisation
 
-# dependencies: @pitch2Table, @removeRowsWhereNum, @tableStats,
-#               @physioConstraints, @mpaDynamic, @mpa
+# dependencies: @pitch2Table, @removeRowsWhereNum, @tableStats, @mpa
 
 procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         ...  .minF0, .maxF0, .kMin, .smoothCoarse
@@ -215,18 +214,13 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     # assume no slope and intercept of F0 for final point
     Set numeric value: .numMaxKpoints, "Slope", 0
     Set numeric value: .numMaxKpoints, "Intercept", .idealF0[.numMaxKpoints]
-
     # convert ST re 100 to Hz
     Formula: "ideal_F0", "100*2^(self/12)"
 
-    ### Use dynamic smoothing to simulate physiological constraints
-    # calculate dynamic smoothing parameters and populate F0 table
-    @physioConstraints: .table, .pitchTable, "Time", .smoothCoarse,
-        ... "ideal_T", "ideal_F0"
+    # create contour of ideal curve (i.e., linear curve with no constraints)
     selectObject: .pitchTable
     Rename: "pitchTable"
     Append column: "IdealF0"
-    # create contour of ideal curve (i.e., linear curve with no constraints)
     for .i to .numMaxKpoints - 1
         selectObject: .table
         .curT = Get value: .i, "ideal_T"
@@ -237,10 +231,9 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
             ... + "then .slope[.i] * self[""Time""] + .intercept[.i]"
             ... + "else self endif"
     endfor
-    # create dynamically smoothed contour
-    @mpaDynamic: .pitchTable, "Smoothing", "IdealF0", "SmoothedIdealF0"
-    selectObject: .pitchTable
-    Remove column: "Smoothing"
+
+    # create smoothed contour to simulate physiological constraints
+    @mpa: .smoothCoarse, .pitchTable, "IdealF0", "SmoothedIdealF0"
 
     ### resynthise
     selectObject: .sound

@@ -1,7 +1,10 @@
 # MAX-Κ
 # =====
+# Version 0.1.2
+#
 # A set of scripts for analysing and resynthesising pitch contours
-# using estimated points of maximum curvature in the contour.
+# using estimated points of maximum curvature in the contour. These are calcul-
+# ated from the second time derivative of F0. 
 #
 # Written for Praat 6.0.40
 

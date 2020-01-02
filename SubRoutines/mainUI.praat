@@ -30,7 +30,7 @@ procedure mainUI
         comment: "Display options"
 		boolean: "Draw_spectrogram", drawSpectro
 		boolean: "Corrected contour", draw_f0_corrected
-		boolean: "Curvature contour", draw_K
+		boolean: "Second time derivative contour", draw_K
 		boolean: "Resynthesised contour", draw_resynth
 		boolean: "Tonal annotation and ideal targets", draw_tonal
 		sentence: "Comment", comment$
@@ -55,7 +55,7 @@ procedure mainUI
 
     #shorten UI names
 	draw_f0_corrected = corrected_contour
-	draw_K = curvature_contour
+	draw_K = second_time_derivative_contour
 	draw_resynth = resynthesised_contour
 	draw_tonal = tonal_annotation_and_ideal_targets
 	coarse_smoothing = physiological_constraints
