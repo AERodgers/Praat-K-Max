@@ -91,7 +91,7 @@ procedure main
                     endif
                 endfor
                 if edit_choice = 2
-                    @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3,
+                    @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 0,
                         ... minF0, maxF0
                     selectObject: fixPitch.new
                     Save as text file: pitchPath$ + sound$ + ".Pitch"
@@ -145,7 +145,7 @@ procedure main
                 Remove
                 selectObject: tempPitch
             elsif not tempPitch
-                @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 3,
+                @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 0,
                     ... minF0, maxF0
                 tempPitch = fixPitch.new
                 selectObject: tempPitch

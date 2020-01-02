@@ -11,7 +11,7 @@ procedure mainUIBatch
 	beginPause: "Select image options before running batch analysis"
         boolean: "Draw figure",  draw_figure
         comment: "Image display options"
-		boolean: "Draw spectrogram", drawSpectro
+		boolean: "Paint spectrogram", drawSpectro
 		boolean: "Corrected contour", draw_f0_corrected
 		boolean:  "Second time derivative contour", draw_K
 		boolean: "Resynthesised contour", draw_resynth
@@ -27,5 +27,5 @@ procedure mainUIBatch
 	coarse_smoothing = physiological_constraints
 	pre_smoothing = praat_smooothing_bandwidth
     widthCoeff = (format_for_printing) + 1
-    drawSpectro = draw_spectrogram
+    drawSpectro = paint_spectrogram
 endproc

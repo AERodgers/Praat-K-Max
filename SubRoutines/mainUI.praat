@@ -25,10 +25,10 @@ procedure mainUI
 		natural: "Praat smooothing bandwidth", pre_smoothing
 		natural: "Physiological constraints", coarse_smoothing
 		comment: "General Image Options"
-        boolean: "Draw_figure", draw_figure
-        boolean: "Format_for_printing", format_for_printing
+        boolean: "Draw figure", draw_figure
+        boolean: "Format for printing", format_for_printing
         comment: "Display options"
-		boolean: "Draw_spectrogram", drawSpectro
+		boolean: "Paint spectrogram", drawSpectro
 		boolean: "Corrected contour", draw_f0_corrected
 		boolean: "Second time derivative contour", draw_K
 		boolean: "Resynthesised contour", draw_resynth
@@ -61,7 +61,7 @@ procedure mainUI
 	coarse_smoothing = physiological_constraints
 	pre_smoothing = praat_smooothing_bandwidth
     widthCoeff = (format_for_printing) + 1
-    drawSpectro = draw_spectrogram
+    drawSpectro = paint_spectrogram
 
 	@textgridMerge
 	feedback = 0

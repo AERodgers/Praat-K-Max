@@ -19,7 +19,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     @pitch2Table: .pitchObj, 0
     .pitchTable  = pitch2Table.table
 
-    # process tiers to get tonal tier (future proofed in case multiple)
+    # process tiers to get tonal tier (future proofed in case multiple tiers)
     selectObject: .grid
     .sound$ = selected$ ("TextGrid")
     .tempGrid = Copy: "tempGrid"
@@ -108,7 +108,7 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
     Set column label (label): "Time", "maxK_T"
 
     # Get start and end times for linear regression calculations
-    # based on minK first after Max K(n) and last before MaxK(n+1)
+    # based on minK first after MaxK(n) and last before MaxK(n+1)
     selectObject: .minMaxK
     .numSlopes = .numMaxKpoints - 1
     for .i to .numSlopes
