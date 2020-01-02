@@ -4,7 +4,7 @@
 #
 # A set of scripts for analysing and resynthesising pitch contours
 # using estimated points of maximum curvature in the contour. These are calcul-
-# ated from the second time derivative of F0. 
+# ated from the second time derivative of F0.
 #
 # Written for Praat 6.0.40
 
@@ -79,6 +79,5 @@ include Subroutines/saveReportAndTidy.praat
 
 include Functions/ContourProcessing.praat
 include Functions/Graphical.praat
-include Functions/Idealisation.praat
 include Functions/Maths.praat
 include Functions/Management.praat
