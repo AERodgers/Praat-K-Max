@@ -24,9 +24,6 @@ procedure mainUI
 		comment: "Current smoothing parameters"
 		natural: "Praat smooothing bandwidth", pre_smoothing
 		natural: "Physiological constraints", coarse_smoothing
-		comment: "General Image Options"
-        boolean: "Draw figure", draw_figure
-        boolean: "Format for printing", format_for_printing
         comment: "Display options"
 		boolean: "Paint spectrogram", drawSpectro
 		boolean: "Corrected contour", draw_f0_corrected
@@ -60,7 +57,8 @@ procedure mainUI
 	draw_tonal = tonal_annotation_and_ideal_targets
 	coarse_smoothing = physiological_constraints
 	pre_smoothing = praat_smooothing_bandwidth
-    widthCoeff = (format_for_printing) + 1
+    widthCoeff = 2
+	draw_figure = 1
     drawSpectro = paint_spectrogram
 
 	@textgridMerge
