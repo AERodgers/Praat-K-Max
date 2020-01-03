@@ -7,7 +7,6 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 include Functions/Maths/mpa.praat
-include Functions/Maths/mpaDynamic.praat
 include Functions/Maths/normalise.praat
 include Functions/Maths/secondDerivative.praat
 include Functions/Maths/tableStats.praat
