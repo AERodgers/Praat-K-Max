@@ -16,7 +16,7 @@
 # SEE "Instruction_Guide.txt" for details on how to use the script
 
 # INPUT FORM
-form MAX-K: Master UI Menu
+form K-MAX: Master UI Menu
     comment Directory and file Information
     sentence Directory Example
     sentence Pitch_directory pitch
