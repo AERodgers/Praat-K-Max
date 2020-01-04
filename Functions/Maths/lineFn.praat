@@ -11,6 +11,11 @@
 # outputs: slope     = myVariable.a
 #          intercept = myVariable.b
 #          equation  = myVariable.text$
+#
+#
+#      y2 - y1
+#  a = -------- ,    b = y1  - a * x1
+#      x2 - x1
 
 procedure lineFn: .ans$, .x1, .y1, .x2, .y2, .rounding
     '.ans$'.a = (.y2 - .y1) / (.x2 - .x1)
