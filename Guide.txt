@@ -33,13 +33,11 @@
     #           smoothing parameter bandwidth for Praat Smooth function, which
     #           is performed on the pitch object before estimation of second
     #           time derivative of F0 (10 default: higher = less smoothing).
+    #           If "Call detailed pitch parameter menu", is selected, the user
+    #           will be presented with a more detailed menu before processing.
     #    5. Post idealisation smoothing parameters (moving point average)
-    #           a. Physiological constraints: (lower = less smoothing)
-    #                  Smoothes the "ideal curve" to simulate the effects of
-    #                  physiological constraints on pitch movement
-    #           b. Fine-grained smoothing: (higher = more smoothing)
-    #                  runs an MPA smoothing function over the contour to
-    #                  remove any remaining artefacts.
+    #           Smoothes the "ideal curve" to simulate the effects of physiological
+    #           constraints on pitch movement (higher = more smoothing)
     #    6. Batch process directory: runs through whole directory and processes
     #       all files automatically. This assumes the user has already run the
     #       process manually. A figure options menu is opened before batch
@@ -76,29 +74,24 @@
     #       IN MAXK.
     #
     #    5. A UI window will appear.
-    #
     #       NB: THE "PROCESS" BUTTON MUST BE SELECTED IN ORDER TO SAVE CHANGES!
     #
-    #           a. The user can change the following parameters on the fly:
+    #           a. Change the smoothing parameters on the fly:
     #                  1. Initial Praat smoothing bandwidth
     #                  2. Physiological constraints
-    #                  3. Fine-grained smoothing
-    #           c. The user can toggle the drawing option on or off, choose
-    #              between print- or screen-friendly contour (print = larger
-    #              contours), and hide or display the spectrogram.
-    #           b. The user can toggle the different outputs on or off, i.e.,
-    #              corrected F0, F0 resynthesis, F0"(t), and tonal tier. The
-    #              original C3Pogram image cannot be deselected.
-    #           c. The user can add a "Comment" to the report file
+    #           b. Toggle the different display options on or off,
+    #              i.e., corrected F0, F0 resynthesis, F0"(t), and tonal tier.
+    #              The original C3Pogram image cannot be deselected.
+    #           c. Add a "Comment" for the report file.
     #           d. Change the "Next object" value to jump to a different file
     #              in the directory.
     #           e. OBSERVATIONS AND ERRORS are shown if they appear.
     #              A beep alerts you to estimation errors of ideal targets.
-    #           f. The options buttons, allow the user to:
-    #                  1. Smooth: re-Smooth the contour using Praat smoothing
+    #           f. The option buttons allow the user to:
+    #                  1. "Smooth": re-smooth the contour using Praat smoothing
     #                     factor in the textbox. (Note: this will delete the
     #                     current MaxK and Tonal annotation tier)
-    #                  2. "Fix F0": runs @FixPitch (see D.1. above)
+    #                  2. "Fix F0": run @FixPitch (see D.1. above)
     #                  2. "Process": PROCESS, SAVE, AND REVIEW ANNOTATIONS
     #                     AND RESYNTHESIS
     #                  3. "<": Go back one object without saving
@@ -127,10 +120,14 @@
     #                   with maxK annotations.
     #                   NB: Slope re ST, Intercept ST re 100 Hz
     #
-    # FAILSAFES / ERROR HANDLING
+    # F. FAILSAFES / ERROR HANDLING
     #     1. Textgrid backup (backup folder);
     #     2. pitch boundaries are added to MaxK tier to show onset and offset of
     #            utterance voicing if no other nearby maxK values;
     #     3. When idealisation functions break down a warning beep sounds
     #             and the error is described in "WARNING AND OBSERVATIONS"
     #             at the bottom of the UI menu.
+    #
+    #  G. KNOWN ISSUES
+    #      1. The script will crash if the user does not correctly specify the
+    #         name of the reference tier.
