@@ -8,6 +8,6 @@
  To use the script, select "Clone or download" followed by "Download ZIP".
  Extract the ZIP file and run the script named: "K-Max.praat".
 
- Don't forget to read "guide.txt" to learn how to use the K-Max!
+ Don't forget to read "guide.txt" to learn how to use K-Max!
 
  When running the main routine, the Info window also shows a short user guide.
