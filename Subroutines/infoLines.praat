@@ -8,7 +8,7 @@
 
 procedure infoLines
 nl$ = "newline$"
-    writeInfoLine: "MAX-Κ, v.1.0.0",
+    writeInfoLine: "K-MAX, v.1.0.0",
     ... 'nl$', "==============",
     ... 'nl$', "by Antoin Eoin Rodgers (rodgeran@tcd.ie)",
     ... 'nl$', "   Phonetics and Speech Laboratory, Trinity College, Dublin."

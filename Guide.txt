@@ -1,4 +1,4 @@
-# MAX-Κ
+# K-MAX
 # =====
 # A set of scripts for analysing and resynthesising pitch contours
 # using estimated points of maximum curvature in the contour. These are
