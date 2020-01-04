@@ -24,7 +24,7 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
     .numRows = Get number of rows
     Axes: .minT, .maxT, .yAxisMax, .yAxisMin
     Solid line
-    Line width: 1.5 * .widthCoeff
+    Line width: 1 * .widthCoeff
     Colour: .col$
     for .i to .numRows
         .tempVal = Get value: .i, .t$
@@ -40,7 +40,7 @@ procedure drawK: .kMaxTable, .kTable, .normalise, .minT, .maxT, .t$, .k$,
     Draw line: .minT, 0, .maxT, 0
 
     #Draw K contour
-    Line width: 2 * .widthCoeff
+    Line width: 1 * .widthCoeff
     @drawTableLine: .kTable, .t$, .k$, .minT, .maxT, 0
     Line width: 2
     Marks right every: 1, ceiling((.yAxisMin - .yAxisMax)/12),

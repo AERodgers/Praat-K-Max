@@ -75,9 +75,9 @@ procedure setVars
 
     #colour variables
     fixedF0Col$ = "Black"
-    idealCol$ = "Lime"
+    idealCol$ = "{1,0.643,0}"
     tonalCol$ = "Navy"
-    kCol$ = "Red"
+    kCol$ = "Lime"
 
     # flag to add tiers for script author only [NOT FOR PUBLIC VERSION]
     justForAER = 0

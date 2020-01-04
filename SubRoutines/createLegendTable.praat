@@ -31,7 +31,7 @@ procedure createLegendTable
         Set string value: legendLines, "style", "Line"
         Set string value: legendLines, "colour", kCol$
         Set string value: legendLines, "text", "%f_0\""p(t)"
-        Set numeric value: legendLines, "size", 2 * widthCoeff
+        Set numeric value: legendLines, "size", 1 * widthCoeff
     endif
 
     if draw_resynth
