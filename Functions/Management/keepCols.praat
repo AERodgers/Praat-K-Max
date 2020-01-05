@@ -1,4 +1,4 @@
-# DELETE COLUMNS
+# KEEP COLUMNS
 # ==============
 # Written for Praat 6.0.40
 
@@ -7,10 +7,10 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # dependency: @list2array
-procedure deleteCols: .table, .keep_cols$, .new_table$
+procedure keepCols: .table, .keep_cols$, .new_table$
     @list2array: .keep_cols$, ".keep$"
-    selectObject: .table
     '.new_table$' = Copy: .new_table$
+    selectObject: .table
     .num_cols = Get number of columns
     for .i to .num_cols
         .col_cur = .num_cols + 1 - .i
