@@ -1,4 +1,4 @@
-# MAX-K: GET IDEAL TONAL TARGETS
+# K-MAX: GET IDEAL TONAL TARGETS
 # ==============================
 # Written for Praat 6.0.40
 

@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: GET SOUND AND TEXTGRID INFO
+# K-MAX SUBROUTINE: GET SOUND AND TEXTGRID INFO
 # =============================================
 # Written for Praat 6.0.40
 

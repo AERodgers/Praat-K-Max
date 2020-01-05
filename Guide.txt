@@ -111,7 +111,7 @@
     #            a. Max-K_Analysis_Report.txt: tab-separated file reporting
     #                   latest smoothing parameters, tonal tier annotations and
     #                   comments for each set of files
-    #            b. MAX-K_form_parameters.txt: tab-separated file listing
+    #            b. K-MAX_form_parameters.txt: tab-separated file listing
     #                   processing parameter settings from master UI form
     #            c. [soundName]_all_F0.Table: time (secs) and all F0 (Hz)
     #                   contours: initial smoothed, ideal, and smoothed ideal

@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: : SET UP DIRECTORIES AND FILES
+# K-MAX SUBROUTINE: SET UP DIRECTORIES AND FILES
 # ================================================
 # Written for Praat 6.0.40
 

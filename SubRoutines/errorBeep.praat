@@ -1,4 +1,4 @@
-# Create error Beed
+# Create error Beep
 # =================
 # Written for Praat 6.0.40
 

@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: CLEAR OBJECT WINDOW AND SAVE REPORT
+# K-MAX SUBROUTINE: CLEAR OBJECT WINDOW AND SAVE REPORT
 # =====================================================
 # Written for Praat 6.0.40
 

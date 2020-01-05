@@ -1,4 +1,4 @@
-# MAX-K: MATHS FUNCTIONS
+# K-MAX: MATHS FUNCTIONS
 # ======================
 # Written for Praat 6.0.40
 

@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: SAVE FILES FOR CURRENT SOUND / TEXTGRID PAIRS
+# K-MAX SUBROUTINE: SAVE FILES FOR CURRENT SOUND / TEXTGRID PAIRS
 # ===============================================================
 # Written for Praat 6.0.40
 

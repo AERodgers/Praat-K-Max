@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: MAIN ROUTINE
+# K-MAX SUBROUTINE: MAIN ROUTINE
 # ==============================
 # Written for Praat 6.0.40
 

@@ -1,4 +1,4 @@
-# MAX-K: DRAW SECOND TIME DERIVATIVE OF F0
+# K-MAX: DRAW SECOND TIME DERIVATIVE OF F0
 # ========================================
 # Written for Praat 6.0.40
 

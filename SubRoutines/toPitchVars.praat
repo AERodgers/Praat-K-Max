@@ -1,5 +1,5 @@
-# MAX-K SUBROUTINE: UI WINDOW
-# ==============================
+# K-MAX SUBROUTINE: PITCH VARIABLES UI
+# ====================================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

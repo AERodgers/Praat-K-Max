@@ -1,5 +1,6 @@
-# MAX-K SUBROUTINE: UI WINDOW
-# ==============================
+# K-MAX SUBROUTINE: MAIN UI WINDOW
+# ================================
+
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

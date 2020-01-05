@@ -6,10 +6,10 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependencies: @keepCols
+# dependencies: @deleteCols
 
 procedure tableStats: .table, .colX$, .colY$
-    @keepCols: .table, "'.colX$' '.colY$'", "tableStats.shortTable"
+    @deleteCols: .table, "'.colX$' '.colY$'", "tableStats.shortTable"
 
     .numRows = Get number of rows
     .factor$ = Get column label: 1

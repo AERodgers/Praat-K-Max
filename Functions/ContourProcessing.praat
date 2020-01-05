@@ -1,4 +1,4 @@
-# MAX-K: CONTOUR PROCESSING AND PARAMETER EXTRACTION FUNCTIONS
+# K-MAX: CONTOUR PROCESSING AND PARAMETER EXTRACTION FUNCTIONS
 # ============================================================
 # Written for Praat 6.0.40
 

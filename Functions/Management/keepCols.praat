@@ -7,7 +7,7 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 # dependency: @list2array
-procedure keepCols: .table, .keep_cols$, .new_table$
+procedure deleteCols: .table, .keep_cols$, .new_table$
     @list2array: .keep_cols$, ".keep$"
     selectObject: .table
     '.new_table$' = Copy: .new_table$

@@ -1,4 +1,4 @@
-# MAX-K: DRAW TONAL TIER INFORMATION
+# K-MAX: DRAW TONAL TIER INFORMATION
 # ==================================
 # Written for Praat 6.0.40
 

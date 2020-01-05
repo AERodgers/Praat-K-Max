@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: INFO WINDOW TEXT
+# K-MAX SUBROUTINE: INFO WINDOW TEXT
 # ==================================
 # Written for Praat 6.0.40
 

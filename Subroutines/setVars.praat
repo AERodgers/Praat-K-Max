@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: SET VARIABLES
+# K-MAX SUBROUTINE: SET VARIABLES
 # ===============================
 # Written for Praat 6.0.40
 

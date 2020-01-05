@@ -1,4 +1,4 @@
-# MAX-K: GRAPHICAL FUNCTIONS
+# K-MAX: GRAPHICAL FUNCTIONS
 # ==========================
 # Written for Praat 6.0.40
 
@@ -12,6 +12,7 @@ include Functions/Graphical/drawIdealization.praat
 include Functions/Graphical/drawTonal.praat
 include Functions/Graphical/drawLegend.praat
 include Functions/Graphical/colourChange.praat
+
 # c3pogram Functions
 include Functions/Graphical/c3Pogram/c3pogram.praat
 include Functions/Graphical/c3Pogram/drawC3pogram.praat

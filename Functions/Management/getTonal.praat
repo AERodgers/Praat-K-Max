@@ -1,4 +1,4 @@
-# MAX-K: GET TONAL TIER INFORMATION
+# K-MAX: GET TONAL TIER INFORMATION
 # =================================
 # Written for Praat 6.0.40
 

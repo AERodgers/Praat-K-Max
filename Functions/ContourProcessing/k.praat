@@ -1,4 +1,4 @@
-# MAX-K: USE F0"(t) TO ESTIMATE POINTS OF MINIMUM AND MAXIMUM CURVATURE
+# K-MAX: USE F0"(t) TO ESTIMATE POINTS OF MINIMUM AND MAXIMUM CURVATURE
 # =====================================================================
 # Written for Praat 6.0.40
 

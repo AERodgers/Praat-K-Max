@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: BATCH PROCESSING IMAGE UI
+# K-MAX SUBROUTINE: BATCH PROCESSING IMAGE UI
 # ===========================================
 # Written for Praat 6.0.40
 

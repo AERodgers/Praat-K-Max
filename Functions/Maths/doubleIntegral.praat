@@ -9,7 +9,7 @@
 
 # Calculates the double integral of a discrete contour
 # Note: Undefined values are set to 0 and n[0]=0 and [-1]=0 are effectively
-#       addded to the beginning of the array to generate value from n[1] to n[N]
+#       added to the beginning of the array to generate value from n[1] to n[N]
 #       If @secondDerivative has not been run, make .i_fx = 0, .i_dydx = 0
 #
 #    N
@@ -51,4 +51,5 @@ procedure doubleIntegral: .table, .x$, .y$, .sum$, .i_fx, .i_dydx
 	.numRows = Get number of rows
     # reintroduce interfecto of f(x) and f'(x)
 	Formula: .sum$, "self + .i_fx + (.i_dydx) * (self[.x$]-(.x1))"
-    endproc
+endproc
+

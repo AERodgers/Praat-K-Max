@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: CREATE LEGEND TABLE
+# K-MAX SUBROUTINE: CREATE LEGEND TABLE
 # =====================================
 # Written for Praat 6.0.40
 

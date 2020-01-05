@@ -1,4 +1,4 @@
-# MAX-K SUBROUTINE: DRAW STUFF
+# K-MAX SUBROUTINE: DRAW STUFF
 # ============================
 # Written for Praat 6.0.40
 

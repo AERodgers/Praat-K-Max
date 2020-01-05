@@ -8,14 +8,6 @@
 #
 # works in conjunction with @textgridTemp
 
-### STH OBJECT AND VARIABLE MANAGEMENT FUNCTIONS
-# ==============================================
-# Written for Praat 6.0.40
-
-# script by Antoin Eoin Rodgers
-# rodgeran@tcd.ie
-# Phonetics and speech Laboratory, Trinity College Dublin
-
 # dependency: textgridTemp.object
 
 procedure textgridMerge

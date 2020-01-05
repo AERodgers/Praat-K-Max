@@ -12,7 +12,6 @@
 #          intercept = myVariable.b
 #          equation  = myVariable.text$
 #
-#
 #      y2 - y1
 #  a = -------- ,    b = y1  - a * x1
 #      x2 - x1

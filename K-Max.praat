@@ -59,17 +59,18 @@ endif
 
 # Subroutines take no arguments, written specifically for this set of scripts
 include Subroutines/toPitchVars.praat
-include Subroutines/errorBeep.praat
 include Subroutines/infoLines.praat
+include Subroutines/setUpDirsAndFiles.praat
+include Subroutines/errorBeep.praat
+include Subroutines/setVars.praat
+include Subroutines/saveMenuVars.praat
 include Subroutines/main.praat
+
 include Subroutines/mainUIBatch.praat
 include Subroutines/mainUI.praat
-include Subroutines/setUpDirsAndFiles.praat
-include Subroutines/setVars.praat
 include Subroutines/getSoundGridInfo.praat
 include Subroutines/drawStuffForEditing.praat
 include Subroutines/createLegendTable.praat
-include Subroutines/saveMenuVars.praat
 include Subroutines/saveAndRemoveFiles.praat
 include Subroutines/saveReportAndTidy.praat
 

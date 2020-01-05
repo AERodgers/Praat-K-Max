@@ -7,7 +7,6 @@
 # Phonetics and speech Laboratory, Trinity College Dublin
 
 procedure findNearestTable: .input_var, .input_table, .input_col$
-    #NB: .input_array$ = name of the input array as a string w/o index
     .diff = 1e+100
     selectObject: .input_table
     .num_rows = Get number of rows

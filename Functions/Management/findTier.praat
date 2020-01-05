@@ -1,5 +1,5 @@
-# GET TIER NUMBER
-# ===============
+# FIND TIER NUMBER
+# ================
 # Written for Praat 6.0.40
 
 # script by Antoin Eoin Rodgers

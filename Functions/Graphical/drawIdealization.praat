@@ -1,4 +1,4 @@
-# MAX-K: DRAW IDEALIZATION
+# K-MAX: DRAW IDEALIZATION
 # ========================
 # Written for Praat 6.0.40
 
