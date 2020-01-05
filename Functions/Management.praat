@@ -11,7 +11,7 @@ include Functions/Management/versionCheck.praat
 
 # Table management
 include Functions/Management/findNearestTable.praat
-include Functions/Management/deleteCols.praat
+include Functions/Management/keepCols.praat
 include Functions/Management/pitch2Table.praat
 include Functions/Management/removeRowsWhere.praat
 include Functions/Management/removeRowsWhereNum.praat
