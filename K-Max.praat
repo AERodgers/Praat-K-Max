@@ -58,21 +58,21 @@ endif
 # INCLUDE SUBROUTINES AND FUNCTION LIBRARIES
 
 # Subroutines take no arguments, written specifically for this set of scripts
-include Subroutines/toPitchVars.praat
-include Subroutines/infoLines.praat
-include Subroutines/setUpDirsAndFiles.praat
-include Subroutines/errorBeep.praat
-include Subroutines/setVars.praat
-include Subroutines/saveMenuVars.praat
-include Subroutines/main.praat
+include Subroutines/toPitchVars.proc
+include Subroutines/infoLines.proc
+include Subroutines/setUpDirsAndFiles.proc
+include Subroutines/errorBeep.proc
+include Subroutines/setVars.proc
+include Subroutines/saveMenuVars.proc
+include Subroutines/main.proc
 
-include Subroutines/mainUIBatch.praat
-include Subroutines/mainUI.praat
-include Subroutines/getSoundGridInfo.praat
-include Subroutines/drawStuffForEditing.praat
-include Subroutines/createLegendTable.praat
-include Subroutines/saveAndRemoveFiles.praat
-include Subroutines/saveReportAndTidy.praat
+include Subroutines/mainUIBatch.proc
+include Subroutines/mainUI.proc
+include Subroutines/getSoundGridInfo.proc
+include Subroutines/drawStuffForEditing.proc
+include Subroutines/createLegendTable.proc
+include Subroutines/saveAndRemoveFiles.proc
+include Subroutines/saveReportAndTidy.proc
 
 # Functions take arguments and can largely be used in other scripts
 #     (17/12/19 - I will add better annotations to functions later to make

@@ -6,6 +6,6 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-include Functions/Maths/mpa.praat
-include Functions/Maths/secondDerivative.praat
-include Functions/Maths/tableStats.praat
+include Functions/Maths/mpa.proc
+include Functions/Maths/secondDerivative.proc
+include Functions/Maths/tableStats.proc
