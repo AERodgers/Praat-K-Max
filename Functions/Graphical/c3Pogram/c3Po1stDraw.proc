@@ -8,7 +8,7 @@
 
 # dependencies: @pitch2Table, @cpp, @findNearestTable
 
-procedure c3po1stDraw: .sound, .paintSpectro, .minT, .maxT, .refTier
+procedure c3Po1stDraw: .sound, .paintSpectro, .minT, .maxT, .refTier
     Erase all
     Black
     10

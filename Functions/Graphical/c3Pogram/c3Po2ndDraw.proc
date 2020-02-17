@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-procedure c3po2ndDraw: .type, .pitch_scale, .title$, .subtitle$
+procedure c3Po2ndDraw: .type, .pitch_scale, .title$, .subtitle$
     Select outer viewport: 0, 6.5, 0, 3.35
     if .pitch_scale = 2
         .leftMajor = 5

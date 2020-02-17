@@ -58,8 +58,8 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
     .vertS[2] = .yMax - (.y_unit * (.legendLines + 2))
     .vertE[2] = .yMax - .y_unit
 
-    bestZone## = {{0, 0}, {0, 0}}
-    bestZoneLen## = {{0, 0}, {0, 0}}
+    bestZone## = zero##(2, 2)
+    bestZoneLen## = zero##(2, 2)
     selectObject: .xyTable
     .numRows = Get number of rows
     .totalLen = 0
@@ -160,7 +160,7 @@ procedure drawLegend: .xMin, .xMax, .yMin, .yMax,
             Draw line: .x_start + 0.5 * .x_unit, .y_start + .y_unit * .iRef,
                 ... .x_start + 2 * .x_unit, .y_start + .y_unit * .iRef
         elsif left$(.style$[.i], 1) = "D" or left$(.style$[.i], 1) = "d"
-            @colourChange: .colour$[.i],  "drawLegend.lighter$", "* 2"
+            @colourChange: .colour$[.i],  "drawLegend.lighter$", "* {2, 2, 2}"
             Paint circle: "Black", .x_start + 0.75 * .x_unit,
                 ... .y_start + .y_unit * .iRef,
                 ... ((.size[.i]) * .x_unit / 4)

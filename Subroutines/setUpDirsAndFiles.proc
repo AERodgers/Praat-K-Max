@@ -17,7 +17,7 @@ procedure setUpDirsAndFiles
         suffix$ = "." + suffix$
     endif
     if right$(dir$, 1) != "/" or right$(dir$, 1) != "\"
-        dir$ += "/"
+        dir$ = dir$ + "/"
     endif
 
     # create directory paths

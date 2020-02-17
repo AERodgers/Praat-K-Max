@@ -34,7 +34,7 @@ procedure textgridTemp: .original$, .keep_list$
     selectObject: '.original$'
     .num_tiers = Get number of tiers
     .name$ = selected$("TextGrid")
-    .name$ += "_temp"
+    .name$ = .name$ + "_temp"
     .object = Copy: .name$
     for .i to .num_tiers
         .cur_tier = .num_tiers + 1 - .i

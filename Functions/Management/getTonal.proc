@@ -32,9 +32,9 @@ procedure getTonal: .keepTiers#, .textgrid
     for .i to .numRows
         .curTier$ = Get value: .i, "tier"
         .curElem$ = Get value: .i, "text"
-       .text$ += .curElem$
+       .text$ = .text$ + .curElem$
         if .i < .numRows and .curElem$ != ""
-            .text$ += " "
+            .text$ = .text$ + " "
         endif
     endfor
     .text$ = replace$ (.text$, ". ", ".", 0)

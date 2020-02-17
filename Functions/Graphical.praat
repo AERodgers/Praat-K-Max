@@ -13,8 +13,8 @@ include Functions/Graphical/drawTonal.proc
 include Functions/Graphical/drawLegend.proc
 include Functions/Graphical/colourChange.proc
 
-# c3pogram Functions
-include Functions/Graphical/c3Pogram/c3pogram.proc
-include Functions/Graphical/c3Pogram/drawC3pogram.proc
-include Functions/Graphical/c3Pogram/c3po1stDraw.proc
-include Functions/Graphical/c3Pogram/c3po2ndDraw.proc
+# c3Pogram Functions
+include Functions/Graphical/c3Pogram/c3Pogram.proc
+include Functions/Graphical/c3Pogram/drawC3Pogram.proc
+include Functions/Graphical/c3Pogram/c3Po1stDraw.proc
+include Functions/Graphical/c3Pogram/c3Po2ndDraw.proc

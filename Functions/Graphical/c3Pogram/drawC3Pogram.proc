@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-# dependencies: @findNearestTable; depends on @c3pogram
+# dependencies: @findNearestTable; depends on @c3Pogram
 
 procedure drawC3pogram: .pitchTable, .secondParam,
     ... .minT, .maxT, .minF0, .maxF0, .type, .pitch_scale, .widthCoeff

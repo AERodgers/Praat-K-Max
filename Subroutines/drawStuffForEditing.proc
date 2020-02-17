@@ -37,24 +37,24 @@ procedure drawStuffForEditing
     headingPt2$ = subPrt2$[subPrt2 + 1]
     subtitle$ = with$[with] + subPrt1$ + comma$[comma] + headingPt2$
 
-    # Draw c3pogram
-    @c3pogram: 3, 2, drawSpectro, heading$, subtitle$,
+    # Draw c3Pogram
+    @c3Pogram: 3, 2, drawSpectro, heading$, subtitle$,
         ... textgrid, soundobject, r_tier, minF0, maxF0, widthCoeff
 
     # draw corrected F0 contour and K contour
     Solid line
     Line width: 2 * widthCoeff
     Select outer viewport: 0, 6.5, 0, 3.35
-    Axes: c3pogram.minT, c3pogram.maxT,
+    Axes: c3Pogram.minT, c3Pogram.maxT,
         ... drawC3pogram.minF0,  drawC3pogram.maxF0
     if draw_f0_corrected
         Colour: fixedF0Col$
-        @drawTableLine: k.table, "Time", "F0", c3pogram.minT,
-            ... c3pogram.maxT, 1
+        @drawTableLine: k.table, "Time", "F0", c3Pogram.minT,
+            ... c3Pogram.maxT, 1
     endif
     Line width: 1
     if draw_K
-        @drawK: k.max,  k.table, 1, c3pogram.minT, c3pogram.maxT, "Time", "K",
+        @drawK: k.max,  k.table, 1, c3Pogram.minT, c3Pogram.maxT, "Time", "K",
             ... kCol$, widthCoeff
     endif
 
@@ -62,7 +62,7 @@ procedure drawStuffForEditing
     if rsPitchFileExists and userInput and draw_resynth
         .tempPitch = Read from file:
         ... resynthPath$ + rsPrefix$ + sound$ + ".Pitch"
-        @drawIdealization: .tempPitch, c3pogram.minT, c3pogram.maxT,
+        @drawIdealization: .tempPitch, c3Pogram.minT, c3Pogram.maxT,
         ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$, widthCoeff
         selectObject: .tempPitch
         Remove
@@ -71,7 +71,7 @@ procedure drawStuffForEditing
     if draw_tonal and idealTableExists and userInput
         tempIdeal = Read from file: outputPath$ + sound$
             ... + "_ideal_TTs.Table"
-        @drawTonal: tempIdeal, c3pogram.minT, c3pogram.maxT,
+        @drawTonal: tempIdeal, c3Pogram.minT, c3Pogram.maxT,
             ... drawC3pogram.minF0, drawC3pogram.maxF0,
             ... "ideal_T", "ideal_F0", tonalCol$, widthCoeff
         selectObject: tempIdeal

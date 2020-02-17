@@ -250,12 +250,12 @@ procedure main
                     ... coarse_smoothing
                 if  draw_resynth * draw_figure
                     @drawIdealization:
-                        ... idealise.pitch, c3pogram.minT, c3pogram.maxT,
+                        ... idealise.pitch, c3Pogram.minT, c3Pogram.maxT,
                         ... drawC3pogram.minF0, drawC3pogram.maxF0,
                         ... idealCol$, widthCoeff
                 endif
                 if draw_tonal * draw_figure
-                    @drawTonal: idealise.table, c3pogram.minT, c3pogram.maxT,
+                    @drawTonal: idealise.table, c3Pogram.minT, c3Pogram.maxT,
                     ... drawC3pogram.minF0, drawC3pogram.maxF0,
                     ... "ideal_T", "ideal_F0", tonalCol$, widthCoeff
                 endif
@@ -266,7 +266,7 @@ procedure main
             if  draw_figure
                 @createLegendTable
                 yOffset = (drawC3pogram.maxF0 - drawC3pogram.minF0)/15
-                @drawLegend: c3pogram.minT, c3pogram.maxT,
+                @drawLegend: c3Pogram.minT, c3Pogram.maxT,
                 ... drawC3pogram.minF0, drawC3pogram.maxF0,
                     ... pitchTable, "Time", "F0",
                     ... tempLegend, 0.01, widthCoeff
