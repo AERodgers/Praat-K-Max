@@ -3,4 +3,4 @@ Add menu command: "Objects",
               ... "K-Max...",
               ... "Analysis",
               ... 1,
-              ... "K-max.praat"
+              ... "K-Max.praat"
