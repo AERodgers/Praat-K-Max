@@ -13,23 +13,29 @@ rodgeran@tcd.ie
 Phonetics and speech Laboratory, Trinity College Dublin
 October 10 - December 18, 2019
 
-For citation:
-    Rodgers, A. (2020) K-Max: a tool for estimating, analysing, and evaluating
-        tonal targets. Proc. 10th International Conference on Speech Prosody
-        2020, 225-229, DOI: 10.21437/SpeechProsody.2020-46
 
-    @inproceedings{Rodgers2020,
-      author={Antoin Rodgers},
-      title={{K-Max: a tool for estimating, analysing, and evaluating tonal targets}},
-      year=2020,
-      booktitle={Proc. 10th International Conference on Speech Prosody 2020},
-      pages={225--229},
-      doi={10.21437/SpeechProsody.2020-46},
-      url={http://dx.doi.org/10.21437/SpeechProsody.2020-46}
-    }
+I. PUBLICATION
+==============
 
-GUIDE
-=====
+Rodgers, A. (2020) K-Max: a tool for estimating, analysing, and evaluating
+    tonal targets. Proc. 10th International Conference on Speech Prosody
+    2020, 225-229, DOI: 10.21437/SpeechProsody.2020-46
+
+Paper accessible at: www.isca-speech.org/archive/SpeechProsody_2020/pdfs/287.pdf
+
+@inproceedings{Rodgers2020,
+  author={Antoin Rodgers},
+  title={{K-Max: a tool for estimating, analysing, and evaluating tonal targets}},
+  year=2020,
+  booktitle={Proc. 10th International Conference on Speech Prosody 2020},
+  pages={225--229},
+  doi={10.21437/SpeechProsody.2020-46},
+  url={http://dx.doi.org/10.21437/SpeechProsody.2020-46}
+}
+
+
+II. GUIDE
+=========
 K-Max opens sound files and texgrids in a directory for editing and analysis.
     A. REQUIREMENTS
         1. sound file (.wav)
