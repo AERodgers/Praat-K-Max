@@ -76,8 +76,8 @@ K-Max opens sound files and texgrids in a directory for editing and analysis.
            the contour to be ignored due to gross segmental effects. It then
            creates a manipulation object in which the user can correct errors
            such as pitch doubling or pitch halving.
-        4. The pitch contour is smoothed using and points of maximum curvature
-           are identified.
+        4. The pitch contour is smoothed using the Praat Smooth function and
+           points of maximum curvature are identified.
         3. The script draws a spectrogram of the sound object, the reference
            tier, and the pitch contour.
            The pitch contour is drawn using @c3Pogram, and shows F0 contour on
