@@ -1,4 +1,4 @@
-# Praat-K-Max
+# **K-Max**
 A plugin for annotating and analysing intonational phrases using
 points of maximum curvature estimated from the second time derivative of the
 F0 contour.
@@ -18,12 +18,6 @@ Don't forget to read "guide.txt" to learn how to use K-Max!
 
 When running the main routine, the Info window also shows a short user guide if you flag it in the initial menu.
 
-## Edit TextGrids
-I have added the "Edit Textgrids..." feature which allows you to flip back and forth through all the sound & textgrid pairings in a specified folder.
-You can edit and save them, go forward, move back, or jump to a specific file. It's very handy for checking and editing your annotations.
-
-* Praat > K-Max > Edit textgrids...
-
 ## Associated Publications
 [The paper can be found here.](https://www.isca-speech.org/archive/SpeechProsody_2020/pdfs/287.pdf)
 
@@ -40,7 +34,13 @@ For citation: Rodgers, A. (2020) K-Max: a tool for estimating, analysing, and ev
     }
 
 
-## **genIntonPhon**
+# **Edit TextGrids**
+I have added the "Edit Textgrids..." feature which allows you to flip back and forth through all the sound & textgrid pairings in a specified folder.
+You can edit and save them, go forward, move back, or jump to a specific file. It's very handy for checking and editing your annotations.
+
+* Praat > K-Max > Edit textgrids...
+
+# **generate Intonational Phonology**
 The Generate Intonational phonology (genIntonPhon) component is part of my PhD work into the analysis of intonation in Derry City English in Northern Ireland.
 
 Access genIntonPhon from the Praat menu in the objects window:
