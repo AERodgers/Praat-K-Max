@@ -100,7 +100,7 @@ After processing, each textgrid should look like the example shown here.
     L\_H\* | !H* | Downstepped H* based on the observation that a sequence of H tones showing downstep must necessarily be interspersed with secondary L tones (seen in the almost literal L shaped elbows preceding a downstepped H\*)
     l\*\+H | >H\* | deleted L* tone leads to a >H* PA (delayed peak) as a predictable variant of underlying L\*H
     L\*\+h | L\* | deleted +H tone leads to an L* PA with delayed peak as a variant of underlying L\*H
-    l\_H\* | H\* | indicates evidence of hypothesised leftward drift and deleted of L* in L\*H PAs with
+    l\_H\* | H\* | indicates evidence of hypothesised leftward drift of L target but where the L is not clearly anchored as it might be in an L\*H. Similary to L_H* but no evidence of downstep. (Needs elaboration.)
     l\*\+h | * | occasionally there is evidence of a phonetic trace of a deleted L\*H PA but this is not accompanied by the percept of any pitch accent.
 
 ## References
