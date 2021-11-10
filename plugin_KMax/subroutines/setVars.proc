@@ -1,0 +1,85 @@
+# K-MAX SUBROUTINE: SET VARIABLES
+# ===============================
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
+# October 10 - December 18, 2019
+
+procedure setVars
+
+    # shorten UI input variables
+    rsSuffix$ = resynthesis_suffix$
+    t_tier$ = tonal_tier$
+    r_tier$ = reference_tier$
+    keepTiers$ = other_tiers_to_show$
+    maxF0 = maximum_F0
+    minF0 = minimum_F0
+    userInput = not batch_process_directory
+    pre_smoothing = praat_smooothing_bandwidth
+    coarse_smoothing = physiological_constraints
+
+    # set default drawing flags
+    draw_figure = 1
+    format_for_printing = 1
+    widthCoeff = (format_for_printing) + 1
+    drawSpectro = 0
+    draw_f0_corrected = 0
+    draw_K = 1
+    draw_resynth = 1
+	draw_tonal = 1
+
+    # shorten beep variable
+    errorBeep = errorBeep.sound
+
+    # set flags and counters
+    feedback = 0
+    warning = 0
+    edit_choice = 0
+    show_RS = 0
+    alreadyOpened# = zero# (numSounds)
+    pitchSaved# = zero# (numSounds)
+
+    # set "To Pitch" variables if not set in @toPitchVariables
+    if not variableExists("max__number_of_candidates")
+        fixPitch.candidates = 15
+    else
+        fixPitch.candidates = candidates
+    endif
+    if not variableExists("silence_threshold")
+        fixPitch.s_threshold = 0.03
+    else
+        fixPitch.s_threshold = silence_threshold
+    endif
+    if not variableExists("voicing_threshold")
+        fixPitch.v_threshold = 0.45
+    else
+        fixPitch.v_threshold = voicing_threshold
+    endif
+    if not variableExists("octave_cost")
+        fixPitch.oct_cost = 0.01
+    else
+        fixPitch.oct_cost = octave_cost
+    endif
+    if not variableExists("octave_jump_cost")
+        fixPitch.oct_j_cost = 0.35
+    else
+        fixPitch.oct_j_cost = octave_jump_cost
+    endif
+    if not variableExists("Voiced___unvoiced_cost")
+        fixPitch.vuv_cost = 0.14
+    else
+        fixPitch.vuv_cost = voiced_unvoiced_cost
+    endif
+
+    #colour variables
+    fixedF0Col$ = "Black"
+    idealCol$ = "{1,0.643,0}"
+    tonalCol$ = "Navy"
+    kCol$ = "Lime"
+
+    # flag to add tiers for script author only [NOT FOR PUBLIC VERSION]
+    justForAER = 0
+
+endproc

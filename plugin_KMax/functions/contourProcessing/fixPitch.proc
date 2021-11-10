@@ -1,0 +1,193 @@
+# FIX PITCH FUNCTION
+# ==================
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
+# October 10 - December 18, 2019
+
+# Dependencies: @Trimf0 from ProsodyPro (not implemented for K-Max)
+#               see: http://www.homepages.ucl.ac.uk/~uclyyix/ProsodyPro/
+
+procedure fixPitch: .textgrid, .reference_tier, .soundobject,
+        ... .time_step, .interpolate_pitch, .use_smoothing,
+        ... .min_fo, .max_fo
+
+    # pitch track settings: Not included UI so as to prevent clutter
+    # fixPitch.candidates = 15
+    # fixPitch.s_threshold = 0.03
+    # fixPitch.v_threshold = 0.45
+    # fixPitch.oct_cost = 0.01
+    # fixPitch.oct_j_cost = 0.35
+    # fixPitch.vuv_cost = 0.14
+
+    # get zoom values for viewing waveform based on reference tier
+    selectObject: .textgrid
+    .soundName$ = selected$("TextGrid")
+    .is_int_tier = Is interval tier: .reference_tier
+    if .is_int_tier
+        .ref_ints = Get number of intervals: .reference_tier
+        .zoom_s = Get end time of interval:  .reference_tier, 1
+        .zoom_e = Get end time of interval:  .reference_tier, .ref_ints - 1
+    else
+        .ref_pts = Get number of points: .reference_tier
+        .zoom_s = Get time of point:  .reference_tier, 1
+        .zoom_e = Get time of point:  .reference_tier, .ref_pts
+    endif
+    # fix start and end times for display
+    .zoom_s -= 0.01
+    .zoom_e += 0.01
+    selectObject: .soundobject
+    .abs_start = Get start time
+    .abs_end = Get end time
+    if .zoom_s < .abs_start
+        .zoom_s = .abs_start
+    endif
+    if .zoom_e > .abs_end
+        .zoom_e = .abs_end
+    endif
+
+    # create pitch objects
+    selectObject: .soundobject
+    .pitchTrackOrig = To Pitch (ac):
+        ... 0.75/.min_fo, .min_fo, .candidates, "no", .s_threshold,
+        ...   .v_threshold, .oct_cost, .oct_j_cost, .vuv_cost, .max_fo
+    selectObject: .soundobject
+    .temp_manip = To Manipulation: .time_step, .min_fo, .max_fo
+
+    # get temp reference tier
+    selectObject: .textgrid
+    .segmentalFx = Extract one tier: .reference_tier
+    Insert interval tier: 2, ".segmentalFx"
+    Rename: .soundName$ + "_segmentalFX"
+    plusObject: .soundobject
+    Edit
+    editor: .segmentalFx
+    Zoom: .zoom_s, .zoom_e
+    endeditor
+
+    # mark segmentalFX
+    .pause_.text$ = "Remove segmental effects" + .soundName$
+    beginPause: .pause_.text$
+        comment: "Annotate stretches you want remove in tier two."
+        .continue = endPause: "Cancel", "Fix", 2, 0
+    .continue = (.continue == 2)
+    if .continue
+        @removeSegmentalFX: .segmentalFx, .temp_manip, .pitchTrackOrig,
+            ... .zoom_s, .zoom_e, .min_fo, .max_fo
+        @runPitchErrorCheck: .temp_manip, .pitchTrackOrig, .soundName$,
+            ... .interpolate_pitch, .use_smoothing
+        .continue = runPitchErrorCheck.continue
+        if variableExists("doPitchCorrection.new")
+            .new = doPitchCorrection.new
+        endif
+    endif
+    # Remove current surplus artifacts
+    selectObject: .temp_manip
+    plusObject: .pitchTrackOrig
+    plusObject: .segmentalFx
+    Remove
+endproc
+
+procedure removeSegmentalFX: .segmentalFx, .temp_manip, .pitchTrackOrig
+    ... .zoom_s, .zoom_e, .min_fo, .max_fo
+    #remove points highlighted in segmental effects tier
+    selectObject: .segmentalFx
+    .segmentalFxOnly = Extract one tier: 2
+    .segmentalFxTable = Down to Table: "no", 3, "no", "no"
+    .numRows = Get number of rows
+    for .i to .numRows
+        .fxStart[.i] = Get value: .i, "tmin"
+        .fxEnd[.i] = Get value: .i, "tmax"
+    endfor
+
+    #Edit pitch tier using Manipulate sound
+    selectObject: .temp_manip
+    Edit
+    editor: .temp_manip
+        Zoom: .zoom_s, .zoom_e
+        Set pitch range: .min_fo, .max_fo
+        #Remove segmental effects
+        for .i to .numRows
+            .failSafe = (.fxStart[.i] + .fxEnd[.i])/2
+            Add pitch point at: .failSafe, 1
+            Move cursor to: .fxStart[.i]
+            Move end of selection by: .fxEnd[.i] - .fxStart[.i]
+            Remove pitch point(s)
+        endfor
+    endeditor
+
+    # remove unneeded objects
+
+    selectObject: .segmentalFxTable
+    plusObject: .segmentalFxOnly
+    Remove
+endproc
+
+procedure runPitchErrorCheck: .temp_manip, .pitchTrackOrig, .soundName$,
+    ... .interpolate_pitch, .use_smoothing
+
+    .pause_text$ = "Checking the pitch tracking."
+    beginPause: .pause_text$
+        comment: "Showing the pitch track for your current sound."
+        comment: "Remove or stylise the pitch tracker to remove errors."
+        comment: ""
+    .continue = endPause: "Cancel", "Continue", 2, 0
+    .continue = (.continue == 2)
+    # end proc if cancel selected
+    if .continue
+        @doPitchCorrection: .temp_manip, .pitchTrackOrig, .soundName$,
+            ... .interpolate_pitch, .use_smoothing
+    endif
+endproc
+
+procedure doPitchCorrection: .temp_manip, .pitchTrackOrig, .soundName$,
+    ... .interpolate_pitch, .use_smoothing
+    #Create and interpolate edited pitch object
+    selectObject: .temp_manip
+    .tempPitchTier = Extract pitch tier
+    plusObject: .pitchTrackOrig
+    .new = To Pitch
+    selectObject: .tempPitchTier
+    Remove
+
+    if .interpolate_pitch
+        selectObject: .new
+        .pitchTrackInterpolated = Interpolate
+        selectObject: .new
+        Remove
+        selectObject: .pitchTrackInterpolated
+        .new = selected ()
+    endif
+
+    ### smooth
+    if .use_smoothing = 4
+        ## Xu Smoothing
+        selectObject: .new
+        .pitchTierSmooth = Down to PitchTier
+        npulses = 3
+        capture_consonant_perturbation = 0
+        @Trimf0
+        plusObject: .new
+        .pitchSmooth = To Pitch
+        ### remove old pitchtrack and replace it
+        selectObject: .new
+        plusObject: .pitchTierSmooth
+        Remove
+        .new = selectObject: .pitchSmooth
+    elsif .use_smoothing
+        .bw = .use_smoothing * 9 - 8
+        selectObject: .new
+        .pitchSmooth = Smooth: .bw
+        ### remove old pitchtrack and replace it
+        selectObject: .new
+        Remove
+        selectObject: .pitchSmooth
+        .new = selected ()
+    endif
+
+    # Rename
+    selectObject: .new
+    Rename: .soundName$ + "_fixed"
+endproc

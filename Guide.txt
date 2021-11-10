@@ -1,0 +1,156 @@
+K-MAX
+=====
+A set of scripts for analysing and resynthesising pitch contours
+using estimated points of maximum curvature in the contour. These are
+calculated using the peaks and valleys of the second time derivative of F0.
+
+Written for Praat 6.0.40
+
+Version 1.0.0.0
+
+script by Antoin Eoin Rodgers
+rodgeran@tcd.ie
+Phonetics and speech Laboratory, Trinity College Dublin
+October 10 - December 18, 2019
+
+
+I. PUBLICATION
+==============
+
+Rodgers, A. (2020) K-Max: a tool for estimating, analysing, and evaluating
+    tonal targets. Proc. 10th International Conference on Speech Prosody
+    2020, 225-229, DOI: 10.21437/SpeechProsody.2020-46
+
+Paper accessible at: www.isca-speech.org/archive/SpeechProsody_2020/pdfs/287.pdf
+
+@inproceedings{Rodgers2020,
+  author={Antoin Rodgers},
+  title={{K-Max: a tool for estimating, analysing, and evaluating tonal targets}},
+  year=2020,
+  booktitle={Proc. 10th International Conference on Speech Prosody 2020},
+  pages={225--229},
+  doi={10.21437/SpeechProsody.2020-46},
+  url={http://dx.doi.org/10.21437/SpeechProsody.2020-46}
+}
+
+
+II. GUIDE
+=========
+K-Max opens sound files and texgrids in a directory for editing and analysis.
+    A. REQUIREMENTS
+        1. sound file (.wav)
+        2. textgrid with at least an interval tier showing start and end of
+           utterance.
+        3. all textgrid files must share the same name as the sound file.
+
+    B. OPTIONAL
+        1. pitch object (.Pitch) [if does not exist @fixPitch will be called]
+
+    C. MASTER UI MENU
+        1. Directory: path to directory contain files to be analysed.
+        2. Directory Information: name of sub-directories for loading / saving
+           files. (Leave blank if files to be stored in main directory.)
+        3. Tier names: Name of reference (default "syllable") and tonal tiers.
+           Extra tiers can also be listed in "Other tiers to show".
+        4. Pitch processing parameters: set minimum and maximum F0, and pitch
+           smoothing parameter bandwidth for Praat Smooth function, which
+           is performed on the pitch object before estimation of second
+           time derivative of F0 (10 default: higher = less smoothing).
+           If "Call detailed pitch parameter menu", is selected, the user
+           will be presented with a more detailed menu before processing.
+        5. Post idealisation smoothing parameters (moving point average)
+           Smoothes the "ideal curve" to simulate the effects of physiological
+           constraints on pitch movement (higher = more smoothing)
+        6. Batch process directory: runs through whole directory and processes
+           all files automatically. This assumes the user has already run the
+           process manually. A figure options menu is opened before batch
+           processing begins.
+
+    D. RUNNING THE MAIN ANALYSIS PROCEDURE
+        The Info window displays a reference guide.
+        The following events occur for each textgrid and sound file pair in the
+        directory.
+        1. The first time a textgrid is opened, it is backed up.
+        2. If a pitch object is not found, @fixPitch will be called. This
+           first prompts the user to annotate a textgrid to show sections of
+           the contour to be ignored due to gross segmental effects. It then
+           creates a manipulation object in which the user can correct errors
+           such as pitch doubling or pitch halving.
+        4. The pitch contour is smoothed using the Praat Smooth function and
+           points of maximum curvature are identified.
+        3. The script draws a spectrogram of the sound object, the reference
+           tier, and the pitch contour.
+           The pitch contour is drawn using @c3Pogram, and shows F0 contour on
+           the y-axis with the colour intensity and dot size indicating
+           estimated Cepstral Peak Prominence at that time. (Red dots indicate
+           CPP values more than one SD below the utterance mean.)
+           The figure also can display other values derived from the script
+           (see D.5.b.).
+           NOTE: A legend is drawn before the image is saved but not earlier.
+        4. The script will display the sound and textgrid for the current
+           object. The textgrid displays only the reference, tonal, and maxK
+           tiers, along with any tiers from the "Other tiers to show" option
+           in the master menu. MaxK marks estimated locations of maximum
+           curvature and their most likely tone type (H or L).
+
+           THE USER SHOULD ANNOTATE THE TONAL TIER USING TIME POINTS INDICATED
+           IN MAXK.
+
+        5. A UI window will appear.
+           NB: THE "PROCESS" BUTTON MUST BE SELECTED IN ORDER TO SAVE CHANGES!
+
+           a. Change the smoothing parameters on the fly:
+                1. Initial Praat smoothing bandwidth
+                2. Physiological constraints
+           b. Toggle the different display options on or off,
+              i.e., corrected F0, F0 resynthesis, F0"(t), and tonal tier.
+              The original C3Pogram image cannot be deselected.
+           c. Add a "Comment" for the report file.
+           d. Change the "Next object" value to jump to a different file
+              in the directory.
+           e. OBSERVATIONS AND ERRORS are shown if they appear.
+              A beep alerts you to estimation errors of ideal targets.
+           f. The option buttons allow the user to:
+                1. "Smooth": re-smooth the contour using Praat smoothing
+                   factor in the textbox. (Note: this will delete the
+                   current MaxK and Tonal annotation tier)
+                2. "Fix F0": run @FixPitch (see D.1. above)
+                3. "Process": PROCESS, SAVE, AND REVIEW ANNOTATIONS
+                   AND RESYNTHESIS
+                4. "<": Go back one object without saving
+                5. ">": Go to the "Next object" without saving
+                6. "Exit": exit script (clears all temporary objects and
+                    completes report)
+                7. "Revert" and "Stop" are default Praat menu options
+
+    E. OUTPUT
+        1. main directory: updated TextGrids (if saved)
+        2. image directory: [soundName].png
+        3. pitch directory: updated pitch objects (if any)
+        4. resynth directory: resynthesised pitch object and sound file
+        5. manipulation directory:
+            a. [soundName].Manipulation: resynthesised manipulation object
+        6. output directory
+            a. K-Max_Analysis_Report.txt: tab-separated file reporting
+               latest smoothing parameters, tonal tier annotations and
+               comments for each set of files
+            b. K-MAX_form_parameters.txt: tab-separated file listing
+               processing parameter settings from master UI form
+            c. [soundName]_all_F0.Table: time (secs) and all F0 (Hz)
+               contours: initial smoothed, ideal, and smoothed ideal
+            d. [soundName]_ideal_TTs.Table: table showing time (secs)
+               and F0 (Hz) coordinates of ideal tonal targets along
+               with maxK annotations.
+               NB: Slope re ST, Intercept ST re 100 Hz
+
+    F. FAILSAFES / ERROR HANDLING
+        1. Textgrid backup (backup folder);
+        2. pitch boundaries are added to MaxK tier to show onset and offset of
+           utterance voicing if no other nearby maxK values;
+        3. When idealisation functions break down a warning beep sounds
+           and the error is described in "WARNING AND OBSERVATIONS"
+           at the bottom of the UI menu.
+
+    G. KNOWN ISSUES
+        1. The script will crash if the user does not correctly specify the
+           name of the reference tier.

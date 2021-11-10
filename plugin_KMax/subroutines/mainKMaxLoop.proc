@@ -1,0 +1,354 @@
+# K-MAX SUBROUTINE: MAIN ROUTINE
+# ==============================
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
+# October 10 - December 18, 2019
+
+procedure mainKMaxLoop
+
+    # Run batch analysis is selected.
+    if not userInput
+        @mainKMaxBatchUI
+    endif
+
+    for curr_sound to numSounds
+        # set flags and variables
+        show_RS = 0
+        # get sound info
+        sound$ = sound_list$#[curr_sound]
+        curSound$ = string$(curr_sound)
+
+        ### GET PREVIOUS REPORT DATA, IF IT EXISTS.
+        selectObject: report
+        tableRow = Search column: "sound", sound$
+
+        if tableRow
+            comment$ = Get value: tableRow, "comments"
+            if comment$ = "?" or comment$ = " "
+                comment$ = ""
+            endif
+            if edit_choice > 3 or edit_choice < 1
+                pre_smoothing = Get value: tableRow, "pre_smooth"
+                coarse_smoothing = Get value: tableRow, "coarse_smooth"
+            endif
+        else
+            Append row
+            tableRow = Get number of rows
+            comment$ = ""
+            Set string value: tableRow, "count", curSound$
+            Set string value: tableRow, "sound", sound$
+            Set numeric value: tableRow, "pre_smooth", pre_smoothing
+            Set numeric value: tableRow, "coarse_smooth", coarse_smoothing
+        endif
+
+
+        ### OPEN TEXTGRID FOR EDITING, IF EXISTS
+        textgridExists = index (textgrid_list$#, sound$)
+        if textgridExists
+            tempPitch = 0
+            # read in sound and scale audio
+            soundobject = Read from file: dir$ + sound$ + suffix$
+            Scale intensity: 65
+
+            # read in textgrid, identify core tiers
+            textgrid = Read from file: dir$ + sound$ + ".TextGrid"
+            @findTier: "t_tier", textgrid, t_tier$, 0
+            @findTier: "r_tier", textgrid, r_tier$, 1
+            if not r_tier
+                @findTier: "r_tier", textgrid, r_tier$, 0
+                if not r_tier and not(variableExists("missing_ref_tier"))
+                    beginPause: "Warning!"
+                        comment: "The reference tier you have specified cannot "
+                            ... + "be found in the current textgrid."
+                        comment: "It will not be drawn."
+                        comment: "This warning will not appear again."
+                    end_warning = endPause: "Continue", 1, 0
+                    missing_ref_tier = 1
+                endif
+            endif
+
+            # BACK UP TEXTGRID FIRST TIME OPENED
+            if not alreadyOpened#[curr_sound] and userInput
+                selectObject: textgrid
+                Save as binary file: backupPath$ + sound$ + ".TextGrid"
+                alreadyOpened#[curr_sound] = 1
+            endif
+
+            # get Tonal annotation from TextGrid (if exists)
+            if t_tier
+                keepTiers# = {t_tier}
+                @getToneString: keepTiers#, textgrid
+                tonalText$ =  getToneString.text$
+            else
+                tonalText$ =  ""
+            endif
+
+            # PROCESS PREVIOUS UI COMMANDS AND OUTCOMES,(IF APPLICABLE)
+            # read in resynth (if previously chosen)
+            if edit_choice = 3
+                resynthManip = Read from file: manipPath$ + sound$ +
+                    ... ".Manipulation"
+                show_RS = 1
+            endif
+            # run reset of K analysis, smoothing, and fix pitch if selected
+            if edit_choice < 3 and edit_choice
+                selectObject: textgrid
+                # Remove K tiers if contour being smoothed or F0 corrected
+                numTiers = Get number of tiers
+                for i to numTiers
+                    curTier = numTiers - i + 1
+                    curName$ = Get tier name: curTier
+                    if curName$ = t_tier$ or curName$ = "maxK"
+                        Remove tier: curTier
+                    endif
+                endfor
+                if edit_choice = 2
+                    @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 0,
+                        ... minF0, maxF0
+                    if fixPitch.continue
+                        selectObject: fixPitch.new
+                        Save as binary file:
+                        ... pitchPath$ + sound$ + pitch_suffix$ + ".Pitch"
+                        tempPitch = fixPitch.new
+                    else
+                        tempPitch = 0
+                    endif
+                endif
+            endif
+
+            # ADD EXTRA TIERS IF NOT PRESENT
+            kTiers = 1
+            if userInput
+                # note: first_tier = tier below which new tier will be added.
+                @findTier: "first_tier", textgrid, "rhythmic", 0
+                if first_tier
+                    first_tier$ = "rhythmic"
+                else
+                    first_tier$ = r_tier$
+                endif
+
+                if justForAER
+                    .tTierAfter$ = "vowel"
+                    @placeTier: textgrid, "sonorance", first_tier$, 1
+                    @placeTier: textgrid, "vowel", "sonorance" , 1
+                    @placeTier: textgrid, "toneExtrema", "sonorance", 0
+                else
+                    .tTierAfter$ = r_tier$
+                endif
+
+                # insert and populate tiers if they do not exist
+                @placeTier: textgrid, t_tier$, .tTierAfter$, 0
+                t_tier = placeTier.after + 1
+                @placeTier: textgrid, "maxK", t_tier$, 0
+                kTiers = placeTier.tierNum
+            endif
+
+            # READ / CREATE PITCH FILE
+            pitchExists =
+            ... fileReadable (pitchPath$ + sound$ + pitch_suffix$ + ".Pitch")
+
+            # backup original pitch object
+            if not pitchSaved#[curr_sound] and pitchExists
+                backupPitch = Read from file:
+                ... pitchPath$ + sound$ + pitch_suffix$ + ".Pitch"
+                Save as binary file: backupPath$ + sound$ + ".Pitch"
+                pitchSaved#[curr_sound] = 1
+                Remove
+            endif
+
+            if pitchExists and not tempPitch
+                pitchOrig = Read from file:
+                ... pitchPath$ + sound$ + pitch_suffix$ + ".Pitch"
+                noprogress Interpolate
+                tempPitch = selected()
+                selectObject: pitchOrig
+                Remove
+                selectObject: tempPitch
+            elsif not tempPitch
+                @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 0,
+                ... minF0, maxF0
+                tempPitch = fixPitch.new
+                selectObject: tempPitch
+                Save as binary file:
+                ... pitchPath$ + sound$ + pitch_suffix$ + ".Pitch"
+            endif
+
+            selectObject: tempPitch
+            fixedPitch = Smooth: pre_smoothing
+
+            # CREATE PITCH TABLE (REQUIRES INTERPOLATED PITCH OBJECT)
+            selectObject: fixedPitch
+            noprogress Down to PitchTier
+            pitchTier = selected()
+            noprogress Down to TableOfReal: "Semitones"
+            tableOfReal = selected()
+            pitchTable = To Table: "Frame"
+            Append column: "K"
+            Append column: "toneLike"
+            selectObject: pitchTier
+            plusObject: tableOfReal
+            Remove
+
+            # CALCULATE TIMES OF MAXIMUM AND MINIMUM CURVATURE USING F0"(t)
+            @k: pitchTable, "Time", "F0"
+            # populate empty maxK Tier
+            if not kTiers
+                @findTier: "maxK_tier", textgrid, "maxK", 0
+                @findTier: "t_tier", textgrid, t_tier$, 0
+                selectObject: k.max
+                numKMax = Get number of rows
+                for i to numKMax
+                    tMax[i] = Get value: i, "Time"
+                    kMax[i] = Get value: i, "K"
+                    toneLike$[i] = Get value: i, "toneLike"
+                endfor
+                selectObject: textgrid
+                for i to numKMax
+                    Insert point: t_tier, tMax[i], ""
+                    Insert point: maxK_tier, tMax[i], toneLike$[i]
+                endfor
+            endif
+            # show resynth, if flagged
+            if show_RS = 1 and userInput
+                selectObject: resynthManip
+                Edit
+                editor: resynthManip
+                    Set pitch range: minF0, maxF0
+                endeditor
+            endif
+
+            if draw_figure
+                @drawStuffForEditing
+            endif
+
+            ### RUN UI MENU
+            if userInput
+                @mainKMaxUI
+            endif
+
+            # purge Blanks in tone tier
+            selectObject: textgrid
+            if t_tier < 1
+                # Batch processing error
+                edit_choice = 7
+            else
+                numTonePts = Get number of points: t_tier
+                for i to numTonePts
+                    curPt = numTonePts - i + 1
+                    curPt$ = Get label of point: t_tier, curPt
+                    if curPt$ = ""
+                        Remove point: t_tier, curPt
+                    endif
+                endfor
+            endif
+
+            ### PROCESS PAUSE MENU CHOICES
+            if edit_choice = 7
+                ## 7 = Exit on error during batch processing
+                curr_sound = numSounds
+                beginPause: "Batch Processing Error."
+                comment: "Tonal tier not be found in Textgrid. "
+                ... + "Please check tier names in the menu."
+                ... + newline$
+                endPause: "Exit Script", 1, 0
+
+            elsif edit_choice = 6
+                ## 6 = [Exit]
+                beginPause: pauseText$
+                    comment: "Exit Script?"
+                exitNow = endPause: "No", "Yes", 1, 0
+                if exitNow = 2
+                    curr_sound = numSounds
+                else
+                    curr_sound -= 1
+                    edit_choice = 5
+                endif
+            elsif edit_choice = 5
+                ## 5 = [   >   ]  (forward without saving)
+                curr_sound = next_object - 1
+
+            elsif edit_choice = 4
+                ## 4 = [   <   ]  (backward without saving)
+                curr_sound = (curr_sound - 2) + ((curr_sound - 2) < 0)
+            elsif edit_choice = 3
+                ## 3 = [Process] (Process annotations and pitch)
+                curr_sound -= 1
+                # don't continue if t_tier is empty
+                t_tier_ok = Get number of points: t_tier
+                if t_tier_ok
+                    keepTiers# = {t_tier}
+                    @idealise: soundobject, textgrid, t_tier$, tempPitch,
+                        ... minF0, maxF0, k.min,
+                        ... coarse_smoothing
+                    @saveAndRemoveFiles
+                else
+                    beginPause: pauseText$
+                        comment: "The """ + t_tier$ +
+                        ... """ tier must be annotated."
+                    endPause: "Continue", 1, 0
+                endif
+            elsif edit_choice = 2
+                ## 2 =  [ Fix F0 ] (Run fixPitch script)
+                curr_sound -= 1
+            elsif edit_choice = 1
+                ## 1 =  [ Smooth ] (Resmooth contour and reset Tone tiers)
+                curr_sound -= 1
+            else
+                ## 0 = Reserved for batch processing.
+                keepTiers# = {t_tier}
+                @idealise: soundobject, textgrid, t_tier$, tempPitch,
+                    ... minF0, maxF0, k.min,
+                    ... coarse_smoothing
+                if  draw_resynth * draw_figure
+                    @drawIdealization:
+                        ... idealise.pitch, c3Pogram.minT, c3Pogram.maxT,
+                        ... drawC3pogram.minF0, drawC3pogram.maxF0,
+                        ... idealCol$, widthCoeff
+                endif
+                if draw_tonal * draw_figure
+                    @drawTonal: idealise.table, c3Pogram.minT, c3Pogram.maxT,
+                    ... drawC3pogram.minF0, drawC3pogram.maxF0,
+                    ... "ideal_T", "ideal_F0", tonalCol$, widthCoeff
+                endif
+                @saveAndRemoveFiles
+            endif
+
+            # Add legend and save figure
+            if  draw_figure
+                @createLegendTable
+                yOffset = (drawC3pogram.maxF0 - drawC3pogram.minF0)/15
+                @drawLegend: c3Pogram.minT, c3Pogram.maxT,
+                ... drawC3pogram.minF0, drawC3pogram.maxF0,
+                    ... pitchTable, "Time", "F0",
+                    ... tempLegend, 0.01, widthCoeff
+                selectObject: tempLegend
+                Remove
+                Save as 300-dpi PNG file:  imagePath$ + sound$ + ".png"
+            endif
+
+
+            # remove current for loop surplus objects
+            selectObject: textgrid
+            plusObject: soundobject
+            plusObject: fixedPitch
+            plusObject: tempPitch
+            plusObject: pitchTable
+            plusObject: k.max
+            plusObject: k.min
+            if show_RS
+                plusObject: resynthManip
+            endif
+            Remove
+        else
+            if userInput
+                beginPause: "WARNING"
+                comment: sound$ + " does not have an associated text grid file."
+                comment: "It will be skipped."
+                endPause: "Continue", 1, 0
+            endif
+       endif
+    endfor
+endproc

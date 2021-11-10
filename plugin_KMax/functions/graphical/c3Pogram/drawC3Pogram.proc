@@ -1,0 +1,90 @@
+# DRAW C3POGRAM
+# =============
+# Written for Praat 6.0.40
+
+# script by Antoin Eoin Rodgers
+# rodgeran@tcd.ie
+# Phonetics and speech Laboratory, Trinity College Dublin
+
+# dependencies: @findNearestTable; depends on @c3Pogram
+
+procedure drawC3pogram: .pitchTable, .secondParam,
+    ... .minT, .maxT, .minF0, .maxF0, .type, .pitch_scale, .widthCoeff
+    # adjust F0 if pitch scale set to semitones
+    selectObject: .pitchTable
+    if .pitch_scale = 2
+        Formula: "F0", "log2(self/100)*12"
+        .minF0 = log2(.minF0/100) * 12
+        .maxF0 = log2(.maxF0/100) * 12
+    endif
+    selectObject: .secondParam
+    .minPar2  = Get minimum: "value"
+    .maxPar2 = Get maximum: "value"
+    Append column: "shade"
+    Formula: "shade", "1-(self[""value""] - .minPar2) / (.maxPar2 - .minPar2)"
+
+
+    ### DRAW IDEALISED CONTOUR UNDER CPP/FO CONTOUR
+    # moved from drawStuffForEditing.proc
+    Solid line
+    Line width: 2 * widthCoeff
+    Select outer viewport: 0, 6.5, 0, 3.35
+    Axes: c3Pogram.minT, c3Pogram.maxT,
+        ... drawC3pogram.minF0,  drawC3pogram.maxF0
+    if rsPitchFileExists and userInput and draw_resynth
+        .tempPitch = Read from file:
+        ... rsDir$ + sound$ + rsSuffix$ + ".Pitch"
+        @drawIdealization: .tempPitch, c3Pogram.minT, c3Pogram.maxT,
+        ... drawC3pogram.minF0, drawC3pogram.maxF0, idealCol$, widthCoeff
+        selectObject: .tempPitch
+        Remove
+    endif
+
+    Select outer viewport: 0, 6.5, 0, 3.35
+    Axes: .minT, .maxT, .minF0, .maxF0
+    .diam = Horizontal mm to world coordinates: 0.5 * .widthCoeff + 0.4
+    Font size: 10
+    Helvetica
+    Solid line
+
+    selectObject: .pitchTable
+    .numPitchPts = Get number of rows
+
+    Colour: "Black"
+    for .i to .numPitchPts
+        selectObject: .pitchTable
+        .curT = Get value: .i, "Time"
+        .curF0 = Get value: .i, "F0"
+        @findNearestTable: .curT, .secondParam, "Time"
+        .curShade = Get value: findNearestTable.index, "shade"
+        .curShadeT = Get value: findNearestTable.index, "Time"
+        if  .curT >= .minT and .curT <= .maxT
+            if not(abs(.curShadeT - .curT)*1000 > 5.5555)
+                if .type  = 1
+                    Paint circle: "Black",
+                       ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
+                    Paint circle: "{'.curShade','.curShade','.curShade'}",
+                       ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
+                elsif .type  = 2
+                    Paint circle: "Black",
+                       ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
+                    Paint circle: "{'.curShade','.curShade','.curShade'}",
+                       ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
+                else
+                    Paint circle: "Black",
+                       ... .curT, .curF0, .diam * 0.2 + .diam * (1 - .curShade)
+                    Paint circle: "{'.curShade','.curShade',1-'.curShade'}",
+                       ... .curT, .curF0, .diam * 0.1 + .diam * (1 - .curShade)
+                endif
+            else
+                Paint circle: "{0.1,0,0}", .curT, .curF0, .diam * 0.2
+                Line width: 0.5
+                Paint circle: "{1,0,0}", .curT, .curF0, .diam * 0.1
+                Line width: 0.5
+
+            endif
+        endif
+        Line width: 1
+        Colour: "Black"
+    endfor
+endproc

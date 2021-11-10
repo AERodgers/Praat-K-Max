@@ -1,0 +1,34 @@
+procedure getIntPhonArray: .output_var$, .sth_tier_name$, .textgrid
+    # generates an array of  boundary tones and pitch accents from a tonal tier.
+        # Input arguments:
+        #     .output_var$    = a string with the name of the output array.
+        #     .sth_tier_name$ = name of tonal tier
+        #     .textgrid       = numeric ID of Textgrid.
+        #
+        # Tonal tier must be a point tier and can have the following features:
+        #     a. LH  for tonal targets;
+        #     b. *   after tonal targets associated with a stressed syll-
+        #            able (a starred tone / main tone of a pitch accent);
+        #     c. +   sign before or after a tonal target to indicate
+        #            an association with a starred tone;
+        #     d. _   to indicate a secondary tone associated with a pitch
+        #            accent or boundary tone;
+        #     e. 0   to indicate a lack of tonal specification at a
+        #            boundary, or an apparent end of the effect of a
+        #            tonal target
+        #     f  lh  to indicate phonetic evidence of a non-salient
+        #            tonal target; i.e., evidence of a "reflex" or
+        #            deleted tonal target.
+        #
+        # Output:
+        #    '.output_var$'   = string array   e.g., "answer$" --> answer$[]
+        #    '.output_var$'_n = array size           "answer$" --> answer_n
+        #
+        # Antoin Eoin Rodgers
+        # rodgeran@tcd.ie
+        # Phonetics and speech Laboratory, Trinity College Dublin
+
+    @findTier: "getIntPhonArray.sth_tier", .textgrid , .sth_tier_name$, 0
+    @getToneString: {.sth_tier}, .textgrid
+    @list2array: getToneString.text$, .output_var$
+endproc

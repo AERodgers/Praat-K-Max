@@ -1,0 +1,76 @@
+procedure addPhonTiers: .textgrid, .rhy_tier, .sth_tier
+    # generates an intermediate & minimal phonological point tier on a TextgGrid.
+        #
+        # Input arguments:
+        #    .textGrid       = the numerical ID of the TextGrid object;
+        #    .rhy_tier = the number of the rhythmic tier;
+        #    .sth_tier = the number of the tonal tier.
+        #
+        # Antoin Eoin Rodgers
+        # rodgeran@tcd.ie
+        # Phonetics and speech Laboratory, Trinity College Dublin
+
+    # get TextGrid info for later checks
+    selectObject: .textgrid
+    .sth_name$ = Get tier name: .sth_tier
+    .rhy_name$ = Get tier name: .rhy_tier
+
+    # Analyse structure of Rhythmic tier
+    @analyseRhythmTier(.textgrid, .rhy_tier, 0)
+    .rhythm_table = selected()
+    .possPhonoEvents = analyseRhythmTier.possPhonoEvents
+
+    # Create empty phonological tier
+    @insertPhonoTier: .textgrid, .rhythm_table, "intPhono", .rhy_tier
+    .i_phon_tier = insertPhonoTier.phonTier
+
+    # Check if .sth_tier or .rhy_tier has moved and correct number
+    selectObject: .textgrid
+    .name_check$ = Get tier name: .sth_tier
+    if (.name_check$ != .sth_name$)
+        @findTier:  "addPhonTiers.sth_tier", .textgrid, .sth_name$, 0
+    endif
+    .name_check$ = Get tier name: .rhy_tier
+    if (.name_check$ != .rhy_name$)
+        @findTier:  "addPhonTiers.rhy_tier", .textgrid, .rhy_name$, 0
+    endif
+
+    # Convert STH tone tier content to array of PA and boundary events.
+    @getToneString: {.sth_tier}, .textgrid
+    .tone_str$ = getToneString.text$
+    @list2array: .tone_str$, "addPhonTiers.event_array$"
+
+    # Find boundary and starred tones times in STH tone tier.
+    @findEventCores: .textgrid, .sth_tier
+
+    # Populate intermediate phonological tier.
+    for .i to findEventCores.n
+        .nearestPhonStar[.i] = Get nearest index from time:
+                     ... .i_phon_tier, findEventCores.t[.i]
+        # Ensure starred tones are not accidentally placed at boundaries.
+        if .nearestPhonStar[.i] == 1 and index(.event_array$[.i], "*")
+            .nearestPhonStar[.i] +=1
+        elsif .nearestPhonStar[.i] == .possPhonoEvents
+                                 ... and index(.event_array$[.i], "*")
+            .nearestPhonStar[.i] -=1
+        endif
+        Set point text: .i_phon_tier, .nearestPhonStar[.i], .event_array$[.i]
+    endfor
+
+    # Create minimal phonological tier.
+    @insertPhonoTier: .textgrid, .rhythm_table, "minPhono", .i_phon_tier
+    .m_phon_tier = insertPhonoTier.phonTier
+
+    # Populate minimal phonological tier.
+    for .i to findEventCores.n
+        @asIViEPhon: .event_array$[.i]
+        if .i = 1
+            asIViEPhon.text$ = "%" + asIViEPhon.text$
+        elsif .i = findEventCores.n
+            asIViEPhon.text$ += "%"
+        endif
+        Set point text: .m_phon_tier, .nearestPhonStar[.i], asIViEPhon.text$
+    endfor
+
+    removeObject: .rhythm_table
+endproc
