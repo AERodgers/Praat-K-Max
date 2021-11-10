@@ -101,7 +101,7 @@ After processing, each textgrid should look like the example shown here.
     l\*\+H | >H\* | deleted L* tone leads to a >H* PA (delayed peak) as a predictable variant of underlying L\*H
     L\*\+h | L\* | deleted +H tone leads to an L* PA with delayed peak as a variant of underlying L\*H
     l\_H\* | H\* | indicates evidence of hypothesised leftward drift and deleted of L* in L\*H PAs with
-    l\*\+h | * | occasionally there is evidence of a phonetic trace of a deleted L\*H PA but which is accompanied by the percept of any pitch accent.
+    l\*\+h | * | occasionally there is evidence of a phonetic trace of a deleted L\*H PA but this is not accompanied by the percept of any pitch accent.
 
 ## References
 
