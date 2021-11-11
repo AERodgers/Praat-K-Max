@@ -11,6 +11,9 @@ procedure asIViEPhon: .int_phon$
     # process boundary tones
     .text$ = .int_phon$
 
+    # remove invalid text
+    .text$ = replace_regex$(.text$, "[^lLhH_*0+]", "", 1)
+
     # fix complex boundaries (if any)
     .text$ = replace_regex$(.text$, "^[LH]_[LH]$", left$(.text$, 1) + right$(.text$, 1), 1)
 
@@ -34,8 +37,8 @@ procedure asIViEPhon: .int_phon$
     .text$ = replace$(.text$, "l*+h", "*", 1)
 
     # remove other secondary tones from PAs
-    .text$ = replace_regex$(.text$, "_[LH0]$", "", 1)
-    .text$ = replace_regex$(.text$, "^[LH0]_", "", 1)
+    .text$ = replace_regex$(.text$, "_[lhLH0]$", "", 1)
+    .text$ = replace_regex$(.text$, "^[lhLH0]_", "", 1)
     .text$ = replace$(.text$, "0", "", 0)
     .text$ = replace$(.text$, "+", "", 0)
 endproc

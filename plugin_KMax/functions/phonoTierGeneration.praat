@@ -32,6 +32,4 @@ include functions/phonoTierGeneration/analyseRhythmTier.proc
 include functions/phonoTierGeneration/asIViEPhon.proc
 include functions/phonoTierGeneration/findEventCores.proc
 include functions/phonoTierGeneration/generatePhonoTiers.proc
-include functions/phonoTierGeneration/getIntPhonArray.proc
-include functions/phonoTierGeneration/getToneString.proc
 include functions/phonoTierGeneration/insertPhonoTier.proc

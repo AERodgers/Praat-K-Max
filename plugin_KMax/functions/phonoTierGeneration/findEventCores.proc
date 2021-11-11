@@ -17,6 +17,9 @@ procedure findEventCores: .textgrid, .tone_tier
 
     selectObject: .textgrid
     .num_points = Get number of points: .tone_tier
+
+    # Get the first tone annotation in tone tier. Assume it is associated with
+    # the left boundary.
     .num_events = 1
     .t[1] = Get time of point: .tone_tier, 1
 
@@ -27,6 +30,9 @@ procedure findEventCores: .textgrid, .tone_tier
             .t[.num_events] = Get time of point: .tone_tier, .i
         endif
     endfor
+
+    # Get the last tone annotation in tone tier. Assume it is associated with
+    # the right boundary.
     .num_events += 1
     .t[.num_events] = Get time of point: .tone_tier, .num_points
     .n = .num_events
