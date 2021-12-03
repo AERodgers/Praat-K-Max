@@ -1,0 +1,11 @@
+variable	value
+draw_figure	1
+format_for_printing	1
+widthCoeff	2
+draw_f0_corrected	0
+draw_K	0
+draw_resynth	1
+draw_tonal	1
+coarse_smoothing	5
+pre_smoothing	10
+drawSpectro	1

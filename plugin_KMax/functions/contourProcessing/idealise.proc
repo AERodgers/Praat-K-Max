@@ -60,9 +60,9 @@ procedure idealise: .sound, .grid, .toneTier$, .pitchObj,
         .maxKText$[.i] = Get value: .i, "text"
         # use IViE/ToBI convention for unspecified boundary
         if .i = 1
-            .maxKText$[.i] = "%" + replace$(.maxKText$[.i], "0", "", 1)
+            .maxKText$[.i] = "%" + .maxKText$[.i]
         elsif .i = .numMaxKpoints
-            .maxKText$[.i] = replace$(.maxKText$[.i], "0", "", 1) + "%"
+            .maxKText$[.i] = .maxKText$[.i] + "%"
         endif
     endfor
     # remove text column

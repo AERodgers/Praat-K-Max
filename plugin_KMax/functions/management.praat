@@ -32,3 +32,5 @@ include functions/management/list2array.proc
 include functions/management/updateFormLiterals.proc
 include functions/management/fixEscapeChars.proc
 include functions/management/formTextToVar.proc
+include functions/management/variableStorage.proc
+include functions/management/vector2Str.proc

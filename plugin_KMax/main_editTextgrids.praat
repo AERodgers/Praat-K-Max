@@ -43,7 +43,7 @@
 
 # UI FORM
 form Text grid editor: Choose Directory
-    sentence Directory C:\Users\Antoin Eoin Rodgers\OneDrive\Documents\00 Academic\Phonetics and speech\Research\2 Field Recordings\Analysis_2_STH\F5\alignment and H_Placement
+    sentence Directory example
     word Sound_file_extension .wav
 endform
 @versionCheck

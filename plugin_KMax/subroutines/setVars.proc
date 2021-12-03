@@ -17,18 +17,19 @@ procedure setVars
     maxF0 = maximum_F0
     minF0 = minimum_F0
     userInput = not batch_process_directory
-    pre_smoothing = praat_smooothing_bandwidth
-    coarse_smoothing = physiological_constraints
 
     # set default drawing flags
-    draw_figure = 1
-    format_for_printing = 1
-    widthCoeff = (format_for_printing) + 1
-    drawSpectro = 0
-    draw_f0_corrected = 0
-    draw_K = 1
-    draw_resynth = 1
-	draw_tonal = 1
+    @readVars: "", "draw_menu_variables.Table"
+    #draw_figure = 1
+    #format_for_printing = 1
+    #widthCoeff = 2
+    #draw_f0_corrected = 0
+    #draw_K = 0
+    #draw_resynth = 1
+    #draw_tonal = 1
+    #coarse_smoothing = 10
+    #pre_smoothing = 10
+    #drawSpectro = 1
 
     # shorten beep variable
     errorBeep = errorBeep.sound
