@@ -30,7 +30,7 @@ procedure mainKMaxLoop
             if comment$ = "?" or comment$ = " "
                 comment$ = ""
             endif
-            if edit_choice > 3 or edit_choice < 1
+            if edit_choice > process or edit_choice < smooth
                 pre_smoothing = Get value: tableRow, "pre_smooth"
                 coarse_smoothing = Get value: tableRow, "coarse_smooth"
             endif
@@ -88,13 +88,41 @@ procedure mainKMaxLoop
 
             # PROCESS PREVIOUS UI COMMANDS AND OUTCOMES,(IF APPLICABLE)
             # read in resynth (if previously chosen)
-            if edit_choice = 3
+            if edit_choice = process
                 resynthManip = Read from file: manipPath$ + sound$ +
                     ... ".Manipulation"
                 show_RS = 1
             endif
+
+            #
+            if edit_choice = fix_f0
+                # change choice to smooth
+                edit_choice = smooth
+
+                # draw c3pogram with f0 contour only
+                temp_draw_resynth = draw_resynth
+                draw_resynth = 0
+                @c3Pogram: 3, 2, 1,
+                ... replace$(sound$, "_", "\_ ", 0) + " %f_0 contour",
+                ... "%F_0  CPP guide to help you correct F%_0 contour",
+                ... textgrid, soundobject, r_tier, minF0, maxF0, widthCoeff
+                draw_resynth = temp_draw_resynth
+                @enlargeImage: 6.5, 4
+
+                @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 0,
+                    ... minF0, maxF0
+                if fixPitch.continue
+                    selectObject: fixPitch.new
+                    Save as binary file:
+                    ... pitchPath$ + sound$ + pitch_suffix$ + ".Pitch"
+                    tempPitch = fixPitch.new
+                else
+                    tempPitch = 0
+                endif
+            endif
+
             # run reset of K analysis, smoothing, and fix pitch if selected
-            if edit_choice < 3 and edit_choice
+            if edit_choice < process and edit_choice
                 selectObject: textgrid
                 # Remove K tiers if contour being smoothed or F0 corrected
                 numTiers = Get number of tiers
@@ -105,18 +133,6 @@ procedure mainKMaxLoop
                         Remove tier: curTier
                     endif
                 endfor
-                if edit_choice = 2
-                    @fixPitch: textgrid, r_tier, soundobject, 0.01, 1, 0,
-                        ... minF0, maxF0
-                    if fixPitch.continue
-                        selectObject: fixPitch.new
-                        Save as binary file:
-                        ... pitchPath$ + sound$ + pitch_suffix$ + ".Pitch"
-                        tempPitch = fixPitch.new
-                    else
-                        tempPitch = 0
-                    endif
-                endif
             endif
 
             # ADD EXTRA TIERS IF NOT PRESENT
@@ -220,8 +236,11 @@ procedure mainKMaxLoop
                 endeditor
             endif
 
-            if draw_figure
+            if draw_figure and edit_choice != fix_f0
                 @drawStuffForEditing
+                if enlarge_image
+                    @enlargeImage: 6.5, 4
+                endif
             endif
 
             ### RUN UI MENU
@@ -233,7 +252,7 @@ procedure mainKMaxLoop
             selectObject: textgrid
             if t_tier < 1
                 # Batch processing error
-                edit_choice = 7
+                edit_choice = batch_error
             else
                 numTonePts = Get number of points: t_tier
                 for i to numTonePts
@@ -246,8 +265,7 @@ procedure mainKMaxLoop
             endif
 
             ### PROCESS PAUSE MENU CHOICES
-            if edit_choice = 7
-                ## 7 = Exit on error during batch processing
+            if edit_choice = batch_error
                 curr_sound = numSounds
                 beginPause: "Batch Processing Error."
                 comment: "Tonal tier not be found in Textgrid. "
@@ -255,7 +273,7 @@ procedure mainKMaxLoop
                 ... + newline$
                 endPause: "Exit Script", 1, 0
 
-            elsif edit_choice = 6
+            elsif edit_choice = quit
                 ## 6 = [Exit]
                 beginPause: pauseText$
                     comment: "Exit Script?"
@@ -264,17 +282,13 @@ procedure mainKMaxLoop
                     curr_sound = numSounds
                 else
                     curr_sound -= 1
-                    edit_choice = 5
+                    edit_choice = forward
                 endif
-            elsif edit_choice = 5
-                ## 5 = [   >   ]  (forward without saving)
+            elsif edit_choice = forward
                 curr_sound = next_object - 1
-
-            elsif edit_choice = 4
-                ## 4 = [   <   ]  (backward without saving)
+            elsif edit_choice = back
                 curr_sound = (curr_sound - 2) + ((curr_sound - 2) < 0)
-            elsif edit_choice = 3
-                ## 3 = [Process] (Process annotations and pitch)
+            elsif edit_choice = process
                 curr_sound -= 1
                 # don't continue if t_tier is empty
                 t_tier_ok = Get number of points: t_tier
@@ -289,15 +303,13 @@ procedure mainKMaxLoop
                         comment: "The """ + t_tier$ +
                         ... """ tier must be annotated."
                     endPause: "Continue", 1, 0
+                    edit_choice = forward
                 endif
-            elsif edit_choice = 2
-                ## 2 =  [ Fix F0 ] (Run fixPitch script)
+            elsif edit_choice = fix_f0
                 curr_sound -= 1
-            elsif edit_choice = 1
-                ## 1 =  [ Smooth ] (Resmooth contour and reset Tone tiers)
+            elsif edit_choice = smooth
                 curr_sound -= 1
             else
-                ## 0 = Reserved for batch processing.
                 keepTiers# = {t_tier}
                 @idealise: soundobject, textgrid, t_tier$, tempPitch,
                     ... minF0, maxF0, k.min,

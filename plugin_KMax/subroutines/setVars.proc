@@ -37,10 +37,19 @@ procedure setVars
     # set flags and counters
     feedback = 0
     warning = 0
-    edit_choice = 0
     show_RS = 0
     alreadyOpened# = zero# (numSounds)
     pitchSaved# = zero# (numSounds)
+
+    # initialize menu choice variables
+    edit_choice = 0
+    smooth = 1
+    fix_f0 = 2
+    process = 3
+    back = 4
+    forward = 5
+    quit = 6
+    batch_error = 7
 
     # set "To Pitch" variables if not set in @toPitchVariables
     if not variableExists("max__number_of_candidates")

@@ -10,10 +10,10 @@ procedure generatePhonoTiers: .dir$, .rhy_tier$, .tonal_tier$
 
     createDirectory: .dir$ + "/backup"
     @getFilesInDir: "generatePhonoTiers.grids$#", .dir$, "TextGrid"
-    forAERo = 1
-    writeInfoLine: "Generate Intonational Phonology Tiers: Log"
+    forAERo = 0
+    appendInfoLine: newline$, "Generate Intonational Phonology Tiers: Log"
     appendInfoLine: "============================================", newline$
-
+    .phono_list$ = "#'tab$'sound file'tab$'intonation string"
     for .i to size(.grids$#)
         .cur_grid = Read from file: .dir$ + .grids$#[.i] + ".Textgrid"
         Save as binary file: .dir$ + "/backup/" + .grids$#[.i] + ".Textgrid"
@@ -28,6 +28,14 @@ procedure generatePhonoTiers: .dir$, .rhy_tier$, .tonal_tier$
                 @placeTier: .cur_grid, "maxK", .tonal_tier$, 0
                 @placeTier: .cur_grid, "intPhono", "minPhono", 0
             endif
+
+            @findTier: "generatePhonoTiers.m_phon_tier",.cur_grid, "minPhono", 0
+            @getMinPhonoString: "generatePhonoTiers.phono$",
+            ... .cur_grid,
+            ... .m_phon_tier
+            .phono_list$ +=
+            ... newline$ + (string$(.i) + tab$ + .grids$#[.i] + tab$ + .phono$)
+
             selectObject: .cur_grid
             Save as binary file: .dir$ + .grids$#[.i] + ".Textgrid"
         else
@@ -43,7 +51,7 @@ procedure generatePhonoTiers: .dir$, .rhy_tier$, .tonal_tier$
         endif
         removeObject: .cur_grid
     endfor
-
+    appendInfoLine: newline$, .phono_list$
     appendInfoLine: newline$, "============================================"
     appendInfoLine: "Finished"
 endproc

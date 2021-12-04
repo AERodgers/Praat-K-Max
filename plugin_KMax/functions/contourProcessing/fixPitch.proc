@@ -51,8 +51,8 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
     # create pitch objects
     selectObject: .soundobject
     .pitchTrackOrig = To Pitch (ac):
-        ... 0.75/.min_fo, .min_fo, .candidates, "no", .s_threshold,
-        ...   .v_threshold, .oct_cost, .oct_j_cost, .vuv_cost, .max_fo
+    ... 0.75/.min_fo, .min_fo, .candidates, "no", .s_threshold,
+    ...   .v_threshold, .oct_cost, .oct_j_cost, .vuv_cost, .max_fo
     selectObject: .soundobject
     .temp_manip = To Manipulation: .time_step, .min_fo, .max_fo
 
@@ -82,6 +82,8 @@ procedure fixPitch: .textgrid, .reference_tier, .soundobject,
         if variableExists("doPitchCorrection.new")
             .new = doPitchCorrection.new
         endif
+    elsif variableExists("back")
+        edit_choice = back
     endif
     # Remove current surplus artifacts
     selectObject: .temp_manip
@@ -138,7 +140,9 @@ procedure runPitchErrorCheck: .temp_manip, .pitchTrackOrig, .soundName$,
     # end proc if cancel selected
     if .continue
         @doPitchCorrection: .temp_manip, .pitchTrackOrig, .soundName$,
-            ... .interpolate_pitch, .use_smoothing
+        ... .interpolate_pitch, .use_smoothing
+    elsif variableExists("back")
+        edit_choice = back
     endif
 endproc
 

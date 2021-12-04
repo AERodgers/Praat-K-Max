@@ -37,7 +37,7 @@ form K-MAX: Master UI Menu
     natural Praat_smooothing_bandwidth 10
     boolean Call_detailed_pitch_parameter_menu 0
     comment Post-idealisation smoothing parameters
-    natural Physiological_constraints 5
+    natural Physiological_constraints 10
     boolean Batch_process_directory 0
     boolean Post_instructions_in_Info_window 0
 endform
@@ -50,7 +50,8 @@ if call_detailed_pitch_parameter_menu
 endif
 
 nl$ = "newline$"
-    writeInfoLine: "K-MAX, v.0.2.1",
+    appendInfoLine:
+    ... 'nl$', "K-MAX, v.0.2.1",
     ... 'nl$', "==============",
     ... 'nl$', "by Antoin Eoin Rodgers (rodgeran@tcd.ie)",
     ... 'nl$', "   Phonetics and Speech Laboratory, Trinity College, Dublin."

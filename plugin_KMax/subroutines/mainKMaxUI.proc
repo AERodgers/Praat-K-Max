@@ -32,6 +32,7 @@ procedure mainKMaxUI
 		boolean: "Resynthesised contour", draw_resynth
 		boolean: "Tonal annotation and ideal targets", draw_tonal
 		text: "Comment", comment$, 5
+        boolean: "Enlarge image", enlarge_image
 		integer: "Next object", curr_sound + 1
 		if feedback
 			comment: "ERRORS AND OBSERVATIONS"

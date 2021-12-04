@@ -12,6 +12,7 @@ include functions/graphical/drawIdealization.proc
 include functions/graphical/drawTonal.proc
 include functions/graphical/drawLegend.proc
 include functions/graphical/colourChange.proc
+include functions/graphical/enlargeImage.proc
 
 # c3Pogram functions
 include functions/graphical/c3Pogram/c3Pogram.proc

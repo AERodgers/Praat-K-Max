@@ -23,7 +23,7 @@ procedure k: .table, .time$, .f0$
     # Mark negative f0'' as potential H and positive fo'' as L
     Formula: "toneLike", "if self[""K""] < 0 then ""H"" else ""L"" endif"
     Formula: "K", "if self[""K""] = undefined then 0 else self endif"
-    
+
     # Mark f0'' peaks in pos. space and troughs in neg. space as extrema.
     # Calculate near roots (f0'' peaks in neg. space and valleys pos. space)
     # and time points on either side  of true roots (i.e., where the next fo''
@@ -35,10 +35,10 @@ procedure k: .table, .time$, .f0$
         .curK = Get value: .i, "K"
         .nextK = Get value: .i + 1, "K"
         .extrema =  (.prevK < .curK and .nextK < .curK and .curK > 0)
-           ... or (.prevK > .curK and .nextK > .curK and .curK < 0)
+        ... or (.prevK > .curK and .nextK > .curK and .curK < 0)
         .rootLike = (.prevK * .nextK < 0)
-            ... or (.prevK < .curK and .nextK < .curK and .curK < 0)
-           ... or (.prevK > .curK and .nextK > .curK and .curK > 0)
+        ... or (.prevK < .curK and .nextK < .curK and .curK < 0)
+        ... or (.prevK > .curK and .nextK > .curK and .curK > 0)
         if .extrema
             Set string value: .i, "MinMax", "Extreme"
         elsif .rootLike
@@ -87,7 +87,7 @@ procedure k: .table, .time$, .f0$
         if abs(.x[.i] - .mT[.i]) > 0.02
             selectObject: .tempK
             .temp = Extract rows where column (number):
-                ... .time$, "equal to", .x[.i]
+            ... .time$, "equal to", .x[.i]
             Remove column: "MinMax"
             plusObject: .min
             .newMin = Append
