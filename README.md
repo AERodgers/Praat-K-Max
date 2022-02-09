@@ -18,7 +18,7 @@ Don't forget to read "guide.txt" to learn how to use K-Max!
 
 When running the main routine, the Info window also shows a short user guide if you flag it in the initial menu.
 
-## Associated Publications
+### Associated Publications
 [The paper can be found here.](https://www.isca-speech.org/archive/SpeechProsody_2020/pdfs/287.pdf)
 
 For citation: Rodgers, A. (2020) K-Max: a tool for estimating, analysing, and evaluating tonal targets. Proc. 10th International Conference on Speech Prosody 2020, 225-229, DOI: 10.21437/SpeechProsody.2020-46
@@ -41,6 +41,8 @@ For citation: Rodgers, A. (2020) K-Max: a tool for estimating, analysing, and ev
 
 This creates a syllable tier and comments tier for all sound files in a specified folder. It also backs up any textgrids in the specified folder in case you accidentally overwrite any lovely work you have already done!
 
+![UI for Edit Create Syllable and Comments TextGrids...](https://user-images.githubusercontent.com/46627448/153271904-5ecd58dd-d9b5-4d97-b414-9d6525ff4777.png)
+
 ## **Add blank IViE Tiers**
 
 * [Praat] > [K-Max] > [Add blank IViE Tiers...]
@@ -53,6 +55,8 @@ For the script to work correctly it expects the syllable tier to already have be
    This means that you cannot capitalize the word "I", as it will be recognized as a lexically stressed syllable.
 2. Within-word syllable boundaries are marked with a hyphen at the onset (and/or offset) of the syllable. (It doesn't matter which syllable you do this in.)
 
+![The UI Menu for Add Blank IViE Tiers](https://user-images.githubusercontent.com/46627448/153270922-aca4ae36-b5c1-4f2b-8226-29c388526f52.png)
+
 The script assumes that there is only one utterance in each  sound file, and will generate the following ties using the syllable tier annotation:
 
 1. An othographic interval tier demarcating word boundaries.
@@ -62,6 +66,8 @@ The script assumes that there is only one utterance in each  sound file, and wil
 5. A vowel (or phone) interval tier for annotating more detailed transcriptions. (Not part of IViE.)
 6. A comments interval tier for adding comments.
 
+![Example of Textgrid after processing syllable tier](https://user-images.githubusercontent.com/46627448/153272817-659378b0-4f9a-4ba2-a65b-0b5762551cee.png)
+
 ## **Edit TextGrids**
 
 * [Praat] > [K-Max] > [Edit textgrids...]
@@ -70,7 +76,9 @@ This allows you to flip back and forth through all the Sound & Textgrid pairings
 
 Simply enter the folder address in the directory and the sound file extension (generally .wav). The script will then scour the folder to find all sound files with matching TextGrid grids (assuming Sound and TextGrid files share the same name). After that, a second menu appears, asking you which tiers you want to display. This is particularly useful if you have lots of tiers but are only interesting in editing or looking at a few of them at any given time.
 
-## **generate Intonational Phonology**
+![Editor Window showing all tiers (left) and tiers selected from Edit TextGrids (right)](https://user-images.githubusercontent.com/46627448/153272530-79f50189-fd04-45f6-a910-78d4bc98db86.png)
+
+## **Generate Intonational Phonology**
 * [Praat] > [K-Max] > [Generate Intonational Phonology...]
 
 The Generate Intonational phonology (genIntonPhon) component is part of my PhD work into the analysis of intonation in Derry City English in Northern Ireland.
