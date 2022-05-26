@@ -1,4 +1,4 @@
-# EDIT TEXTGRID BATCH V.3.0
+# EDIT TEXTGRID BATCH V.3.1
 # =========================
 # Written for Praat 6.0.40
 
@@ -27,10 +27,13 @@
 #            - It is not possible to hide all tiers
 #
 # There is one UI during the main loop with the following options:
-#     1. [Exit]  Exit script
-#     2. [ <  ]  Go to previous textgrid or the sound file index in "jump to..."
-#     3. [  > ]  Go to next textgrid or the sound index file in "jump to..."
-#     4. [Save]  Save the current textgrid
+#     1. [ Exit ] Exit script
+#     2. [  <   ] Go to previous textgrid or to index in "jump to..."
+#     3. [ Undo ] Undo any changes created during the current pause.
+#     4. [ Save ] Save the current textgrid
+#     5. [   >  ] Go to next textgrid or to index in "jump to..."
+#     6. [Save >] Save the current textgrid and go to next textgrid or to index
+#                 in "jump to..."
 #
 # Failsafes / Error Handling
 #     1. a backup directory is created which contains:
@@ -46,6 +49,7 @@ form Text grid editor: Choose Directory
     sentence Directory example
     word Sound_file_extension .wav
 endform
+
 @versionCheck
 @updateFormLiterals("main_editTextgrids.praat")
 
@@ -113,6 +117,7 @@ grid_list_temp_1 = Create Strings as file list: "textgrids",
 ... dir$ + "*.textgrid"
 grid_list_temp_2 = Replace all: ".TextGrid", "", 0, "literals"
 Rename: "textgrids"
+grid_list$# = List all strings
 grid_list = To WordList
 selectObject: grid_list_temp_1
 plusObject: grid_list_temp_2
@@ -121,6 +126,14 @@ Remove
 # CREATE BACKUP DIRECTORY
 backup_path$ = dir$ + "backup/"
 createDirectory: backup_path$
+
+# CREATE INDICES IN INFO WINDOW
+writeInfoLine: "Index of all target TextGrids"
+appendInfoLine: "============================='newline$'"
+
+for i to size(grid_list$#)
+    appendInfoLine: i, tab$, grid_list$#[i]
+endfor
 
 # MAIN EDITING ROUTINE
 edit_choice = 0
@@ -159,20 +172,36 @@ while i < num_wavs
         beginPause: pauseText$
             comment: string$(i) + "/" + string$(num_wavs) + ": " + cur_wav$
             natural: "Jump to", i + 1
-        edit_choice = endPause: "Exit", "<", ">", "Save", 4, 0
+        edit_choice = endPause: "Exit", "<", "Undo", "Save", ">", "Save >", 5, 0
 
         # Save merged textgrid if any have been specified.
         if length(hide_tiers$) != 0
             @merge_textgrids
         endif
-        if edit_choice = 4
+
+        # respond to edit_choice
+        .choice$[6] = "Save >"
+        .choice$[5] = ">"
+        .choice$[4] = "Save"
+        .choice$[3] = "Undo"
+        .choice$[2] = "<"
+        .choice$[1] = "Exit"
+
+        if .choice$[edit_choice] = "Save >"
+            selectObject: cur_grid
+            Save as text file: dir$ + cur_wav$ + ".TextGrid"
+            grid_saved#[i] = 1
+            i_adjust = jump_to - 1 - i
+        elsif .choice$[edit_choice] = ">"
+            i_adjust = jump_to - 1 - i
+        elsif .choice$[edit_choice] = "Save"
             selectObject: cur_grid
             Save as text file: dir$ + cur_wav$ + ".TextGrid"
             grid_saved#[i] = 1
             i_adjust = -1
-        elsif edit_choice = 3
-            i_adjust = jump_to - 1 - i
-        elsif edit_choice = 2
+        elsif .choice$[edit_choice] = "Undo"
+            i_adjust = -1
+        elsif .choice$[edit_choice] = "<"
             i_adjust = -2
             if (jump_to != i + 1)
                 i_adjust = jump_to - 1 - i
