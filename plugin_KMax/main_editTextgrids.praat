@@ -138,6 +138,16 @@ endfor
 edit_choice = 0
 grid_saved# = zero# (num_wavs)
 i = 0
+
+# Menu Response Choices
+.choice$[7] = "Save >"
+.choice$[6] = ">"
+.choice$[5] = "Save"
+.choice$[4] = "Draw"
+.choice$[3] = "Undo"
+.choice$[2] = "<"
+.choice$[1] = "Exit"
+
 while i < num_wavs
     i += 1
     i_adjust = 0
@@ -171,22 +181,15 @@ while i < num_wavs
         beginPause: pauseText$
             comment: string$(i) + "/" + string$(num_wavs) + ": " + cur_wav$
             natural: "Jump to", i + 1
-        edit_choice = endPause: "Exit", "<", "Undo", "Draw", "Save", ">", "Save >", 5, 0
+        edit_choice = endPause:
+                    ... "Exit", "<", "Undo", "Draw", "Save", ">", "Save >", 5, 0
 
         # Save merged textgrid if any have been specified.
         if length(hide_tiers$) != 0
             @merge_textgrids
         endif
 
-        # respond to edit_choice
-        .choice$[7] = "Save >"
-        .choice$[6] = ">"
-        .choice$[5] = "Save"
-        .choice$[4] = "Draw"
-        .choice$[3] = "Undo"
-        .choice$[2] = "<"
-        .choice$[1] = "Exit"
-
+        # Process Edit Choices
         if .choice$[edit_choice] = "Save >"
             selectObject: cur_grid
             Save as text file: dir$ + cur_wav$ + ".TextGrid"
@@ -221,7 +224,7 @@ while i < num_wavs
         endif
 
         # Delete current backup if no changes have been made to file.
-        if edit_choice != 4 and not(grid_saved#[i])
+        if not(grid_saved#[i])
             deleteFile: backup_path$ + cur_wav$ + ".TextGrid"
         endif
 
