@@ -7,7 +7,7 @@ Requires [Praat version 6.2.x](http://www.fon.hum.uva.nl/praat/).
 
 To use the plugin, select "Clone or download" followed by "Download ZIP".
 Extract the ZIP file and copy the folder named "plugin_KMax" to the Praat
-preferences directory. See http://www.fon.hum.uva.nl/praat/manual/preferences_directory.html
+preferences directory. See https://www.fon.hum.uva.nl/praat/manual/preferences_folder.html
 for more information.
 
 When you run Praat, you can run K-Max from the Praat menu in the objects window.
