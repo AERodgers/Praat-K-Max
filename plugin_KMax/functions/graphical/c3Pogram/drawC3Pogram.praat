@@ -25,7 +25,7 @@ procedure drawC3pogram: .pitchTable, .secondParam,
 
 
     ### DRAW IDEALISED CONTOUR UNDER CPP/FO CONTOUR
-    # moved from drawStuffForEditing.proc
+    # moved from drawStuffForEditing.praat
     Solid line
     Line width: 2 * widthCoeff
     Select outer viewport: 0, 6.5, 0, 3.35

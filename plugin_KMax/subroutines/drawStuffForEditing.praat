@@ -59,7 +59,7 @@ procedure drawStuffForEditing
     endif
 
     ### draw idealised pitch contour
-    # MOVED TO drawC3Pogram.proc so it is drawn under the F0/CPP contour.
+    # MOVED TO drawC3Pogram.praat so it is drawn under the F0/CPP contour.
 
     if draw_tonal and idealTableExists and userInput
         tempIdeal = Read from file: outputPath$ + sound$

@@ -1055,6 +1055,6 @@ procedure tableStats: .table, .colX$, .colY$
     Remove
 endproc
 
-include Functions/management/versionCheck.proc
-include Functions/management/updateFormLiterals.proc
-include Functions/management/formTextToVar.proc
+include Functions/management/versionCheck.praat
+include Functions/management/updateFormLiterals.praat
+include Functions/management/formTextToVar.praat

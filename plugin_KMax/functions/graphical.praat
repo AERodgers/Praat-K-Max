@@ -6,16 +6,16 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-include functions/graphical/drawTableLine.proc
-include functions/graphical/drawK.proc
-include functions/graphical/drawIdealization.proc
-include functions/graphical/drawTonal.proc
-include functions/graphical/drawLegend.proc
-include functions/graphical/colourChange.proc
-include functions/graphical/enlargeImage.proc
+include functions/graphical/drawTableLine.praat
+include functions/graphical/drawK.praat
+include functions/graphical/drawIdealization.praat
+include functions/graphical/drawTonal.praat
+include functions/graphical/drawLegend.praat
+include functions/graphical/colourChange.praat
+include functions/graphical/enlargeImage.praat
 
 # c3Pogram functions
-include functions/graphical/c3Pogram/c3Pogram.proc
-include functions/graphical/c3Pogram/drawC3Pogram.proc
-include functions/graphical/c3Pogram/c3Po1stDraw.proc
-include functions/graphical/c3Pogram/c3Po2ndDraw.proc
+include functions/graphical/c3Pogram/c3Pogram.praat
+include functions/graphical/c3Pogram/drawC3Pogram.praat
+include functions/graphical/c3Pogram/c3Po1stDraw.praat
+include functions/graphical/c3Pogram/c3Po2ndDraw.praat

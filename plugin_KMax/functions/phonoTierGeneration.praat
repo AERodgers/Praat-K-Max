@@ -27,10 +27,10 @@
 #                   deleted tonal target.
 # praat error message line offset =~ -89
 
-include functions/phonoTierGeneration/addPhonTiers.proc
-include functions/phonoTierGeneration/analyseRhythmTier.proc
-include functions/phonoTierGeneration/asIViEPhon.proc
-include functions/phonoTierGeneration/findEventCores.proc
-include functions/phonoTierGeneration/generatePhonoTiers.proc
-include functions/phonoTierGeneration/getMinPhonoString.proc
-include functions/phonoTierGeneration/insertPhonoTier.proc
+include functions/phonoTierGeneration/addPhonTiers.praat
+include functions/phonoTierGeneration/analyseRhythmTier.praat
+include functions/phonoTierGeneration/asIViEPhon.praat
+include functions/phonoTierGeneration/findEventCores.praat
+include functions/phonoTierGeneration/generatePhonoTiers.praat
+include functions/phonoTierGeneration/getMinPhonoString.praat
+include functions/phonoTierGeneration/insertPhonoTier.praat

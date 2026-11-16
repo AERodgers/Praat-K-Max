@@ -77,21 +77,21 @@ endif
 # INCLUDE subroutines AND FUNCTION LIBRARIES
 
 # subroutines take no arguments, written specifically for this set of scripts
-include subroutines/toPitchVars.proc
-include subroutines/infoLines.proc
-include subroutines/setUpDirsAndFiles.proc
-include subroutines/errorBeep.proc
-include subroutines/setVars.proc
-include subroutines/saveMenuVars.proc
-include subroutines/mainKMaxLoop.proc
+include subroutines/toPitchVars.praat
+include subroutines/infoLines.praat
+include subroutines/setUpDirsAndFiles.praat
+include subroutines/errorBeep.praat
+include subroutines/setVars.praat
+include subroutines/saveMenuVars.praat
+include subroutines/mainKMaxLoop.praat
 
-include subroutines/mainKMaxBatchUI.proc
-include subroutines/mainKMaxUI.proc
-include subroutines/getSoundGridInfo.proc
-include subroutines/drawStuffForEditing.proc
-include subroutines/createLegendTable.proc
-include subroutines/saveAndRemoveFiles.proc
-include subroutines/saveReportAndTidy.proc
+include subroutines/mainKMaxBatchUI.praat
+include subroutines/mainKMaxUI.praat
+include subroutines/getSoundGridInfo.praat
+include subroutines/drawStuffForEditing.praat
+include subroutines/createLegendTable.praat
+include subroutines/saveAndRemoveFiles.praat
+include subroutines/saveReportAndTidy.praat
 
 # functions Libraries
 # These procedures take arguments and can largely be used in other scripts

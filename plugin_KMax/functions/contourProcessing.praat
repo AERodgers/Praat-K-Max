@@ -6,7 +6,7 @@
 # rodgeran@tcd.ie
 # Phonetics and speech Laboratory, Trinity College Dublin
 
-include functions/contourProcessing/cpp.proc
-include functions/contourProcessing/fixPitch.proc
-include functions/contourProcessing/idealise.proc
-include functions/contourProcessing/k.proc
+include functions/contourProcessing/cpp.praat
+include functions/contourProcessing/fixPitch.praat
+include functions/contourProcessing/idealise.praat
+include functions/contourProcessing/k.praat
