@@ -39,7 +39,6 @@
 #     1. a backup directory is created which contains:
 #            - a copy of each text grid which appears in the editor window
 #              (before editing)
-#            - a report listing all texgrids changed
 #     2. The script cannot cope with tier names beginning with a number or
 #        which contain characters that break variable name conventions (with
 #        the exception of initial capitals)
@@ -58,7 +57,10 @@ ext$ = sound_file_extension$
 if left$(ext$, 1) != "."
     ext$ = "." + ext$
 endif
-if (right$(dir$, 1) != "/" or right$(dir$, 1) != "\") and right$(dir$, 1) != ""
+if  right$(dir$, 1) != "/" and
+... right$(dir$, 1) != "\" and
+... dir$ != ""
+
     dir$ += "/"
 endif
 
@@ -113,7 +115,7 @@ endif
 
 # GENERATE TEXTGRID LIST
 grid_list_temp_1 = Create Strings as file list: "textgrids",
-... dir$ + "*.textgrid"
+... dir$ + "*.TextGrid"
 grid_list_temp_2 = Replace all: ".TextGrid", "", 0, "literals"
 Rename: "textgrids"
 grid_list$# = List all strings
@@ -127,11 +129,32 @@ backup_path$ = dir$ + "backup/"
 createDirectory: backup_path$
 
 # CREATE INDICES IN INFO WINDOW
+# Keep only sounds with a matching TextGrid.
+for sound_index to num_wavs
+    cur_sound_list_index = num_wavs + 1 - sound_index
+    selectObject: sound_list
+    sound_name$ = Get string: cur_sound_list_index
+    selectObject: grid_list
+    grid_matches = Has word: sound_name$
+    if not grid_matches
+        selectObject: sound_list
+        Remove string: cur_sound_list_index
+    endif
+endfor
+
+selectObject: sound_list
+num_wavs = Get number of strings
+if not num_wavs
+    exitScript: "No matching sound and TextGrid pairs found."
+endif
+
+# The index now uses the same order as the editing loop.
 writeInfoLine: "Index of all target TextGrids"
 appendInfoLine: "============================='newline$'"
-
-for i to size(grid_list$#)
-    appendInfoLine: i, tab$, grid_list$#[i]
+for i to num_wavs
+    selectObject: sound_list
+    sound_name$ = Get string: i
+    appendInfoLine: i, tab$, sound_name$
 endfor
 
 # MAIN EDITING ROUTINE
